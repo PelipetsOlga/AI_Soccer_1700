@@ -2,6 +2,12 @@ package com.application.domain.models
 
 import java.time.LocalTime
 
+data class Exercise(
+    val id: String,
+    val title: String,
+    val durationInMinutes: Int,
+)
+
 data class Training(
     val id: Int,
     override val status: SportEventStatus,
@@ -11,5 +17,7 @@ data class Training(
     override val note: String,
     override val place: String,
     override val attendance: AttendanceInfo,
-
+    override val title: String,
+    val photos: List<String>,
+    val exercises: List<Exercise>,
     ) : SportEvent

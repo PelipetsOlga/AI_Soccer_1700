@@ -22,5 +22,5 @@ data class Match(
     override val type: String,
     override val note: String,
     override val place: String,
-    override val attendance: AttendanceInfo,
+    override val attendance: AttendanceInfo, override val title: String,
 ) : SportEvent

@@ -5,6 +5,7 @@ import com.application.domain.base.EnumWithKey
 import java.time.LocalTime
 
 interface SportEvent {
+    val title: String
     val status: SportEventStatus
     val startDateTime: LocalTime
     val endDateTime: LocalTime
