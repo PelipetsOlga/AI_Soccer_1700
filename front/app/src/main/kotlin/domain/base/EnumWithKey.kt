@@ -1,4 +1,4 @@
-package com.manager1700.soccer.domain.base
+package com.application.domain.base
 
 import kotlin.collections.firstOrNull
 

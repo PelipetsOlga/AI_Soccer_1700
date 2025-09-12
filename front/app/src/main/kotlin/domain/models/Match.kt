@@ -1,6 +1,6 @@
-package com.manager1700.soccer.domain.models
+package com.application.domain.models
 
-import com.manager1700.soccer.domain.base.EnumWithKey
+import com.application.domain.base.EnumWithKey
 import java.time.LocalTime
 
 enum class LineupScheme(

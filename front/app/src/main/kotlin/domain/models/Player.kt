@@ -1,7 +1,8 @@
-package com.manager1700.soccer.domain.models
+package com.application.domain.models
 
-import com.manager1700.soccer.R
-import com.manager1700.soccer.domain.base.EnumWithKey
+import com.application.R
+import com.application.domain.base.EnumWithKey
+
 
 enum class Foot(
     override val key: String,

@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">SoccerManager1700</string>
+    <string name="role_defender">Defender</string>
+    <string name="role_midfielderr">Midfielder</string>
+    <string name="role_goalkeeper">Goalkeeper</string>
+    <string name="role_forward">Forward</string>
+    <string name="foot_right">Right</string>
+    <string name="foot_left">Left</string>
+    <string name="player_status_active">Active</string>
+    <string name="player_status_injured">Injured</string>
+    <string name="match_status_scheduled">Scheduled</string>
+    <string name="match_status_completed">Completed</string>
+    <string name="match_status_canceled">Canceled</string>
+    <string name="attendance_future_going">Going</string>
+    <string name="attendance_future_maybe">Maybe</string>
+    <string name="attendance_future_not">Not Going</string>
+    <string name="attendance_past_present">Present</string>
+    <string name="attendance_past_late">Late</string>
+    <string name="attendance_past_absent">Absent</string>
+</resources>

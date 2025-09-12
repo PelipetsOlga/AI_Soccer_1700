@@ -1,6 +1,6 @@
-package com.manager1700.soccer.domain.repo
+package com.application.domain.repo
 
-import com.manager1700.soccer.domain.models.Player
+import com.application.domain.models.Player
 
 interface SoccerRepository {
 

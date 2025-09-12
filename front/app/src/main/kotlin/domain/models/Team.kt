@@ -1,3 +1,3 @@
-package com.manager1700.soccer.domain.models
+package com.application.domain.models
 
 data class Team (val id: Int)
