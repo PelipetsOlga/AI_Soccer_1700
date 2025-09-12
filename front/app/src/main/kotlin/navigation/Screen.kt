@@ -1,4 +1,4 @@
-package com.application
+package com.manager1700.soccer
 /**
  * Sealed class representing all possible screens in the app
  */

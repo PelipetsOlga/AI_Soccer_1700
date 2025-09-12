@@ -1,4 +1,4 @@
-package com.application
+package com.manager1700.soccer
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,8 +10,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import com.application.navigation.SetupNavGraph
-import com.application.ui.theme.SoccerManagerTheme
+import com.manager1700.soccer.navigation.SetupNavGraph
+import com.manager1700.soccer.ui.theme.SoccerManagerTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

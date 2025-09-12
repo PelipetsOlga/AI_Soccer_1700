@@ -1,4 +1,4 @@
-package com.application
+package com.manager1700.soccer
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

@@ -1,4 +1,4 @@
-package com.application.ui.screens
+package com.manager1700.soccer.ui.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.application.ui.theme.SoccerManagerTheme
+import com.manager1700.soccer.ui.theme.SoccerManagerTheme
 
 @Composable
 fun HomeScreen(navController: NavController) {

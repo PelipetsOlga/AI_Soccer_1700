@@ -1,7 +1,7 @@
-package com.application.domain.models
+package com.manager1700.soccer.domain.models
 
-import com.application.R
-import com.application.domain.base.EnumWithKey
+import com.manager1700.soccer.R
+import com.manager1700.soccer.domain.base.EnumWithKey
 
 interface Attendance {
 }

@@ -1,12 +1,12 @@
-package com.application.navigation
+package com.manager1700.soccer.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.application.Screen
-import com.application.SplashScreen
-import com.application.ui.screens.HomeScreen
+import com.manager1700.soccer.Screen
+import com.manager1700.soccer.SplashScreen
+import com.manager1700.soccer.ui.screens.HomeScreen
 
 @Composable
 fun SetupNavGraph(navController: NavHostController) {

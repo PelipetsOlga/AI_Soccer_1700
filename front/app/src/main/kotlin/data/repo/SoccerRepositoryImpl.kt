@@ -1,15 +1,15 @@
-package com.application.data.repo
+package com.manager1700.soccer.data.repo
 
-import com.application.data.db.dao.PlayerDao
-import com.application.data.db.dao.TrainingDao
-import com.application.data.db.dao.MatchDao
-import com.application.data.db.entities.toEntity
-import com.application.data.db.entities.toDomainModel
-import com.application.domain.models.Match
-import com.application.domain.models.Player
-import com.application.domain.models.Training
-import com.application.domain.models.SportEventStatus
-import com.application.domain.repo.SoccerRepository
+import com.manager1700.soccer.data.db.dao.PlayerDao
+import com.manager1700.soccer.data.db.dao.TrainingDao
+import com.manager1700.soccer.data.db.dao.MatchDao
+import com.manager1700.soccer.data.db.entities.toEntity
+import com.manager1700.soccer.data.db.entities.toDomainModel
+import com.manager1700.soccer.domain.models.Match
+import com.manager1700.soccer.domain.models.Player
+import com.manager1700.soccer.domain.models.Training
+import com.manager1700.soccer.domain.models.SportEventStatus
+import com.manager1700.soccer.domain.repo.SoccerRepository
 import kotlinx.coroutines.flow.first
 import java.time.LocalDate
 import java.time.LocalDateTime

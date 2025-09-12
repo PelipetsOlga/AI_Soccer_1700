@@ -1,19 +1,19 @@
-package com.application.data.db
+package com.manager1700.soccer.data.db
 
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import android.content.Context
-import com.application.data.db.entities.PlayerEntity
-import com.application.data.db.entities.TrainingEntity
-import com.application.data.db.entities.MatchEntity
-import com.application.data.db.entities.RelationEntity
-import com.application.data.db.entities.TrainingConverters
-import com.application.data.db.dao.PlayerDao
-import com.application.data.db.dao.TrainingDao
-import com.application.data.db.dao.MatchDao
-import com.application.data.db.dao.RelationDao
+import com.manager1700.soccer.data.db.entities.PlayerEntity
+import com.manager1700.soccer.data.db.entities.TrainingEntity
+import com.manager1700.soccer.data.db.entities.MatchEntity
+import com.manager1700.soccer.data.db.entities.RelationEntity
+import com.manager1700.soccer.data.db.entities.TrainingConverters
+import com.manager1700.soccer.data.db.dao.PlayerDao
+import com.manager1700.soccer.data.db.dao.TrainingDao
+import com.manager1700.soccer.data.db.dao.MatchDao
+import com.manager1700.soccer.data.db.dao.RelationDao
 
 @Database(
     entities = [

@@ -1,11 +1,11 @@
-package com.application.data.db.entities
+package com.manager1700.soccer.data.db.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
-import com.application.domain.models.Match
-import com.application.domain.models.LineupScheme
-import com.application.domain.models.SportEventStatus
+import com.manager1700.soccer.domain.models.Match
+import com.manager1700.soccer.domain.models.LineupScheme
+import com.manager1700.soccer.domain.models.SportEventStatus
 import java.time.LocalTime
 
 @Entity(tableName = "matches")

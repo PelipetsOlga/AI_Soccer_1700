@@ -1,8 +1,8 @@
-package com.application.data.db
+package com.manager1700.soccer.data.db
 
 import android.content.Context
-import com.application.data.repo.SoccerRepositoryImpl
-import com.application.domain.repo.SoccerRepository
+import com.manager1700.soccer.data.repo.SoccerRepositoryImpl
+import com.manager1700.soccer.domain.repo.SoccerRepository
 
 /**
  * Database module for providing database instance, DAOs, and repositories

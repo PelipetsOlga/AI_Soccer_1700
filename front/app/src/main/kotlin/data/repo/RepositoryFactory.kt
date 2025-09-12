@@ -1,8 +1,8 @@
-package com.application.data.repo
+package com.manager1700.soccer.data.repo
 
 import android.content.Context
-import com.application.data.db.SportManagerDatabase
-import com.application.domain.repo.SoccerRepository
+import com.manager1700.soccer.data.db.SportManagerDatabase
+import com.manager1700.soccer.domain.repo.SoccerRepository
 
 /**
  * Factory class for creating repository instances with proper database dependencies

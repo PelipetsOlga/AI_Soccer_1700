@@ -1,7 +1,7 @@
-package com.application.data.db.dao
+package com.manager1700.soccer.data.db.dao
 
 import androidx.room.*
-import com.application.data.db.entities.TrainingEntity
+import com.manager1700.soccer.data.db.entities.TrainingEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

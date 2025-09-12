@@ -1,11 +1,11 @@
-package com.application.data.db.entities
+package com.manager1700.soccer.data.db.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.application.domain.models.Player
-import com.application.domain.models.Foot
-import com.application.domain.models.Position
-import com.application.domain.models.PlayerStatus
+import com.manager1700.soccer.domain.models.Player
+import com.manager1700.soccer.domain.models.Foot
+import com.manager1700.soccer.domain.models.Position
+import com.manager1700.soccer.domain.models.PlayerStatus
 
 @Entity(tableName = "players")
 data class PlayerEntity(

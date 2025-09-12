@@ -1,4 +1,4 @@
-package com.application
+package com.manager1700.soccer
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -16,7 +16,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.application.ui.theme.SoccerManagerTheme
+import com.manager1700.soccer.ui.theme.SoccerManagerTheme
+import com.manager1700.soccer.R
 
 @Composable
 fun SplashScreen(navController: NavController) {

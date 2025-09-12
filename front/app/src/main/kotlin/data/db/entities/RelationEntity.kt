@@ -1,12 +1,12 @@
-package com.application.data.db.entities
+package com.manager1700.soccer.data.db.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.ForeignKey
 import androidx.room.Index
-import com.application.domain.models.Relations
-import com.application.domain.models.FutureAttendance
-import com.application.domain.models.PastAttendance
+import com.manager1700.soccer.domain.models.Relations
+import com.manager1700.soccer.domain.models.FutureAttendance
+import com.manager1700.soccer.domain.models.PastAttendance
 
 @Entity(
     tableName = "relations",

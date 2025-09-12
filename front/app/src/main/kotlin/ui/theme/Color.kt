@@ -1,4 +1,4 @@
-package com.application.ui.theme
+package com.manager1700.soccer.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

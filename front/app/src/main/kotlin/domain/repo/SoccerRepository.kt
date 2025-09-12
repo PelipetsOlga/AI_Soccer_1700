@@ -1,8 +1,8 @@
-package com.application.domain.repo
+package com.manager1700.soccer.domain.repo
 
-import com.application.domain.models.Match
-import com.application.domain.models.Player
-import com.application.domain.models.Training
+import com.manager1700.soccer.domain.models.Match
+import com.manager1700.soccer.domain.models.Player
+import com.manager1700.soccer.domain.models.Training
 import java.time.LocalDate
 
 interface SoccerRepository {

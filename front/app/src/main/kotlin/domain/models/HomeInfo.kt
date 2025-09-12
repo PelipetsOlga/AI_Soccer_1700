@@ -1,4 +1,4 @@
-package com.application.domain.models
+package com.manager1700.soccer.domain.models
 
 data class TeamAlerts(
     val injured: Int,

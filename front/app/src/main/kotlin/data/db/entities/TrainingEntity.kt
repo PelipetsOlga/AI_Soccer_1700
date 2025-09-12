@@ -1,16 +1,16 @@
-package com.application.data.db.entities
+package com.manager1700.soccer.data.db.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
 import androidx.room.TypeConverters
-import com.application.domain.models.Training
-import com.application.domain.models.Exercise
-import com.application.domain.models.SportEventStatus
-import com.application.domain.models.AttendanceInfo
-import com.application.domain.models.Attendance
-import com.application.domain.models.FutureAttendance
-import com.application.domain.models.PastAttendance
+import com.manager1700.soccer.domain.models.Training
+import com.manager1700.soccer.domain.models.Exercise
+import com.manager1700.soccer.domain.models.SportEventStatus
+import com.manager1700.soccer.domain.models.AttendanceInfo
+import com.manager1700.soccer.domain.models.Attendance
+import com.manager1700.soccer.domain.models.FutureAttendance
+import com.manager1700.soccer.domain.models.PastAttendance
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import kotlinx.serialization.Serializable
