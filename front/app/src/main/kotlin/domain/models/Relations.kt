@@ -1,8 +1,9 @@
 package com.application.domain.models
 
 data class Relations (
-    val sportEvent: SportEvent,
-    val player: Player,
+    val id: Int,
+    val sportEventId: Int,
+    val playerId: Int,
     val futureAttendance: FutureAttendance?,
     val pastAttendance: PastAttendance?,
 )

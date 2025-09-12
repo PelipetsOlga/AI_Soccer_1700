@@ -12,7 +12,8 @@ interface SportEvent {
     val type: String
     val note: String
     val place: String
-    val attendance: AttendanceInfo
+    val plannedAttendance: AttendanceInfo
+    val realAttendance: AttendanceInfo
 }
 
 enum class SportEventStatus(
