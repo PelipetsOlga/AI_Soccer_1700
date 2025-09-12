@@ -19,3 +19,18 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Hilt rules
+-keep class dagger.hilt.** { *; }
+-keep class javax.inject.** { *; }
+-keep class * extends dagger.hilt.android.HiltAndroidApp
+-keepclasseswithmembers class * {
+    @dagger.hilt.android.AndroidEntryPoint <methods>;
+}
+-keep @dagger.hilt.android.AndroidEntryPoint class * {
+    *;
+}
+-keep class **_HiltComponents$* { *; }
+-keep class **_Hilt* { *; }
+-keep class **.*_Factory { *; }
+-keep class **.*_MembersInjector { *; }
