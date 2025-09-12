@@ -10,7 +10,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
-import com.manager1700.soccer.Typography
+import com.manager1700.soccer.AppTypography
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
@@ -51,7 +51,7 @@ fun SoccerManagerTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = AppTypography,
         content = content
     )
 }
