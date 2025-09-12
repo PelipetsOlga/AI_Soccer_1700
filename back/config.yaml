@@ -1,0 +1,39 @@
+# App Configuration, filled in manually
+app:
+  name: '1700'  # Keep quotes to prevent number interpretation
+  bundle_id: 'com.manager1700.soccer'
+  app_id: 'manager1700'
+  domain: 'manager1700.xyz'
+  localization: EN
+
+# AppsFlyer API Token, filled in manually
+appsflyer:
+  appsflyer_token: ''  # Keep quotes for empty string
+  appsflyer_dev_key: ''
+
+# Appmetrica settings, filled in manually
+appmetrica:
+  app_id: ''
+  post_api_key: ''
+  sdk_key: ''
+
+# Tracking Configuration, filled in manually
+tracking:
+  link_id: 'manager1700'
+  traffle_link_id: 'manager1700'
+
+# Privacy Settings, filled in automatically
+privacy:
+  callback: consent_callback
+  accepted_param: consent_value
+  developer_name: ''
+
+# Request Parameters, filled in automatically
+request_params:
+  installer_param: install_val
+  user_id_param: account_ref
+  oaid_param: device_key
+  google_ad_id_param: ad_ref
+  appsflyer_id_param: af_param
+  appsflyer_source_param: source_val
+  appsflyer_campaign_param: camp_val
