@@ -5,7 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.manager1700.soccer.Screen
-import com.manager1700.soccer.SplashScreen
+import com.manager1700.soccer.ui.feature_splash.SplashScreen
 import com.manager1700.soccer.ui.screens.HomeScreen
 
 @Composable
