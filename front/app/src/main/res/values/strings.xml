@@ -17,4 +17,7 @@
     <string name="attendance_past_present">Present</string>
     <string name="attendance_past_late">Late</string>
     <string name="attendance_past_absent">Absent</string>
+    <string name="btn_get_started">Get started</string>
+    <string name="welcome_title">Welcome to</string>
+    <string name="welcome_text">Organize trainings, matches, and manage your team like a pro!</string>
 </resources>
