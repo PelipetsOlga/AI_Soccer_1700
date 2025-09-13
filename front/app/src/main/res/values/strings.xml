@@ -20,4 +20,15 @@
     <string name="btn_get_started">Get started</string>
     <string name="welcome_title">Welcome to</string>
     <string name="welcome_text">Organize trainings, matches, and manage your team like a pro!</string>
+    
+    <!-- Home Screen -->
+    <string name="home_title">Home</string>
+    <string name="home_welcome_message">Welcome to your team dashboard</string>
+    <string name="home_quick_actions">Quick Actions</string>
+    <string name="home_recent_activities">Recent Activities</string>
+    <string name="home_no_activities">No recent activities</string>
+    <string name="home_view_team">View Team</string>
+    <string name="home_schedule_training">Schedule Training</string>
+    <string name="home_upcoming_matches">Upcoming Matches</string>
+    <string name="home_team_stats">Team Statistics</string>
 </resources>
