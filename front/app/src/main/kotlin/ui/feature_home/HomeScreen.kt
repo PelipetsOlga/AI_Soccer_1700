@@ -1,8 +1,20 @@
 package com.manager1700.soccer.ui.feature_home
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -14,6 +26,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.manager1700.soccer.R
 import com.manager1700.soccer.ui.components.Toolbar
 import com.manager1700.soccer.ui.theme.SoccerManagerTheme
+import com.manager1700.soccer.ui.theme.colorBlack
 import com.manager1700.soccer.ui.utils.PreviewApp
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -22,18 +35,22 @@ fun HomeScreen(
     viewModel: HomeScreenViewModel = hiltViewModel()
 ) {
     val state by viewModel.viewState.collectAsState()
-    
+
     // Handle side effects
     LaunchedEffect(Unit) {
         viewModel.effect.collect { effect ->
             when (effect) {
+                is HomeScreenContract.Effect.NavigateBack -> {
+                    // Handle navigation back
+                }
+
                 is HomeScreenContract.Effect.NavigateToSettings -> {
                     // Handle navigation to settings
                 }
             }
         }
     }
-    
+
     HomeScreenContent(
         state = state,
         onEvent = { viewModel.setEvent(it) }
@@ -47,27 +64,37 @@ fun HomeScreenContent(
     onEvent: (HomeScreenContract.Event) -> Unit
 ) {
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .background(colorBlack)
     ) {
-        // Toolbar with settings button
+        // Toolbar with back and settings buttons
         Toolbar(
             title = stringResource(R.string.home_title),
+            showBackButton = false,
             showSettingsButton = true,
+            onBackClick = { },
             onSettingsClick = { onEvent(HomeScreenContract.Event.SettingsClicked) }
         )
-        
+
         // Centered screen title
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
+        Column(
+            modifier = Modifier.verticalScroll(rememberScrollState())
         ) {
-            Text(
-                text = stringResource(R.string.home_title),
-                fontSize = 32.sp,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.primary,
-                textAlign = TextAlign.Center
-            )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(300.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = stringResource(R.string.home_title),
+                    fontSize = 32.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary,
+                    textAlign = TextAlign.Center
+                )
+            }
         }
     }
 }

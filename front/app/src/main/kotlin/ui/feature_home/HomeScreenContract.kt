@@ -20,6 +20,7 @@ object HomeScreenContract {
      * User events/intents
      */
     sealed class Event : UiEvent {
+        data object BackClicked : Event()
         data object SettingsClicked : Event()
     }
     
@@ -27,6 +28,7 @@ object HomeScreenContract {
      * Side effects that should be handled by the UI
      */
     sealed class Effect : UiEffect {
+        data object NavigateBack : Effect()
         data object NavigateToSettings : Effect()
     }
 }

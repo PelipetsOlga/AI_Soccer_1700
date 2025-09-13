@@ -17,8 +17,13 @@ class HomeScreenViewModel @Inject constructor() : MviViewModel<
     
     override fun handleEvent(event: HomeScreenContract.Event) {
         when (event) {
+            is HomeScreenContract.Event.BackClicked -> handleBackClicked()
             is HomeScreenContract.Event.SettingsClicked -> handleSettingsClicked()
         }
+    }
+    
+    private fun handleBackClicked() {
+        setEffect { HomeScreenContract.Effect.NavigateBack }
     }
     
     private fun handleSettingsClicked() {
