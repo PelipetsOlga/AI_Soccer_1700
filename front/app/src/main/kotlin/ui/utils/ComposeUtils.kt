@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.manager1700.soccer.ui.theme.colorWhite
 
 @Composable
 fun Modifier.navBarBottomPadding() =
@@ -27,11 +28,11 @@ val cardBrushGradient = Brush.verticalGradient(
     )
 )
 
-val cardBrushLightGradient = Brush.verticalGradient(
-    colors = listOf(
-        Color(0xFF283E6D),
-        Color(0xFF283E6D)
-    )
+val cardBrushLightGradient = Brush.horizontalGradient(
+    0.0f to colorWhite.copy(alpha = 0.6f),
+    0.25f to colorWhite.copy(alpha = 0f),
+    0.51f to colorWhite.copy(alpha = 0.2f),
+    1.0f to colorWhite.copy(alpha = 0f),
 )
 
 val cardBrushLightLightGradient = Brush.verticalGradient(
@@ -62,5 +63,6 @@ val yellowButtonBrushLightGradient = Brush.verticalGradient(
     )
 )
 
+val cardBigClipShape = RoundedCornerShape(16.dp)
 val cardClipShape = RoundedCornerShape(8.dp)
 val buttonClipShape = RoundedCornerShape(16.dp)
