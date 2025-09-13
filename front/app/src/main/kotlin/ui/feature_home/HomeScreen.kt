@@ -6,10 +6,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -63,23 +65,24 @@ fun HomeScreenContent(
     state: HomeScreenContract.State,
     onEvent: (HomeScreenContract.Event) -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(colorBlack)
-    ) {
-        // Toolbar with back and settings buttons
-        Toolbar(
-            title = stringResource(R.string.home_title),
-            showBackButton = false,
-            showSettingsButton = true,
-            onBackClick = { },
-            onSettingsClick = { onEvent(HomeScreenContract.Event.SettingsClicked) }
-        )
-
+    Scaffold(
+        topBar = {
+            Toolbar(
+                title = stringResource(R.string.home_title),
+                showBackButton = false,
+                showSettingsButton = true,
+                onBackClick = { },
+                onSettingsClick = { onEvent(HomeScreenContract.Event.SettingsClicked) }
+            )
+        },
+        containerColor = colorBlack
+    ) { paddingValues ->
         // Centered screen title
         Column(
-            modifier = Modifier.verticalScroll(rememberScrollState())
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .verticalScroll(rememberScrollState())
         ) {
             Box(
                 modifier = Modifier
