@@ -34,7 +34,7 @@ class SplashScreenViewModel @Inject constructor() : ViewModel() {
             // Animate progress from 1% to 100% over 5 seconds
             for (progress in 1..100) {
                 _uiState.value = _uiState.value.copy(progress = progress)
-                delay(50) // 50ms * 100 = 5000ms (5 seconds)
+                delay(20) // 50ms * 100 = 5000ms (5 seconds)
             }
             
             // Mark loading as complete and trigger navigation
