@@ -46,7 +46,7 @@ fun SplashScreen(
         viewModel.sideEffect.collect { sideEffect ->
             when (sideEffect) {
                 is SplashScreenContract.SideEffect.NavigateToHome -> {
-                    navController.navigate(Screen.Home.route) {
+                    navController.navigate(Screen.Welcome.route) {
                         popUpTo(Screen.Splash.route) {
                             inclusive = true
                         }

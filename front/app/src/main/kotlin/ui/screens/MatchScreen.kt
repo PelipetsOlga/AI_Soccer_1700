@@ -13,13 +13,13 @@ import com.manager1700.soccer.ui.theme.SoccerManagerTheme
 import com.manager1700.soccer.ui.utils.PreviewApp
 
 @Composable
-fun HomeScreen() {
+fun MatchScreen() {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = "Home",
+            text = "Match",
             fontSize = 32.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary,
@@ -30,8 +30,8 @@ fun HomeScreen() {
 
 @PreviewApp
 @Composable
-fun HomeScreenPreview() {
+fun MatchScreenPreview() {
     SoccerManagerTheme {
-        HomeScreen()
+        MatchScreen()
     }
 }
