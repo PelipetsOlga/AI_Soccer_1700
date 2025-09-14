@@ -35,7 +35,6 @@ import com.manager1700.soccer.ui.feature_training.TrainingScreen
 import com.manager1700.soccer.ui.theme.SoccerManagerTheme
 import com.manager1700.soccer.ui.theme.colorBlack
 import com.manager1700.soccer.ui.theme.colorGrey_2b
-import com.manager1700.soccer.ui.theme.colorGrey_3b
 import com.manager1700.soccer.ui.utils.PreviewApp
 import com.manager1700.soccer.ui.utils.cardBrushDarkGradient
 import com.manager1700.soccer.ui.utils.cardBrushLightGradient
@@ -85,6 +84,7 @@ fun HomeWrapperScreen(
         bottomBar = {
             NavigationBar(
                 modifier = Modifier
+                    .background(colorBlack)
                     .navBarBottomPadding()
                     .clip(cardVeryBigClipShape)
                     .background(brush = cardBrushLightGradient)
@@ -107,7 +107,12 @@ fun HomeWrapperScreen(
                                     id = if (isSelected) item.iconSelected else item.iconUnselected
                                 ),
                                 contentDescription = item.label,
-                                modifier = Modifier.size(if (item.route == Screen.Home.route) 64.dp else 48.dp)
+                                modifier = Modifier
+                                    .clip(cardVeryBigClipShape)
+                                    .background(colorBlack)
+                                    .padding(all = 3.dp)
+                                    .background(colorGrey_2b)
+                                    .size(if (item.route == Screen.Home.route) 72.dp else 48.dp)
                             )
                         },
                         selected = isSelected,
@@ -132,7 +137,8 @@ fun HomeWrapperScreen(
                     )
                 }
             }
-        }
+        },
+        containerColor = colorBlack,
     ) { paddingValues ->
         NavHost(
             navController = bottomNavController,
@@ -236,7 +242,13 @@ fun HomeWrapperScreenPreview() {
                                         id = if (isSelected) item.iconSelected else item.iconUnselected
                                     ),
                                     contentDescription = item.label,
-                                    modifier = Modifier.size(if (item.route == Screen.Home.route) 64.dp else 48.dp)
+                                    modifier =
+                                        Modifier
+                                            .clip(cardVeryBigClipShape)
+                                            .background(colorBlack)
+                                            .padding(all =  3.dp)
+                                            .background(colorGrey_2b)
+                                            .size(if (item.route == Screen.Home.route) 72.dp else 48.dp)
                                 )
                             },
                             selected = isSelected,
