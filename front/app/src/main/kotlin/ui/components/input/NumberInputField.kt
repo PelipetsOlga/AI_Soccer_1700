@@ -48,9 +48,7 @@ fun NumberInputField(
         OutlinedTextField(
             value = value,
             onValueChange = { newValue ->
-                // Filter to only allow numeric input
-                val filteredValue = newValue.filter { it.isDigit() }
-                onValueChange(filteredValue)
+                onValueChange(newValue)
             },
             maxLines = 1,
             placeholder = {
