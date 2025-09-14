@@ -15,6 +15,7 @@ import com.manager1700.soccer.ui.components.Card
 import com.manager1700.soccer.ui.components.PrimaryButton
 import com.manager1700.soccer.ui.components.SmallGreyButton
 import com.manager1700.soccer.ui.components.input.NameInputField
+import com.manager1700.soccer.ui.components.input.NumberInputField
 import com.manager1700.soccer.ui.theme.SoccerManagerTheme
 import com.manager1700.soccer.ui.utils.PreviewApp
 
@@ -49,7 +50,11 @@ fun AddEditPlayerContent(
                     onValueChange = { onEvent(AddEditPlayerContract.Event.PlayerNameChanged(it)) },
                 )
 
-                Text("Player Number: ${state.playerNumber}")
+                NumberInputField(
+                    value = state.playerNumber,
+                    onValueChange = { onEvent(AddEditPlayerContract.Event.PlayerNumberChanged(it)) },
+                )
+
 
                 // Position
                 Text("Position: ${state.position}")

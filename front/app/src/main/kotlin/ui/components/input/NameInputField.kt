@@ -31,7 +31,7 @@ fun NameInputField(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
@@ -50,7 +50,7 @@ fun NameInputField(
             maxLines = 4,
             placeholder = {
                 Text(
-                    text = "Please enter player's name",
+                    text = stringResource(R.string.tint_name),
                     fontSize = 12.sp,
                     minLines = 1,
                     textAlign = TextAlign.Center,
@@ -61,14 +61,7 @@ fun NameInputField(
                     modifier = Modifier.fillMaxWidth(),
                 )
             },
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                textColor = colorBlack,
-                cursorColor = colorBlack,
-                focusedBorderColor = colorGrey_89,
-                unfocusedBorderColor = colorGrey_89,
-                focusedLabelColor = colorWhite,
-                unfocusedLabelColor = colorWhite
-            ),
+            colors = getInputColors(),
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(cardVeryBigClipShape)
@@ -76,3 +69,59 @@ fun NameInputField(
         )
     }
 }
+
+@Composable
+fun NumberInputField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(
+            text = stringResource(R.string.field_number).uppercase(),
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Normal,
+            color = colorWhite,
+            fontFamily = Montserrat,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+
+        OutlinedTextField(
+            value = value,
+            onValueChange = { onValueChange(it) },
+            maxLines = 4,
+            placeholder = {
+                Text(
+                    text = stringResource(R.string.tint_number),
+                    fontSize = 12.sp,
+                    minLines = 1,
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Normal,
+                    fontStyle = FontStyle.Italic,
+                    color = colorBlack.copy(alpha = 0.6f),
+                    fontFamily = Montserrat,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            },
+            colors = getInputColors(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(cardVeryBigClipShape)
+                .background(colorGrey_89)
+        )
+    }
+}
+
+@Composable
+fun getInputColors() = TextFieldDefaults.outlinedTextFieldColors(
+    textColor = colorBlack,
+    cursorColor = colorBlack,
+    focusedBorderColor = colorGrey_89,
+    unfocusedBorderColor = colorGrey_89,
+    focusedLabelColor = colorWhite,
+    unfocusedLabelColor = colorWhite
+)
