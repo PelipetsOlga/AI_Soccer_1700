@@ -1,4 +1,4 @@
-package com.manager1700.soccer.ui.feature_home
+package com.manager1700.soccer.ui.feature_analytics
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,9 +35,9 @@ import com.manager1700.soccer.ui.utils.PreviewApp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(
+fun AnalyticsScreen(
     mainNavController: NavController,
-    viewModel: HomeScreenViewModel = hiltViewModel()
+    viewModel: AnalyticsScreenViewModel = hiltViewModel()
 ) {
     val state by viewModel.viewState.collectAsState()
 
@@ -45,18 +45,17 @@ fun HomeScreen(
     LaunchedEffect(Unit) {
         viewModel.effect.collect { effect ->
             when (effect) {
-                is HomeScreenContract.Effect.NavigateBack -> {
-                    // Handle navigation back
+                is AnalyticsScreenContract.Effect.NavigateBack -> {
+                    // Handle navigation back to HomeScreen
                 }
-
-                is HomeScreenContract.Effect.NavigateToSettings -> {
+                is AnalyticsScreenContract.Effect.NavigateToSettings -> {
                     mainNavController.navigate(Screen.Settings.route)
                 }
             }
         }
     }
 
-    HomeScreenContent(
+    AnalyticsScreenContent(
         state = state,
         onEvent = { viewModel.setEvent(it) }
     )
@@ -64,23 +63,23 @@ fun HomeScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreenContent(
-    state: HomeScreenContract.State,
-    onEvent: (HomeScreenContract.Event) -> Unit
+fun AnalyticsScreenContent(
+    state: AnalyticsScreenContract.State,
+    onEvent: (AnalyticsScreenContract.Event) -> Unit
 ) {
     Scaffold(
         topBar = {
             Toolbar(
-                title = stringResource(R.string.home_title),
-                showBackButton = false,
+                title = stringResource(R.string.analytics_title),
+                showBackButton = true,
                 showSettingsButton = true,
-                onBackClick = { },
-                onSettingsClick = { onEvent(HomeScreenContract.Event.SettingsClicked) }
+                onBackClick = { onEvent(AnalyticsScreenContract.Event.BackClicked) },
+                onSettingsClick = { onEvent(AnalyticsScreenContract.Event.SettingsClicked) }
             )
         },
         containerColor = colorBlack
     ) { paddingValues ->
-        // Centered screen title
+        // Content
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -98,7 +97,7 @@ fun HomeScreenContent(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = stringResource(R.string.home_title),
+                        text = stringResource(R.string.analytics_title),
                         fontSize = 32.sp,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.primary,
@@ -112,10 +111,10 @@ fun HomeScreenContent(
 
 @PreviewApp
 @Composable
-fun HomeScreenContentPreview() {
+fun AnalyticsScreenContentPreview() {
     SoccerManagerTheme {
-        HomeScreenContent(
-            state = HomeScreenContract.State(),
+        AnalyticsScreenContent(
+            state = AnalyticsScreenContract.State(),
             onEvent = {}
         )
     }

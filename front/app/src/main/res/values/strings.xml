@@ -31,4 +31,19 @@
     <string name="home_schedule_training">Schedule Training</string>
     <string name="home_upcoming_matches">Upcoming Matches</string>
     <string name="home_team_stats">Team Statistics</string>
+    
+    <!-- Team Screen -->
+    <string name="team_title">Team</string>
+    
+    <!-- Training Screen -->
+    <string name="training_title">Training</string>
+    
+    <!-- Match Screen -->
+    <string name="match_title">Match</string>
+    
+    <!-- Analytics Screen -->
+    <string name="analytics_title">Analytics</string>
+    
+    <!-- Settings Screen -->
+    <string name="settings_title">Settings</string>
 </resources>

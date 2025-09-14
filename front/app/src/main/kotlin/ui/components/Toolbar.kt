@@ -32,9 +32,13 @@ fun Toolbar(
     showBackButton: Boolean = false,
     showSettingsButton: Boolean = false,
     onBackClick: () -> Unit = {},
-    onSettingsClick: () -> Unit = {}
+    onSettingsClick: () -> Unit = {},
+    modifier: Modifier = Modifier,
 ) {
-    Box(contentAlignment = Alignment.BottomCenter) {
+    Box(
+        modifier = modifier,
+        contentAlignment = Alignment.BottomCenter
+    ) {
         TopAppBar(
             windowInsets = WindowInsets(top = 0.dp, bottom = 0.dp, left = 0.dp, right = .0.dp),
             title = {
@@ -55,7 +59,7 @@ fun Toolbar(
                             painter = painterResource(id = R.mipmap.back_btn),
                             contentDescription = "Back",
                             modifier = Modifier
-                                .size(24.dp)
+                                .size(36.dp)
                         )
                     }
                 }
@@ -67,7 +71,7 @@ fun Toolbar(
                             painter = painterResource(id = R.mipmap.settings_btn),
                             contentDescription = "Settings",
                             modifier = Modifier
-                                .size(24.dp)
+                                .size(36.dp)
                         )
                     }
                 }

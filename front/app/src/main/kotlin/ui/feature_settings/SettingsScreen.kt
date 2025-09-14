@@ -1,4 +1,4 @@
-package com.manager1700.soccer.ui.feature_home
+package com.manager1700.soccer.ui.feature_settings
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,18 +26,18 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.manager1700.soccer.R
-import com.manager1700.soccer.Screen
 import com.manager1700.soccer.ui.components.Card
 import com.manager1700.soccer.ui.components.Toolbar
 import com.manager1700.soccer.ui.theme.SoccerManagerTheme
 import com.manager1700.soccer.ui.theme.colorBlack
 import com.manager1700.soccer.ui.utils.PreviewApp
+import com.manager1700.soccer.ui.utils.statusBarTopPadding
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(
-    mainNavController: NavController,
-    viewModel: HomeScreenViewModel = hiltViewModel()
+fun SettingsScreen(
+    navController: NavController,
+    viewModel: SettingsScreenViewModel = hiltViewModel()
 ) {
     val state by viewModel.viewState.collectAsState()
 
@@ -45,18 +45,14 @@ fun HomeScreen(
     LaunchedEffect(Unit) {
         viewModel.effect.collect { effect ->
             when (effect) {
-                is HomeScreenContract.Effect.NavigateBack -> {
-                    // Handle navigation back
-                }
-
-                is HomeScreenContract.Effect.NavigateToSettings -> {
-                    mainNavController.navigate(Screen.Settings.route)
+                is SettingsScreenContract.Effect.NavigateBack -> {
+                    navController.popBackStack()
                 }
             }
         }
     }
 
-    HomeScreenContent(
+    SettingsScreenContent(
         state = state,
         onEvent = { viewModel.setEvent(it) }
     )
@@ -64,23 +60,24 @@ fun HomeScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreenContent(
-    state: HomeScreenContract.State,
-    onEvent: (HomeScreenContract.Event) -> Unit
+fun SettingsScreenContent(
+    state: SettingsScreenContract.State,
+    onEvent: (SettingsScreenContract.Event) -> Unit
 ) {
     Scaffold(
         topBar = {
             Toolbar(
-                title = stringResource(R.string.home_title),
-                showBackButton = false,
-                showSettingsButton = true,
-                onBackClick = { },
-                onSettingsClick = { onEvent(HomeScreenContract.Event.SettingsClicked) }
+                title = stringResource(R.string.settings_title),
+                showBackButton = true,
+                showSettingsButton = false,
+                onBackClick = { onEvent(SettingsScreenContract.Event.BackClicked) },
+                onSettingsClick = { },
+                modifier = Modifier.statusBarTopPadding()
             )
         },
         containerColor = colorBlack
     ) { paddingValues ->
-        // Centered screen title
+        // Content
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -98,7 +95,7 @@ fun HomeScreenContent(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = stringResource(R.string.home_title),
+                        text = stringResource(R.string.settings_title),
                         fontSize = 32.sp,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.primary,
@@ -112,10 +109,10 @@ fun HomeScreenContent(
 
 @PreviewApp
 @Composable
-fun HomeScreenContentPreview() {
+fun SettingsScreenContentPreview() {
     SoccerManagerTheme {
-        HomeScreenContent(
-            state = HomeScreenContract.State(),
+        SettingsScreenContent(
+            state = SettingsScreenContract.State(),
             onEvent = {}
         )
     }

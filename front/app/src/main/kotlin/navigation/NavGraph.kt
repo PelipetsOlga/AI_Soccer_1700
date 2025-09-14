@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import com.manager1700.soccer.Screen
 import com.manager1700.soccer.ui.feature_splash.SplashScreen
 import com.manager1700.soccer.ui.feature_welcome.WelcomeScreen
+import com.manager1700.soccer.ui.feature_settings.SettingsScreen
 import com.manager1700.soccer.ui.screens.HomeWrapperScreen
 
 @Composable
@@ -25,6 +26,10 @@ fun SetupNavGraph(navController: NavHostController) {
         
         composable(route = Screen.HomeWrapper.route) {
             HomeWrapperScreen(mainNavController = navController)
+        }
+        
+        composable(route = Screen.Settings.route) {
+            SettingsScreen(navController = navController)
         }
         
         // Legacy screens (can be removed if not needed)

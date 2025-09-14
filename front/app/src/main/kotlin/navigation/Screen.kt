@@ -14,6 +14,9 @@ sealed class Screen(val route: String) {
     data object Match : Screen("match_screen")
     data object Analytics : Screen("analytics_screen")
     
+    // Settings screen
+    data object Settings : Screen("settings_screen")
+    
     // Legacy screens (can be removed if not needed)
     data object PlayerList : Screen("player_list_screen")
     data object TrainingList : Screen("training_list_screen")

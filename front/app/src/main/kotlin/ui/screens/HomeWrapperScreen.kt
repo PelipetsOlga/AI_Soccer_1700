@@ -19,7 +19,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.manager1700.soccer.Screen
+import com.manager1700.soccer.ui.feature_analytics.AnalyticsScreen
 import com.manager1700.soccer.ui.feature_home.HomeScreen
+import com.manager1700.soccer.ui.feature_match.MatchScreen
+import com.manager1700.soccer.ui.feature_settings.SettingsScreen
+import com.manager1700.soccer.ui.feature_team.TeamScreen
+import com.manager1700.soccer.ui.feature_training.TrainingScreen
 import com.manager1700.soccer.ui.theme.SoccerManagerTheme
 import com.manager1700.soccer.ui.utils.PreviewApp
 
@@ -81,19 +86,19 @@ fun HomeWrapperScreen(
             modifier = Modifier.padding(paddingValues)
         ) {
             composable(Screen.Team.route) {
-                TeamScreen()
+                TeamScreen(mainNavController = mainNavController)
             }
             composable(Screen.Training.route) {
-                TrainingScreen()
+                TrainingScreen(mainNavController = mainNavController)
             }
             composable(Screen.Home.route) {
-                HomeScreen()
+                HomeScreen(mainNavController = mainNavController)
             }
             composable(Screen.Match.route) {
-                MatchScreen()
+                MatchScreen(mainNavController = mainNavController)
             }
             composable(Screen.Analytics.route) {
-                AnalyticsScreen()
+                AnalyticsScreen(mainNavController = mainNavController)
             }
         }
     }
@@ -134,7 +139,7 @@ fun HomeWrapperScreenPreview() {
             }
         ) { paddingValues ->
             Box(modifier = Modifier.padding(paddingValues)) {
-                HomeScreen()
+                HomeScreen(mainNavController = rememberNavController())
             }
         }
     }
