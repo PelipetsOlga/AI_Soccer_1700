@@ -25,8 +25,8 @@ import com.manager1700.soccer.domain.models.PastAttendance
     ]
 )
 data class RelationEntity(
-    @PrimaryKey
-    val id: Int,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
     val sportEventId: Int,
     val playerId: Int,
     val futureAttendance: String?, // Store as string key, nullable

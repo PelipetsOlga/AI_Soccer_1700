@@ -78,8 +78,8 @@ class TrainingConverters {
 @Entity(tableName = "trainings")
 @TypeConverters(TrainingConverters::class)
 data class TrainingEntity(
-    @PrimaryKey
-    val id: Int,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
     val status: String, // Store as string key
     val startDateTime: LocalTime,
     val endDateTime: LocalTime,

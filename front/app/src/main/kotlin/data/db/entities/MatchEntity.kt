@@ -11,8 +11,8 @@ import java.time.LocalTime
 @Entity(tableName = "matches")
 @TypeConverters(TrainingConverters::class)
 data class MatchEntity(
-    @PrimaryKey
-    val id: Int,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
     val status: String, // Store as string key
     val lineupScheme: String, // Store as string key
     val opponent: String,
