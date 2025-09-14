@@ -10,12 +10,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.manager1700.soccer.R
 import com.manager1700.soccer.ui.components.Card
 import com.manager1700.soccer.ui.components.PrimaryButton
 import com.manager1700.soccer.ui.components.SmallGreyButton
+import com.manager1700.soccer.ui.components.input.NameInputField
 import com.manager1700.soccer.ui.theme.SoccerManagerTheme
 import com.manager1700.soccer.ui.utils.PreviewApp
-import com.manager1700.soccer.R
 
 @Composable
 fun AddEditPlayerContent(
@@ -42,7 +43,12 @@ fun AddEditPlayerContent(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                // Player Number
+
+                NameInputField(
+                    value = state.playerName,
+                    onValueChange = { onEvent(AddEditPlayerContract.Event.PlayerNameChanged(it)) },
+                )
+
                 Text("Player Number: ${state.playerNumber}")
 
                 // Position
@@ -87,6 +93,7 @@ fun AddEditPlayerContentPreview() {
         AddEditPlayerContent(
             state = AddEditPlayerContract.State(
                 isEditMode = false,
+                playerName = "",
                 playerNumber = "",
                 position = "df",
                 foot = "Right",

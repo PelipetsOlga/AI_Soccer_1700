@@ -3,6 +3,7 @@ package com.manager1700.soccer
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
@@ -15,6 +16,14 @@ val Montserrat = FontFamily(
     Font(R.font.montserrat_light, FontWeight.Light),
     Font(R.font.montserrat_extralight, FontWeight.ExtraLight),
     Font(R.font.montserrat_thin, FontWeight.Thin),
+    Font(R.font.montserrat_italic, FontWeight.Normal, style = FontStyle.Italic),
+    Font(R.font.montserrat_bold_italic, FontWeight.Bold, style = FontStyle.Italic),
+    Font(R.font.montserrat_extra_light_italic, FontWeight.ExtraLight, style = FontStyle.Italic),
+    Font(R.font.montserrat_extrabo_italic, FontWeight.ExtraBold, style = FontStyle.Italic),
+    Font(R.font.montserrat_light_italic, FontWeight.Light, style = FontStyle.Italic),
+    Font(R.font.montserrat_medium_italic, FontWeight.Medium, style = FontStyle.Italic),
+    Font(R.font.montserrat_semi_bold_italic, FontWeight.SemiBold, style = FontStyle.Italic),
+    Font(R.font.montserrat_thin_italic, FontWeight.Thin, style = FontStyle.Italic),
 )
 
 val AppTypography = Typography(

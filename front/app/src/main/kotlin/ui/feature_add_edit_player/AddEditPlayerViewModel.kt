@@ -30,6 +30,7 @@ class AddEditPlayerViewModel @Inject constructor(
                 copy(
                     player = player,
                     isEditMode = true,
+                    playerName = player.name,
                     playerNumber = player.number.toString(),
                     position = player.position.key,
                     foot = player.foot.key,
@@ -44,6 +45,7 @@ class AddEditPlayerViewModel @Inject constructor(
                 copy(
                     player = null,
                     isEditMode = false,
+                    playerName = "",
                     playerNumber = "",
                     position = Position.Defender.key,
                     foot = Foot.Right.key,
@@ -61,6 +63,7 @@ class AddEditPlayerViewModel @Inject constructor(
             is AddEditPlayerContract.Event.BackClicked -> handleBackClicked()
             is AddEditPlayerContract.Event.SaveClicked -> handleSaveClicked()
             is AddEditPlayerContract.Event.CancelClicked -> handleCancelClicked()
+            is AddEditPlayerContract.Event.PlayerNameChanged -> handlePlayerNameChanged(event.name)
             is AddEditPlayerContract.Event.PlayerNumberChanged -> handlePlayerNumberChanged(event.number)
             is AddEditPlayerContract.Event.PositionChanged -> handlePositionChanged(event.position)
             is AddEditPlayerContract.Event.FootChanged -> handleFootChanged(event.foot)
@@ -111,6 +114,10 @@ class AddEditPlayerViewModel @Inject constructor(
     
     private fun validateInput(state: AddEditPlayerContract.State): Boolean {
         return when {
+            state.playerName.isBlank() -> {
+                setEffect { AddEditPlayerContract.Effect.ShowError("Player name is required") }
+                false
+            }
             state.playerNumber.isBlank() -> {
                 setEffect { AddEditPlayerContract.Effect.ShowError("Player number is required") }
                 false
@@ -144,6 +151,7 @@ class AddEditPlayerViewModel @Inject constructor(
         
         return Player(
             id = playerId,
+            name = state.playerName,
             number = state.playerNumber.toInt(),
             position = Position.values().first { it.key == state.position },
             foot = Foot.values().first { it.key == state.foot },
@@ -156,6 +164,10 @@ class AddEditPlayerViewModel @Inject constructor(
             noteOfInjury = null,
             imageUrl = null
         )
+    }
+    
+    private fun handlePlayerNameChanged(name: String) {
+        setState { copy(playerName = name) }
     }
     
     private fun handlePlayerNumberChanged(number: String) {

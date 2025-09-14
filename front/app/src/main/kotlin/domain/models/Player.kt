@@ -33,6 +33,7 @@ enum class PlayerStatus(
 
 data class Player(
     val id: Int,
+    val name: String,
     val number: Int,
     val position: Position,
     val foot: Foot,
@@ -48,6 +49,7 @@ data class Player(
     companion object {
         val EMPTY = Player(
             id = -1,
+            name = "",
             number = -1,
             position = Position.Defender,
             foot = Foot.Right,

@@ -62,4 +62,6 @@
     <string name="btn_save">Save</string>
     <string name="btn_cancel">Cancel</string>
     <string name="add_player">Add Player</string>
+    <string name="field_name">Name</string>
+    <string name="tint_name">Please enter Player\'s name</string>
 </resources>

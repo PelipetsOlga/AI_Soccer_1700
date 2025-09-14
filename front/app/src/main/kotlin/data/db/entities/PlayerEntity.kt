@@ -11,6 +11,7 @@ import com.manager1700.soccer.domain.models.PlayerStatus
 data class PlayerEntity(
     @PrimaryKey
     val id: Int,
+    val name: String,
     val number: Int,
     val position: String, // Store as string key
     val foot: String, // Store as string key
@@ -28,6 +29,7 @@ data class PlayerEntity(
 fun PlayerEntity.toDomainModel(): Player {
     return Player(
         id = id,
+        name = name,
         number = number,
         position = Position.values().first { it.key == position },
         foot = Foot.values().first { it.key == foot },
@@ -45,6 +47,7 @@ fun PlayerEntity.toDomainModel(): Player {
 fun Player.toEntity(): PlayerEntity {
     return PlayerEntity(
         id = id,
+        name = name,
         number = number,
         position = position.key,
         foot = foot.key,

@@ -63,6 +63,7 @@ val yellowButtonBrushLightGradient = Brush.verticalGradient(
     )
 )
 
+val cardVeryBigClipShape = RoundedCornerShape(36.dp)
 val cardBigClipShape = RoundedCornerShape(16.dp)
 val cardClipShape = RoundedCornerShape(8.dp)
 val buttonClipShape = RoundedCornerShape(16.dp)

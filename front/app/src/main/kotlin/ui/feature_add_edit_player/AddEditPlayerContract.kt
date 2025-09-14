@@ -17,6 +17,7 @@ object AddEditPlayerContract {
         val isLoading: Boolean = false,
         val player: Player? = null,
         val isEditMode: Boolean = false,
+        val playerName: String = "",
         val playerNumber: String = "",
         val position: String = "",
         val foot: String = "",
@@ -34,6 +35,7 @@ object AddEditPlayerContract {
         data object BackClicked : Event()
         data object SaveClicked : Event()
         data object CancelClicked : Event()
+        data class PlayerNameChanged(val name: String) : Event()
         data class PlayerNumberChanged(val number: String) : Event()
         data class PositionChanged(val position: String) : Event()
         data class FootChanged(val foot: String) : Event()
