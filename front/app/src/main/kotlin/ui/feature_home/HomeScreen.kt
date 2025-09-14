@@ -37,6 +37,7 @@ import com.manager1700.soccer.ui.utils.PreviewApp
 @Composable
 fun HomeScreen(
     mainNavController: NavController,
+    bottomNavController: NavController,
     viewModel: HomeScreenViewModel = hiltViewModel()
 ) {
     val state by viewModel.viewState.collectAsState()

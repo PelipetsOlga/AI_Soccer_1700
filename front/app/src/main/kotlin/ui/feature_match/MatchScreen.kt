@@ -37,6 +37,7 @@ import com.manager1700.soccer.ui.utils.PreviewApp
 @Composable
 fun MatchScreen(
     mainNavController: NavController,
+    bottomNavController: NavController,
     viewModel: MatchScreenViewModel = hiltViewModel()
 ) {
     val state by viewModel.viewState.collectAsState()
@@ -46,7 +47,7 @@ fun MatchScreen(
         viewModel.effect.collect { effect ->
             when (effect) {
                 is MatchScreenContract.Effect.NavigateBack -> {
-                    // Handle navigation back to HomeScreen
+                    bottomNavController.popBackStack()
                 }
                 is MatchScreenContract.Effect.NavigateToSettings -> {
                     mainNavController.navigate(Screen.Settings.route)

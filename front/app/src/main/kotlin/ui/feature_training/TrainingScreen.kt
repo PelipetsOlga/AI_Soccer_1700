@@ -37,6 +37,7 @@ import com.manager1700.soccer.ui.utils.PreviewApp
 @Composable
 fun TrainingScreen(
     mainNavController: NavController,
+    bottomNavController: NavController,
     viewModel: TrainingScreenViewModel = hiltViewModel()
 ) {
     val state by viewModel.viewState.collectAsState()
@@ -46,8 +47,9 @@ fun TrainingScreen(
         viewModel.effect.collect { effect ->
             when (effect) {
                 is TrainingScreenContract.Effect.NavigateBack -> {
-                    // Handle navigation back to HomeScreen
+                    bottomNavController.popBackStack()
                 }
+
                 is TrainingScreenContract.Effect.NavigateToSettings -> {
                     mainNavController.navigate(Screen.Settings.route)
                 }

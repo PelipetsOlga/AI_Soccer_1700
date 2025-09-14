@@ -1,14 +1,21 @@
 package com.manager1700.soccer.ui.screens
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavController
@@ -22,7 +29,6 @@ import com.manager1700.soccer.Screen
 import com.manager1700.soccer.ui.feature_analytics.AnalyticsScreen
 import com.manager1700.soccer.ui.feature_home.HomeScreen
 import com.manager1700.soccer.ui.feature_match.MatchScreen
-import com.manager1700.soccer.ui.feature_settings.SettingsScreen
 import com.manager1700.soccer.ui.feature_team.TeamScreen
 import com.manager1700.soccer.ui.feature_training.TrainingScreen
 import com.manager1700.soccer.ui.theme.SoccerManagerTheme
@@ -42,7 +48,7 @@ fun HomeWrapperScreen(
     val bottomNavController = rememberNavController()
     val navBackStackEntry by bottomNavController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
-    
+
     val bottomNavItems = listOf(
         BottomNavItem(Screen.Team.route, Icons.Filled.Person, "Team"),
         BottomNavItem(Screen.Training.route, Icons.Filled.Settings, "Training"),
@@ -50,7 +56,7 @@ fun HomeWrapperScreen(
         BottomNavItem(Screen.Match.route, Icons.Filled.Star, "Match"),
         BottomNavItem(Screen.Analytics.route, Icons.Filled.Info, "Analytics")
     )
-    
+
     Scaffold(
         bottomBar = {
             NavigationBar {
@@ -86,19 +92,34 @@ fun HomeWrapperScreen(
             modifier = Modifier.padding(paddingValues)
         ) {
             composable(Screen.Team.route) {
-                TeamScreen(mainNavController = mainNavController)
+                TeamScreen(
+                    mainNavController = mainNavController,
+                    bottomNavController = bottomNavController,
+                )
             }
             composable(Screen.Training.route) {
-                TrainingScreen(mainNavController = mainNavController)
+                TrainingScreen(
+                    mainNavController = mainNavController,
+                    bottomNavController = bottomNavController,
+                )
             }
             composable(Screen.Home.route) {
-                HomeScreen(mainNavController = mainNavController)
+                HomeScreen(
+                    mainNavController = mainNavController,
+                    bottomNavController = bottomNavController,
+                )
             }
             composable(Screen.Match.route) {
-                MatchScreen(mainNavController = mainNavController)
+                MatchScreen(
+                    mainNavController = mainNavController,
+                    bottomNavController = bottomNavController,
+                )
             }
             composable(Screen.Analytics.route) {
-                AnalyticsScreen(mainNavController = mainNavController)
+                AnalyticsScreen(
+                    mainNavController = mainNavController,
+                    bottomNavController = bottomNavController,
+                )
             }
         }
     }
@@ -116,7 +137,7 @@ fun HomeWrapperScreenPreview() {
             BottomNavItem(Screen.Match.route, Icons.Filled.Star, "Match"),
             BottomNavItem(Screen.Analytics.route, Icons.Filled.Info, "Analytics")
         )
-        
+
         Scaffold(
             bottomBar = {
                 NavigationBar {
@@ -139,7 +160,10 @@ fun HomeWrapperScreenPreview() {
             }
         ) { paddingValues ->
             Box(modifier = Modifier.padding(paddingValues)) {
-                HomeScreen(mainNavController = rememberNavController())
+                HomeScreen(
+                    mainNavController = rememberNavController(),
+                    bottomNavController = rememberNavController(),
+                    )
             }
         }
     }

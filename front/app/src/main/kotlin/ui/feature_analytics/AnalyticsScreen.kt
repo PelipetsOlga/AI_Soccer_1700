@@ -37,6 +37,7 @@ import com.manager1700.soccer.ui.utils.PreviewApp
 @Composable
 fun AnalyticsScreen(
     mainNavController: NavController,
+    bottomNavController: NavController,
     viewModel: AnalyticsScreenViewModel = hiltViewModel()
 ) {
     val state by viewModel.viewState.collectAsState()
@@ -46,7 +47,7 @@ fun AnalyticsScreen(
         viewModel.effect.collect { effect ->
             when (effect) {
                 is AnalyticsScreenContract.Effect.NavigateBack -> {
-                    // Handle navigation back to HomeScreen
+                    bottomNavController.popBackStack()
                 }
                 is AnalyticsScreenContract.Effect.NavigateToSettings -> {
                     mainNavController.navigate(Screen.Settings.route)

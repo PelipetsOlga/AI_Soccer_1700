@@ -37,6 +37,7 @@ import com.manager1700.soccer.ui.utils.PreviewApp
 @Composable
 fun TeamScreen(
     mainNavController: NavController,
+    bottomNavController: NavController,
     viewModel: TeamScreenViewModel = hiltViewModel()
 ) {
     val state by viewModel.viewState.collectAsState()
@@ -46,7 +47,7 @@ fun TeamScreen(
         viewModel.effect.collect { effect ->
             when (effect) {
                 is TeamScreenContract.Effect.NavigateBack -> {
-                    // Handle navigation back to HomeScreen
+                    bottomNavController.popBackStack()
                 }
                 is TeamScreenContract.Effect.NavigateToSettings -> {
                     mainNavController.navigate(Screen.Settings.route)
