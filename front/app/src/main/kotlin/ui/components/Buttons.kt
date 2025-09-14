@@ -59,7 +59,7 @@ fun SmallGreyButton(onClick: () -> Unit, text: String, modifier: Modifier = Modi
     Button(
         onClick = { onClick() },
         modifier = modifier
-            .padding(vertical = 4.dp, horizontal = 8.dp),
+            .padding(vertical = 2.dp, horizontal = 4.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = colorGrey_66
         )

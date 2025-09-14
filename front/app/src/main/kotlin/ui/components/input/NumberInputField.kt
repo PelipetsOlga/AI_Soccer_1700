@@ -13,6 +13,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -51,6 +53,7 @@ fun NumberInputField(
                 onValueChange(newValue)
             },
             maxLines = 1,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             placeholder = {
                 Text(
                     text = stringResource(R.string.tint_number),
