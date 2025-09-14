@@ -1,5 +1,6 @@
 package com.manager1700.soccer.ui.feature_add_edit_player
 
+import com.manager1700.soccer.domain.models.Foot
 import com.manager1700.soccer.domain.models.Player
 import com.manager1700.soccer.ui.base.UiEffect
 import com.manager1700.soccer.ui.base.UiEvent
@@ -20,7 +21,7 @@ object AddEditPlayerContract {
         val playerName: String = "",
         val playerNumber: String = "",
         val position: String = "",
-        val foot: String = "",
+        val foot: Foot? =null,
         val fitness: String = "",
         val note: String = "",
         val errorMessage: String? = null
@@ -36,7 +37,7 @@ object AddEditPlayerContract {
         data class PlayerNameChanged(val name: String) : Event()
         data class PlayerNumberChanged(val number: String) : Event()
         data class PositionChanged(val position: String) : Event()
-        data class FootChanged(val foot: String) : Event()
+        data class FootChanged(val foot: Foot) : Event()
         data class FitnessChanged(val fitness: String) : Event()
         data class NoteChanged(val note: String) : Event()
     }

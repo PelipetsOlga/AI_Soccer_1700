@@ -15,6 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.manager1700.soccer.R
+import com.manager1700.soccer.domain.models.Foot
 import com.manager1700.soccer.domain.models.Player
 import com.manager1700.soccer.ui.components.Toolbar
 import com.manager1700.soccer.ui.theme.SoccerManagerTheme
@@ -109,7 +110,7 @@ fun AddEditPlayerScreenPreview() {
                 isEditMode = false,
                 playerNumber = "",
                 position = "df",
-                foot = "Right",
+                foot = Foot.Right,
                 fitness = "100",
                 note = ""
             ),

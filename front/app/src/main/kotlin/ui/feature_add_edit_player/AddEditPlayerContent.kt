@@ -15,6 +15,7 @@ import com.manager1700.soccer.ui.components.Card
 import com.manager1700.soccer.ui.components.PrimaryButton
 import com.manager1700.soccer.ui.components.SmallGreyButton
 import com.manager1700.soccer.ui.components.input.FitnessInputField
+import com.manager1700.soccer.ui.components.input.FootInputField
 import com.manager1700.soccer.ui.components.input.NameInputField
 import com.manager1700.soccer.ui.components.input.NumberInputField
 import com.manager1700.soccer.ui.components.input.PlayerNoteInputField
@@ -57,6 +58,11 @@ fun AddEditPlayerContent(
                     onValueChange = { onEvent(AddEditPlayerContract.Event.PlayerNumberChanged(it)) },
                 )
 
+                FootInputField(
+                    value = if (state.foot != null) stringResource(state.foot.titleId) else "",
+                    onClick = { onEvent(AddEditPlayerContract.Event.FootChanged(it)) },
+                )
+
                 FitnessInputField(
                     value = state.fitness,
                     onValueChange = { onEvent(AddEditPlayerContract.Event.FitnessChanged(it)) },
@@ -65,14 +71,11 @@ fun AddEditPlayerContent(
                 PlayerNoteInputField(
                     value = state.note,
                     onValueChange = { onEvent(AddEditPlayerContract.Event.NoteChanged(it)) },
-                    )
-
+                )
 
                 // Position
                 Text("Position: ${state.position}")
 
-                // Foot
-                Text("Foot: ${state.foot}")
 
             }
         }
@@ -102,7 +105,7 @@ fun AddEditPlayerContentPreview() {
                 playerName = "",
                 playerNumber = "",
                 position = "df",
-                foot = "Right",
+                foot = null,
                 fitness = "100",
                 note = ""
             ),
