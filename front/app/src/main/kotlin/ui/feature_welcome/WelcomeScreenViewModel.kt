@@ -67,7 +67,7 @@ class WelcomeScreenViewModel @Inject constructor(
         
         // After logo appears, start content animation
         viewModelScope.launch {
-            delay(1000) // Wait for logo to appear
+            delay(1400) // Wait for logo to appear
             setState { copy(showContent = true) }
         }
     }
