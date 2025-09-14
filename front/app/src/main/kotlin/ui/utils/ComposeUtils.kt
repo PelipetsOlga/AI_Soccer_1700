@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.unit.dp
 import com.manager1700.soccer.ui.theme.colorWhite
 
@@ -35,11 +36,13 @@ val cardBrushLightGradient = Brush.horizontalGradient(
     1.0f to colorWhite.copy(alpha = 0f),
 )
 
-val cardBrushLightLightGradient = Brush.verticalGradient(
-    colors = listOf(
-        Color(0xFF202B45),
-        Color(0xFF0270D5)
-    )
+val cardBrushDarkGradient = Brush.linearGradient(
+    0.0f to colorWhite.copy(alpha = 0.05f),
+    0.3f to colorWhite.copy(alpha = 0.0f),
+    0.5f to colorWhite.copy(alpha = 0.07f),
+    0.7f to colorWhite.copy(alpha = 0.04f),
+    1.0f to colorWhite.copy(alpha = 0f),
+    tileMode = TileMode.Clamp,
 )
 
 val cardActiveBrushGradient = Brush.verticalGradient(
