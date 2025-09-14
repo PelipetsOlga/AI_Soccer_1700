@@ -65,11 +65,13 @@
     <string name="field_name">Name</string>
     <string name="field_number">Number</string>
     <string name="field_foot">Preferred Foot</string>
+    <string name="field_position">Position</string>
     <string name="field_fitness">Fitness</string>
     <string name="field_note">Note</string>
     <string name="tint_name">Please enter Player\'s name</string>
     <string name="tint_number">Please enter Player\'s number</string>
     <string name="tint_foot">Please choose Player\'s preferred foot</string>
+    <string name="tint_position">Please choose Player\'s position</string>
     <string name="tint_fitness">Please enter Player\'s condition (%)</string>
     <string name="tint_note">Please make a quick note about this Player</string>
 </resources>

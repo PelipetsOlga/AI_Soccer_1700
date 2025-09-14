@@ -2,6 +2,7 @@ package com.manager1700.soccer.ui.feature_add_edit_player
 
 import com.manager1700.soccer.domain.models.Foot
 import com.manager1700.soccer.domain.models.Player
+import com.manager1700.soccer.domain.models.Position
 import com.manager1700.soccer.ui.base.UiEffect
 import com.manager1700.soccer.ui.base.UiEvent
 import com.manager1700.soccer.ui.base.UiState
@@ -10,7 +11,7 @@ import com.manager1700.soccer.ui.base.UiState
  * MVI Contract for AddEditPlayerScreen
  */
 object AddEditPlayerContract {
-    
+
     /**
      * UI State for the add/edit player screen
      */
@@ -20,13 +21,13 @@ object AddEditPlayerContract {
         val isEditMode: Boolean = false,
         val playerName: String = "",
         val playerNumber: String = "",
-        val position: String = "",
-        val foot: Foot? =null,
+        val position: Position? = null,
+        val foot: Foot? = null,
         val fitness: String = "",
         val note: String = "",
         val errorMessage: String? = null
     ) : UiState
-    
+
     /**
      * User events/intents
      */
@@ -36,12 +37,12 @@ object AddEditPlayerContract {
         data object CancelClicked : Event()
         data class PlayerNameChanged(val name: String) : Event()
         data class PlayerNumberChanged(val number: String) : Event()
-        data class PositionChanged(val position: String) : Event()
+        data class PositionChanged(val position: Position) : Event()
         data class FootChanged(val foot: Foot) : Event()
         data class FitnessChanged(val fitness: String) : Event()
         data class NoteChanged(val note: String) : Event()
     }
-    
+
     /**
      * Side effects that should be handled by the UI
      */

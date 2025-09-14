@@ -17,6 +17,7 @@ import androidx.navigation.NavController
 import com.manager1700.soccer.R
 import com.manager1700.soccer.domain.models.Foot
 import com.manager1700.soccer.domain.models.Player
+import com.manager1700.soccer.domain.models.Position
 import com.manager1700.soccer.ui.components.Toolbar
 import com.manager1700.soccer.ui.theme.SoccerManagerTheme
 import com.manager1700.soccer.ui.theme.colorBlack
@@ -109,7 +110,7 @@ fun AddEditPlayerScreenPreview() {
             state = AddEditPlayerContract.State(
                 isEditMode = false,
                 playerNumber = "",
-                position = "df",
+                position = Position.Defender,
                 foot = Foot.Right,
                 fitness = "100",
                 note = ""

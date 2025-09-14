@@ -3,6 +3,7 @@ package com.manager1700.soccer.ui.feature_add_edit_player
 import androidx.lifecycle.viewModelScope
 import com.manager1700.soccer.domain.models.Foot
 import com.manager1700.soccer.domain.models.Player
+import com.manager1700.soccer.domain.models.Position
 import com.manager1700.soccer.domain.repo.SoccerRepository
 import com.manager1700.soccer.ui.base.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,7 +31,7 @@ class AddEditPlayerViewModel @Inject constructor(
                     isEditMode = true,
                     playerName = player.name,
                     playerNumber = player.number.toString(),
-                    position = player.position.key,
+                    position = player.position,
                     foot = player.foot,
                     fitness = player.fitness.toString(),
                     note = player.note
@@ -43,7 +44,7 @@ class AddEditPlayerViewModel @Inject constructor(
                     isEditMode = false,
                     playerName = "",
                     playerNumber = "",
-                    position = "",
+                    position = null,
                     foot = null,
                     fitness = "",
                     note = ""
@@ -162,7 +163,7 @@ class AddEditPlayerViewModel @Inject constructor(
         setState { copy(playerNumber = number) }
     }
 
-    private fun handlePositionChanged(position: String) {
+    private fun handlePositionChanged(position: Position) {
         setState { copy(position = position) }
     }
 
