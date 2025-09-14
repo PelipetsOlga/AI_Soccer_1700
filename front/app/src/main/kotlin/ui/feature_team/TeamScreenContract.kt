@@ -22,6 +22,7 @@ object TeamScreenContract {
     sealed class Event : UiEvent {
         data object BackClicked : Event()
         data object SettingsClicked : Event()
+        data object AddPlayerClicked : Event()
     }
     
     /**
@@ -30,5 +31,6 @@ object TeamScreenContract {
     sealed class Effect : UiEffect {
         data object NavigateBack : Effect()
         data object NavigateToSettings : Effect()
+        data object NavigateToAddPlayer : Effect()
     }
 }

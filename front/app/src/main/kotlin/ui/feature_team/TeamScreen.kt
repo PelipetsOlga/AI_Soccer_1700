@@ -28,6 +28,7 @@ import androidx.navigation.NavController
 import com.manager1700.soccer.R
 import com.manager1700.soccer.Screen
 import com.manager1700.soccer.ui.components.Card
+import com.manager1700.soccer.ui.components.PrimaryButton
 import com.manager1700.soccer.ui.components.Toolbar
 import com.manager1700.soccer.ui.theme.SoccerManagerTheme
 import com.manager1700.soccer.ui.theme.colorBlack
@@ -51,6 +52,9 @@ fun TeamScreen(
                 }
                 is TeamScreenContract.Effect.NavigateToSettings -> {
                     mainNavController.navigate(Screen.Settings.route)
+                }
+                is TeamScreenContract.Effect.NavigateToAddPlayer -> {
+                    mainNavController.navigate(Screen.AddEditPlayer.route)
                 }
             }
         }
@@ -106,6 +110,13 @@ fun TeamScreenContent(
                     )
                 }
             }
+            
+            // Add Player Button
+            PrimaryButton(
+                onClick = { onEvent(TeamScreenContract.Event.AddPlayerClicked) },
+                text = stringResource(R.string.add_player),
+                modifier = Modifier
+            )
         }
     }
 }

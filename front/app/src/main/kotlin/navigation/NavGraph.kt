@@ -8,6 +8,7 @@ import com.manager1700.soccer.Screen
 import com.manager1700.soccer.ui.feature_splash.SplashScreen
 import com.manager1700.soccer.ui.feature_welcome.WelcomeScreen
 import com.manager1700.soccer.ui.feature_settings.SettingsScreen
+import com.manager1700.soccer.ui.feature_add_edit_player.AddEditPlayerScreen
 import com.manager1700.soccer.ui.screens.HomeWrapperScreen
 
 @Composable
@@ -30,6 +31,13 @@ fun SetupNavGraph(navController: NavHostController) {
         
         composable(route = Screen.Settings.route) {
             SettingsScreen(navController = navController)
+        }
+        
+        composable(route = Screen.AddEditPlayer.route) {
+            AddEditPlayerScreen(
+                navController = navController,
+                player = null // For add player flow
+            )
         }
         
         // Legacy screens (can be removed if not needed)

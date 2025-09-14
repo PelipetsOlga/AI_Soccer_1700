@@ -19,6 +19,7 @@ class TeamScreenViewModel @Inject constructor() : MviViewModel<
         when (event) {
             is TeamScreenContract.Event.BackClicked -> handleBackClicked()
             is TeamScreenContract.Event.SettingsClicked -> handleSettingsClicked()
+            is TeamScreenContract.Event.AddPlayerClicked -> handleAddPlayerClicked()
         }
     }
     
@@ -28,5 +29,9 @@ class TeamScreenViewModel @Inject constructor() : MviViewModel<
     
     private fun handleSettingsClicked() {
         setEffect { TeamScreenContract.Effect.NavigateToSettings }
+    }
+    
+    private fun handleAddPlayerClicked() {
+        setEffect { TeamScreenContract.Effect.NavigateToAddPlayer }
     }
 }

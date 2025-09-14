@@ -17,6 +17,9 @@ sealed class Screen(val route: String) {
     // Settings screen
     data object Settings : Screen("settings_screen")
     
+    // Add/Edit Player screen
+    data object AddEditPlayer : Screen("add_edit_player_screen")
+    
     // Legacy screens (can be removed if not needed)
     data object PlayerList : Screen("player_list_screen")
     data object TrainingList : Screen("training_list_screen")
