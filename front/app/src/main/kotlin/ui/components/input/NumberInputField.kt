@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
-import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -14,6 +13,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -24,8 +24,9 @@ import com.manager1700.soccer.ui.theme.colorGrey_89
 import com.manager1700.soccer.ui.theme.colorWhite
 import com.manager1700.soccer.ui.utils.cardVeryBigClipShape
 
+
 @Composable
-fun NameInputField(
+fun NumberInputField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
@@ -35,7 +36,7 @@ fun NameInputField(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            text = stringResource(R.string.field_name).uppercase(),
+            text = stringResource(R.string.field_number).uppercase(),
             fontSize = 14.sp,
             fontWeight = FontWeight.Normal,
             color = colorWhite,
@@ -46,11 +47,15 @@ fun NameInputField(
 
         OutlinedTextField(
             value = value,
-            onValueChange = { onValueChange(it) },
+            onValueChange = { newValue ->
+                // Filter to only allow numeric input
+                val filteredValue = newValue.filter { it.isDigit() }
+                onValueChange(filteredValue)
+            },
             maxLines = 4,
             placeholder = {
                 Text(
-                    text = stringResource(R.string.tint_name),
+                    text = stringResource(R.string.tint_number),
                     fontSize = 12.sp,
                     minLines = 1,
                     textAlign = TextAlign.Center,
@@ -70,12 +75,3 @@ fun NameInputField(
     }
 }
 
-@Composable
-fun getInputColors() = TextFieldDefaults.outlinedTextFieldColors(
-    textColor = colorBlack,
-    cursorColor = colorBlack,
-    focusedBorderColor = colorGrey_89,
-    unfocusedBorderColor = colorGrey_89,
-    focusedLabelColor = colorWhite,
-    unfocusedLabelColor = colorWhite
-)
