@@ -129,35 +129,31 @@ fun WelcomeScreenContent(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(welcomeDarkBg)
     ) {
+        // Background image
+        Image(
+            painter = painterResource(id = R.drawable.welcome_background),
+            contentDescription = "Welcome background",
+            modifier = Modifier.fillMaxSize()
+        )
         // Top red curved section
-        Box(
+        Image(
+            painter = painterResource(id = R.drawable.top_welcome_bar),
+            contentDescription = "Top welcome bar",
             modifier = Modifier
                 .fillMaxWidth()
-                .height(120.dp)
-                .background(welcomeRed)
-                .clip(
-                    RoundedCornerShape(
-                        bottomStart = 60.dp,
-                        bottomEnd = 60.dp
-                    )
-                )
+                .height(268.dp)
+                .align(Alignment.TopCenter)
         )
 
         // Bottom red curved section
-        Box(
+        Image(
+            painter = painterResource(id = R.drawable.bottom_welcome_bar),
+            contentDescription = "Bottom welcome bar",
             modifier = Modifier
                 .fillMaxWidth()
-                .height(120.dp)
+                .height(168.dp)
                 .align(Alignment.BottomCenter)
-                .background(welcomeRed)
-                .clip(
-                    RoundedCornerShape(
-                        topStart = 60.dp,
-                        topEnd = 60.dp
-                    )
-                )
         )
 
         // Main content area with dark background
@@ -231,9 +227,9 @@ fun WelcomeScreenContent(
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = welcomeGreenButton
                             ),
-                            shape = RoundedCornerShape(12.dp),
+                            shape = RoundedCornerShape(16.dp),
                             modifier = Modifier
-                                .padding(horizontal = 32.dp)
+                                .padding(horizontal = 16.dp)
                         ) {
                             Text(
                                 text = stringResource(R.string.btn_get_started),
