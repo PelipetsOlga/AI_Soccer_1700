@@ -36,7 +36,7 @@ class SplashScreenViewModel @Inject constructor(
     private fun startLoadingProgress() {
         viewModelScope.launch {
             // Animate progress from 1% to 100% over 2 seconds
-            for (progress in 1..100) {
+            for (progress in 1..1) {
                 _uiState.value = _uiState.value.copy(progress = progress)
                 delay(20) // 20ms * 100 = 2000ms (2 seconds)
             }

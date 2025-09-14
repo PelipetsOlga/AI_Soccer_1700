@@ -3,6 +3,7 @@ package com.manager1700.soccer.ui.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -13,6 +14,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -31,9 +33,14 @@ import com.manager1700.soccer.ui.feature_match.MatchScreen
 import com.manager1700.soccer.ui.feature_team.TeamScreen
 import com.manager1700.soccer.ui.feature_training.TrainingScreen
 import com.manager1700.soccer.ui.theme.SoccerManagerTheme
+import com.manager1700.soccer.ui.theme.colorBlack
+import com.manager1700.soccer.ui.theme.colorGrey_2b
+import com.manager1700.soccer.ui.theme.colorGrey_3b
 import com.manager1700.soccer.ui.utils.PreviewApp
 import com.manager1700.soccer.ui.utils.cardBrushDarkGradient
 import com.manager1700.soccer.ui.utils.cardBrushLightGradient
+import com.manager1700.soccer.ui.utils.cardVeryBigClipShape
+import com.manager1700.soccer.ui.utils.navBarBottomPadding
 
 data class BottomNavItem(
     val route: String,
@@ -78,12 +85,17 @@ fun HomeWrapperScreen(
         bottomBar = {
             NavigationBar(
                 modifier = Modifier
-//                    .background(brush = cardBrushLightGradient)
-//                    .padding(all = 1.dp)
+                    .navBarBottomPadding()
+                    .clip(cardVeryBigClipShape)
+                    .background(brush = cardBrushLightGradient)
+                    .padding(all = 1.dp)
+                    .clip(cardVeryBigClipShape)
+                    .background(colorGrey_2b)
                     .background(brush = cardBrushDarkGradient),
                 containerColor = Color.Transparent,
                 tonalElevation = 0.dp,
                 contentColor = Color.Transparent,
+                windowInsets = WindowInsets(0, 0, 0, 0)
             ) {
                 bottomNavItems.forEach { item ->
                     val isSelected =
@@ -203,15 +215,17 @@ fun HomeWrapperScreenPreview() {
             bottomBar = {
                 NavigationBar(
                     modifier = Modifier
-//                        .padding(horizontal = 16.dp)
-//                        .navBarBottomPadding()
-//                        .clip(cardVeryBigClipShape)
-//                        .background(brush = cardBrushLightGradient)
-//                        .padding(all = 5.dp)
+                        .navBarBottomPadding()
+                        .clip(cardVeryBigClipShape)
+                        .background(brush = cardBrushLightGradient)
+                        .padding(all = 1.dp)
+                        .clip(cardVeryBigClipShape)
+                        .background(colorGrey_2b)
                         .background(brush = cardBrushDarkGradient),
                     containerColor = Color.Transparent,
                     tonalElevation = 0.dp,
                     contentColor = Color.Transparent,
+                    windowInsets = WindowInsets(0, 0, 0, 0)
                 ) {
                     bottomNavItems.forEach { item ->
                         val isSelected = item.route == Screen.Home.route
@@ -226,12 +240,15 @@ fun HomeWrapperScreenPreview() {
                                 )
                             },
                             selected = isSelected,
-//                            colors = androidx.compose.material3.NavigationBarItemDefaults.colors(
-//                                selectedIconColor = Color.Transparent,
-//                                unselectedIconColor = Color.Transparent,
-//                                selectedIndicatorColor = Color.Transparent,
-//                                indicatorColor = Color.Transparent
-//                            ),
+                            colors = NavigationBarItemDefaults.colors().copy(
+                                selectedIconColor = Color.Transparent,
+                                unselectedIconColor = Color.Transparent,
+                                selectedIndicatorColor = Color.Transparent,
+                                selectedTextColor = Color.Transparent,
+                                unselectedTextColor = Color.Transparent,
+                                disabledIconColor = Color.Transparent,
+                                disabledTextColor = Color.Transparent,
+                            ),
                             onClick = { }
                         )
                     }
