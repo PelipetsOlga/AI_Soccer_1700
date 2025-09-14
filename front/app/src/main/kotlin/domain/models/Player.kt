@@ -46,7 +46,7 @@ data class Player(
 ) {
     companion object {
         val EMPTY = Player(
-            id = -1,
+            id = 0,
             name = "",
             number = -1,
             position = Position.Defender,

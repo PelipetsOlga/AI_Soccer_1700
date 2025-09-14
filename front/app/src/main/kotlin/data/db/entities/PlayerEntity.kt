@@ -9,8 +9,8 @@ import com.manager1700.soccer.domain.models.PlayerStatus
 
 @Entity(tableName = "players")
 data class PlayerEntity(
-    @PrimaryKey
-    val id: Int,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
     val name: String,
     val number: Int,
     val position: String, // Store as string key

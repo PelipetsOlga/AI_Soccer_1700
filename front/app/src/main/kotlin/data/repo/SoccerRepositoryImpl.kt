@@ -20,8 +20,8 @@ class SoccerRepositoryImpl(
     private val matchDao: MatchDao
 ) : SoccerRepository {
     // Player methods
-    override suspend fun createPlayer(player: Player) {
-        playerDao.insertPlayer(player.toEntity())
+    override suspend fun createPlayer(player: Player): Long {
+        return playerDao.insertPlayer(player.toEntity())
     }
 
     override suspend fun getPlayerById(id: Int): Player {

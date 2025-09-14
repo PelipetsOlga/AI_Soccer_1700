@@ -27,6 +27,7 @@ import com.manager1700.soccer.ui.utils.statusBarTopPadding
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddEditPlayerScreen(
+    isEditMode: Boolean = false,
     navController: NavController,
     player: Player?,
     viewModel: AddEditPlayerViewModel = hiltViewModel()
@@ -35,7 +36,7 @@ fun AddEditPlayerScreen(
 
     // Initialize with player data
     LaunchedEffect(player) {
-        viewModel.initializeWithPlayer(player)
+        viewModel.initializeWithPlayer(player, isEditMode)
     }
 
     // Handle side effects

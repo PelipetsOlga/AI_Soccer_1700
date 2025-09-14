@@ -33,8 +33,17 @@ fun SetupNavGraph(navController: NavHostController) {
             SettingsScreen(navController = navController)
         }
         
-        composable(route = Screen.AddEditPlayer.route) {
+        composable(route = Screen.AddPlayer.route) {
             AddEditPlayerScreen(
+                isEditMode = false,
+                navController = navController,
+                player = null // For add player flow
+            )
+        }
+
+        composable(route = Screen.EditPlayer.route) {
+            AddEditPlayerScreen(
+                isEditMode = true,
                 navController = navController,
                 player = null // For add player flow
             )

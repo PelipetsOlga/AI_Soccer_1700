@@ -1,5 +1,6 @@
 package com.manager1700.soccer.ui.feature_team
 
+import com.manager1700.soccer.domain.models.Player
 import com.manager1700.soccer.ui.base.UiEffect
 import com.manager1700.soccer.ui.base.UiEvent
 import com.manager1700.soccer.ui.base.UiState
@@ -13,7 +14,8 @@ object TeamScreenContract {
      * UI State for the team screen
      */
     data class State(
-        val isLoading: Boolean = false
+        val isLoading: Boolean = false,
+        val players: List<Player> = emptyList()
     ) : UiState
     
     /**

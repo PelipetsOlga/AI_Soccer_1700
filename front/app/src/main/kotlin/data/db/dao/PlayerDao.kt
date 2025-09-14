@@ -22,8 +22,8 @@ interface PlayerDao {
     @Query("SELECT * FROM players WHERE position = :position")
     fun getPlayersByPosition(position: String): Flow<List<PlayerEntity>>
     
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertPlayer(player: PlayerEntity)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertPlayer(player: PlayerEntity): Long
     
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPlayers(players: List<PlayerEntity>)

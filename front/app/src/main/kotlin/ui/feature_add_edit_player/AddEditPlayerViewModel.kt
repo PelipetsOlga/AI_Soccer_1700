@@ -1,5 +1,6 @@
 package com.manager1700.soccer.ui.feature_add_edit_player
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.manager1700.soccer.domain.models.Foot
 import com.manager1700.soccer.domain.models.Player
@@ -25,33 +26,18 @@ class AddEditPlayerViewModel @Inject constructor(
         return AddEditPlayerContract.State()
     }
 
-    fun initializeWithPlayer(player: Player?) {
-        if (player != null) {
-            setState {
-                copy(
-                    player = player,
-                    isEditMode = true,
-                    playerName = player.name,
-                    playerNumber = player.number.toString(),
-                    position = player.position,
-                    foot = player.foot,
-                    fitness = player.fitness.toString(),
-                    note = player.note
-                )
-            }
-        } else {
-            setState {
-                copy(
-                    player = null,
-                    isEditMode = false,
-                    playerName = "",
-                    playerNumber = "",
-                    position = null,
-                    foot = null,
-                    fitness = "",
-                    note = ""
-                )
-            }
+    fun initializeWithPlayer(player: Player?, isEditMode: Boolean) {
+        setState {
+            copy(
+                player = player,
+                isEditMode = isEditMode,
+                playerName = player?.name.orEmpty(),
+                playerNumber = player?.number?.toString().orEmpty(),
+                position = player?.position,
+                foot = player?.foot,
+                fitness = player?.fitness?.toString().orEmpty(),
+                note = player?.note.orEmpty()
+            )
         }
     }
 
@@ -79,17 +65,22 @@ class AddEditPlayerViewModel @Inject constructor(
 
     private fun handleSaveClicked() {
         val currentState = viewState.value
+        Log.d("blabla", "handleSaveClicked")
 
         setState { copy(isLoading = true) }
 
         viewModelScope.launch {
             try {
                 val player = createPlayerFromState(currentState)
+                Log.d("blabla", "createPlayerFromState $player")
 
                 if (currentState.isEditMode) {
+                    Log.d("blabla", "update")
                     repository.updatePlayer(player)
                 } else {
-                    repository.createPlayer(player)
+                    Log.d("blabla", "insert")
+                    val newPlayerId = repository.createPlayer(player)
+                    Log.d("blabla", "Created player with ID: $newPlayerId")
                 }
                 setState { copy(isLoading = false) }
                 setEffect { AddEditPlayerContract.Effect.NavigateToTeam }
@@ -101,7 +92,7 @@ class AddEditPlayerViewModel @Inject constructor(
     }
 
     private fun createPlayerFromState(state: AddEditPlayerContract.State): Player {
-        val playerId = if (state.isEditMode) state.player?.id ?: -1 else -1
+        val playerId = if (state.isEditMode) state.player?.id ?: 0 else 0
 
         return Player(
             id = playerId,

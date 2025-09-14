@@ -6,8 +6,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -27,6 +30,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.manager1700.soccer.R
 import com.manager1700.soccer.Screen
+import com.manager1700.soccer.domain.models.Player
 import com.manager1700.soccer.ui.components.Card
 import com.manager1700.soccer.ui.components.PrimaryButton
 import com.manager1700.soccer.ui.components.Toolbar
@@ -50,11 +54,13 @@ fun TeamScreen(
                 is TeamScreenContract.Effect.NavigateBack -> {
                     bottomNavController.popBackStack()
                 }
+
                 is TeamScreenContract.Effect.NavigateToSettings -> {
                     mainNavController.navigate(Screen.Settings.route)
                 }
+
                 is TeamScreenContract.Effect.NavigateToAddPlayer -> {
-                    mainNavController.navigate(Screen.AddEditPlayer.route)
+                    mainNavController.navigate(Screen.AddPlayer.route)
                 }
             }
         }
@@ -88,10 +94,56 @@ fun TeamScreenContent(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
+//                .padding(paddingValues)
                 .verticalScroll(rememberScrollState())
                 .padding(all = 16.dp)
         ) {
+            // Players List Section
+            Card(
+                title = "Players",
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                if (state.isLoading) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(200.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
+                    }
+                } else if (state.players.isEmpty()) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(200.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "empty players list",
+                            fontSize = 16.sp,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                } else {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(200.dp)
+                    ) {
+                        items(state.players) { player ->
+                            Text(
+                                text = player.name,
+                                fontSize = 16.sp,
+                                color = MaterialTheme.colorScheme.onSurface,
+                                modifier = Modifier.padding(vertical = 4.dp, horizontal = 16.dp)
+                            )
+                        }
+                    }
+                }
+            }
+
             Card(
                 title = "Title", modifier = Modifier.fillMaxWidth()
             ) {
@@ -110,7 +162,7 @@ fun TeamScreenContent(
                     )
                 }
             }
-            
+
             // Add Player Button
             PrimaryButton(
                 onClick = { onEvent(TeamScreenContract.Event.AddPlayerClicked) },
@@ -126,7 +178,13 @@ fun TeamScreenContent(
 fun TeamScreenContentPreview() {
     SoccerManagerTheme {
         TeamScreenContent(
-            state = TeamScreenContract.State(),
+            state = TeamScreenContract.State(
+                players = listOf(
+                    Player.EMPTY.copy(name = "Martin"),
+                    Player.EMPTY.copy(name = "Bob"),
+                    Player.EMPTY.copy(name = "Dan"),
+                    )
+            ),
             onEvent = {}
         )
     }

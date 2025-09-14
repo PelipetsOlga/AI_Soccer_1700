@@ -7,7 +7,7 @@ import java.time.LocalDate
 
 interface SoccerRepository {
 
-    suspend fun createPlayer(player: Player)
+    suspend fun createPlayer(player: Player): Long
     suspend fun getPlayerById(id: Int): Player
     suspend fun deletePlayerById(id: Int)
     suspend fun updatePlayer(player: Player)
