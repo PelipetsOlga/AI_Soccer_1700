@@ -26,6 +26,7 @@ object SplashScreenContract {
      * Side effects that should be handled by the UI
      */
     sealed class SideEffect {
+        data object NavigateToWelcome : SideEffect()
         data object NavigateToHome : SideEffect()
     }
 }

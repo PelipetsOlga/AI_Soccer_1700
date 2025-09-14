@@ -13,7 +13,12 @@ object WelcomeScreenContract {
      * UI State for the welcome screen
      */
     data class State(
-        val isLoading: Boolean = false
+        val isLoading: Boolean = false,
+        val showLogo: Boolean = false,
+        val showContent: Boolean = false,
+        val logoScale: Float = 1.0f,
+        val logoAlpha: Float = 0f,
+        val contentAlpha: Float = 0f
     ) : UiState
     
     /**
@@ -21,6 +26,7 @@ object WelcomeScreenContract {
      */
     sealed class Event : UiEvent {
         data object GetStartedClicked : Event()
+        data object StartAnimation : Event()
     }
     
     /**

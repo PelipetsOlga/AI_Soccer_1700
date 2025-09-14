@@ -2,6 +2,7 @@ package com.manager1700.soccer.ui.feature_splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.manager1700.soccer.data.preferences.AppPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -10,11 +11,14 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SplashScreenViewModel @Inject constructor() : ViewModel() {
+class SplashScreenViewModel @Inject constructor(
+    private val appPreferences: AppPreferences
+) : ViewModel() {
     
     private val _uiState = MutableStateFlow(SplashScreenContract.UiState())
     val uiState: StateFlow<SplashScreenContract.UiState> = _uiState.asStateFlow()
@@ -31,11 +35,14 @@ class SplashScreenViewModel @Inject constructor() : ViewModel() {
     
     private fun startLoadingProgress() {
         viewModelScope.launch {
-            // Animate progress from 1% to 100% over 5 seconds
+            // Animate progress from 1% to 100% over 3 seconds
             for (progress in 1..100) {
                 _uiState.value = _uiState.value.copy(progress = progress)
-                delay(20) // 50ms * 100 = 5000ms (5 seconds)
+                delay(30) // 30ms * 100 = 3000ms (3 seconds)
             }
+            
+            // Check if this is first launch
+            val isFirstLaunch = appPreferences.isFirstLaunch.first()
             
             // Mark loading as complete and trigger navigation
             _uiState.value = _uiState.value.copy(
@@ -43,8 +50,12 @@ class SplashScreenViewModel @Inject constructor() : ViewModel() {
                 shouldNavigateToHome = true
             )
             
-            // Emit side effect for navigation
-            _sideEffect.emit(SplashScreenContract.SideEffect.NavigateToHome)
+            // Emit side effect for navigation based on first launch
+            if (isFirstLaunch) {
+                _sideEffect.emit(SplashScreenContract.SideEffect.NavigateToWelcome)
+            } else {
+                _sideEffect.emit(SplashScreenContract.SideEffect.NavigateToHome)
+            }
         }
     }
     

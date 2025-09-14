@@ -15,3 +15,8 @@ val colorGrey_66= Color(0xFF666666)
 val colorGreen= Color(0xFF139B31)
 val colorLightGreen= Color(0xFF8BFC90)
 val colorLightPink= Color(0xFFF99DA4)
+
+// Welcome Screen Colors
+val welcomeRed = Color(0xFFE62129)
+val welcomeDarkBg = Color(0xFF1A1A1A)
+val welcomeGreenButton = Color(0xFF38B000)
