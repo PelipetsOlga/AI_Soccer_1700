@@ -6,6 +6,7 @@ import com.manager1700.soccer.domain.models.Player
 import com.manager1700.soccer.domain.models.Position
 import com.manager1700.soccer.domain.repo.SoccerRepository
 import com.manager1700.soccer.ui.base.MviViewModel
+import com.manager1700.soccer.ui.feature_add_edit_player.AddEditPlayerContract.isCreatePlayerFormValid
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -156,26 +157,56 @@ class AddEditPlayerViewModel @Inject constructor(
     }
 
     private fun handlePlayerNameChanged(name: String) {
-        setState { copy(playerName = name) }
+        setState {
+            copy(
+                playerName = name,
+                isFormValid = isCreatePlayerFormValid(state = viewState.value.copy(playerName = name))
+            )
+        }
     }
 
     private fun handlePlayerNumberChanged(number: String) {
-        setState { copy(playerNumber = number) }
+        setState {
+            copy(
+                playerNumber = number,
+                isFormValid = isCreatePlayerFormValid(state = viewState.value.copy(playerNumber = number))
+            )
+        }
     }
 
     private fun handlePositionChanged(position: Position) {
-        setState { copy(position = position) }
+        setState {
+            copy(
+                position = position,
+                isFormValid = isCreatePlayerFormValid(state = viewState.value.copy(position = position))
+            )
+        }
     }
 
     private fun handleFootChanged(foot: Foot) {
-        setState { copy(foot = foot) }
+        setState {
+            copy(
+                foot = foot,
+                isFormValid = isCreatePlayerFormValid(state = viewState.value.copy(foot = foot))
+            )
+        }
     }
 
     private fun handleFitnessChanged(fitness: String) {
-        setState { copy(fitness = fitness) }
+        setState {
+            copy(
+                fitness = fitness,
+                isFormValid = isCreatePlayerFormValid(state = viewState.value.copy(fitness = fitness))
+            )
+        }
     }
 
     private fun handleNoteChanged(note: String) {
-        setState { copy(note = note) }
+        setState {
+            copy(
+                note = note,
+                isFormValid = isCreatePlayerFormValid(state = viewState.value.copy(note = note))
+            )
+        }
     }
 }

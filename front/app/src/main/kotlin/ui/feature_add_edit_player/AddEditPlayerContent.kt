@@ -1,5 +1,6 @@
 package com.manager1700.soccer.ui.feature_add_edit_player
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -90,7 +91,8 @@ fun AddEditPlayerContent(
         PrimaryButton(
             onClick = { onEvent(AddEditPlayerContract.Event.SaveClicked) },
             text = stringResource(R.string.btn_save),
-            modifier = Modifier
+            modifier = Modifier,
+            enabled = state.isFormValid,
         )
 
         SmallGreyButton(

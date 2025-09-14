@@ -25,8 +25,19 @@ object AddEditPlayerContract {
         val foot: Foot? = null,
         val fitness: String = "",
         val note: String = "",
-        val errorMessage: String? = null
+        val errorMessage: String? = null,
+        val isFormValid: Boolean = false,
     ) : UiState
+
+    fun isCreatePlayerFormValid(state: State): Boolean {
+        if (state.player != null) return true
+        return state.playerName.isNotEmpty()
+                && state.playerNumber.toIntOrNull() != null
+                && state.fitness.toIntOrNull() != null
+                && (state.fitness.toIntOrNull() ?: -1) >= 0
+                && (state.fitness.toIntOrNull() ?: 200) <= 100
+                && state.position != null
+    }
 
     /**
      * User events/intents
