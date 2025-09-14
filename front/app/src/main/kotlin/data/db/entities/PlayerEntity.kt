@@ -15,8 +15,6 @@ data class PlayerEntity(
     val number: Int,
     val position: String, // Store as string key
     val foot: String, // Store as string key
-    val attendance: Int,
-    val sessions: Int,
     val fitness: Int,
     val status: String, // Store as string key
     val note: String,
@@ -31,12 +29,10 @@ fun PlayerEntity.toDomainModel(): Player {
         id = id,
         name = name,
         number = number,
-        position = Position.values().first { it.key == position },
-        foot = Foot.values().first { it.key == foot },
-        attendance = attendance,
-        sessions = sessions,
+        position = Position.entries.first { it.key == position },
+        foot = Foot.entries.first { it.key == foot },
         fitness = fitness,
-        status = PlayerStatus.values().first { it.key == status },
+        status = PlayerStatus.entries.first { it.key == status },
         note = note,
         dateOfInjury = dateOfInjury,
         noteOfInjury = noteOfInjury,
@@ -51,8 +47,6 @@ fun Player.toEntity(): PlayerEntity {
         number = number,
         position = position.key,
         foot = foot.key,
-        attendance = attendance,
-        sessions = sessions,
         fitness = fitness,
         status = status.key,
         note = note,

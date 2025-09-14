@@ -61,6 +61,5 @@ object AddEditPlayerContract {
         data object NavigateBack : Effect()
         data object NavigateToTeam : Effect()
         data class ShowError(val message: String) : Effect()
-        data class ShowSuccess(val message: String) : Effect()
     }
 }

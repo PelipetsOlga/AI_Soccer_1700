@@ -53,10 +53,6 @@ fun AddEditPlayerScreen(
                 is AddEditPlayerContract.Effect.ShowError -> {
                     // Handle error display - could show a snackbar or toast
                 }
-
-                is AddEditPlayerContract.Effect.ShowSuccess -> {
-                    // Handle success display - could show a snackbar or toast
-                }
             }
         }
     }

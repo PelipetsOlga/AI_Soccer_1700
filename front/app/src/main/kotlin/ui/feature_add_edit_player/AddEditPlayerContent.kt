@@ -1,11 +1,9 @@
 package com.manager1700.soccer.ui.feature_add_edit_player
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -79,9 +77,6 @@ fun AddEditPlayerContent(
                     value = state.note,
                     onValueChange = { onEvent(AddEditPlayerContract.Event.NoteChanged(it)) },
                 )
-
-                // Position
-                Text("Position: ${state.position}")
 
 
             }

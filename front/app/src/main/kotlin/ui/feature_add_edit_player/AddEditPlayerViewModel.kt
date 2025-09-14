@@ -3,6 +3,7 @@ package com.manager1700.soccer.ui.feature_add_edit_player
 import androidx.lifecycle.viewModelScope
 import com.manager1700.soccer.domain.models.Foot
 import com.manager1700.soccer.domain.models.Player
+import com.manager1700.soccer.domain.models.PlayerStatus
 import com.manager1700.soccer.domain.models.Position
 import com.manager1700.soccer.domain.repo.SoccerRepository
 import com.manager1700.soccer.ui.base.MviViewModel
@@ -79,11 +80,6 @@ class AddEditPlayerViewModel @Inject constructor(
     private fun handleSaveClicked() {
         val currentState = viewState.value
 
-        // Validate input
-        if (!validateInput(currentState)) {
-            return
-        }
-
         setState { copy(isLoading = true) }
 
         viewModelScope.launch {
@@ -92,12 +88,10 @@ class AddEditPlayerViewModel @Inject constructor(
 
                 if (currentState.isEditMode) {
                     repository.updatePlayer(player)
-                    setEffect { AddEditPlayerContract.Effect.ShowSuccess("Player updated successfully") }
                 } else {
                     repository.createPlayer(player)
-                    setEffect { AddEditPlayerContract.Effect.ShowSuccess("Player created successfully") }
                 }
-
+                setState { copy(isLoading = false) }
                 setEffect { AddEditPlayerContract.Effect.NavigateToTeam }
             } catch (e: Exception) {
                 setState { copy(isLoading = false) }
@@ -106,54 +100,22 @@ class AddEditPlayerViewModel @Inject constructor(
         }
     }
 
-    private fun validateInput(state: AddEditPlayerContract.State): Boolean {
-        return when {
-            state.playerName.isBlank() -> {
-                setEffect { AddEditPlayerContract.Effect.ShowError("Player name is required") }
-                false
-            }
-
-            state.playerNumber.isBlank() -> {
-                setEffect { AddEditPlayerContract.Effect.ShowError("Player number is required") }
-                false
-            }
-
-            state.playerNumber.toIntOrNull() == null -> {
-                setEffect { AddEditPlayerContract.Effect.ShowError("Player number must be a valid number") }
-                false
-            }
-
-            state.fitness.toIntOrNull() == null -> {
-                setEffect { AddEditPlayerContract.Effect.ShowError("Fitness must be a valid number") }
-                false
-            }
-
-            state.fitness.toIntOrNull()?.let { it < 0 || it > 100 } == true -> {
-                setEffect { AddEditPlayerContract.Effect.ShowError("Fitness must be between 0 and 100") }
-                false
-            }
-
-            else -> true
-        }
-    }
-
     private fun createPlayerFromState(state: AddEditPlayerContract.State): Player {
         val playerId = if (state.isEditMode) state.player?.id ?: -1 else -1
-        return Player.EMPTY
 
-//        return Player(
-//            id = playerId,
-//            name = state.playerName,
-//            number = state.playerNumber.toInt(),
-//            position = Position.values().first { it.key == state.position },
-//            foot = Foot.values().first { it.key == state.foot },
-//            fitness = state.fitness.toInt(),
-//            status = PlayerStatus.Active,
-//            note = state.note,
-//            dateOfInjury = null,
-//            noteOfInjury = null,
-//            imageUrl = null,
-//        )
+        return Player(
+            id = playerId,
+            name = state.playerName,
+            number = state.playerNumber.toIntOrNull() ?: -1,
+            position = state.position ?: Position.Defender,
+            foot = state.foot ?: Foot.Right,
+            fitness = state.fitness.toIntOrNull() ?: 100,
+            status = PlayerStatus.Active,
+            note = state.note,
+            dateOfInjury = null,
+            noteOfInjury = null,
+            imageUrl = null,
+        )
     }
 
     private fun handlePlayerNameChanged(name: String) {
