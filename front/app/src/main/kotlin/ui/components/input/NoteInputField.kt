@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -13,7 +14,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -24,9 +24,8 @@ import com.manager1700.soccer.ui.theme.colorGrey_89
 import com.manager1700.soccer.ui.theme.colorWhite
 import com.manager1700.soccer.ui.utils.cardVeryBigClipShape
 
-
 @Composable
-fun NumberInputField(
+fun PlayerNoteInputField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
@@ -36,7 +35,7 @@ fun NumberInputField(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            text = stringResource(R.string.field_number).uppercase(),
+            text = stringResource(R.string.field_note).uppercase(),
             fontSize = 14.sp,
             fontWeight = FontWeight.Normal,
             color = colorWhite,
@@ -47,15 +46,11 @@ fun NumberInputField(
 
         OutlinedTextField(
             value = value,
-            onValueChange = { newValue ->
-                // Filter to only allow numeric input
-                val filteredValue = newValue.filter { it.isDigit() }
-                onValueChange(filteredValue)
-            },
-            maxLines = 1,
+            onValueChange = { onValueChange(it) },
+            maxLines = 4,
             placeholder = {
                 Text(
-                    text = stringResource(R.string.tint_number),
+                    text = stringResource(R.string.tint_note),
                     fontSize = 12.sp,
                     minLines = 1,
                     textAlign = TextAlign.Center,
@@ -74,4 +69,3 @@ fun NumberInputField(
         )
     }
 }
-

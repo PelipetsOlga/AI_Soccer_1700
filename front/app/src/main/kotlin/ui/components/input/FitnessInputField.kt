@@ -26,7 +26,7 @@ import com.manager1700.soccer.ui.utils.cardVeryBigClipShape
 
 
 @Composable
-fun NumberInputField(
+fun FitnessInputField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
@@ -36,7 +36,7 @@ fun NumberInputField(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            text = stringResource(R.string.field_number).uppercase(),
+            text = stringResource(R.string.field_fitness).uppercase(),
             fontSize = 14.sp,
             fontWeight = FontWeight.Normal,
             color = colorWhite,
@@ -55,7 +55,7 @@ fun NumberInputField(
             maxLines = 1,
             placeholder = {
                 Text(
-                    text = stringResource(R.string.tint_number),
+                    text = stringResource(R.string.tint_fitness),
                     fontSize = 12.sp,
                     minLines = 1,
                     textAlign = TextAlign.Center,

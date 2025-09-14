@@ -21,8 +21,6 @@ object AddEditPlayerContract {
         val playerNumber: String = "",
         val position: String = "",
         val foot: String = "",
-        val attendance: String = "",
-        val sessions: String = "",
         val fitness: String = "",
         val note: String = "",
         val errorMessage: String? = null
@@ -39,8 +37,6 @@ object AddEditPlayerContract {
         data class PlayerNumberChanged(val number: String) : Event()
         data class PositionChanged(val position: String) : Event()
         data class FootChanged(val foot: String) : Event()
-        data class AttendanceChanged(val attendance: String) : Event()
-        data class SessionsChanged(val sessions: String) : Event()
         data class FitnessChanged(val fitness: String) : Event()
         data class NoteChanged(val note: String) : Event()
     }

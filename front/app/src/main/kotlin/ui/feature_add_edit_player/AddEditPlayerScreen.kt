@@ -110,8 +110,6 @@ fun AddEditPlayerScreenPreview() {
                 playerNumber = "",
                 position = "df",
                 foot = "Right",
-                attendance = "0",
-                sessions = "0",
                 fitness = "100",
                 note = ""
             ),

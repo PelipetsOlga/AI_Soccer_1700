@@ -14,8 +14,10 @@ import com.manager1700.soccer.R
 import com.manager1700.soccer.ui.components.Card
 import com.manager1700.soccer.ui.components.PrimaryButton
 import com.manager1700.soccer.ui.components.SmallGreyButton
+import com.manager1700.soccer.ui.components.input.FitnessInputField
 import com.manager1700.soccer.ui.components.input.NameInputField
 import com.manager1700.soccer.ui.components.input.NumberInputField
+import com.manager1700.soccer.ui.components.input.PlayerNoteInputField
 import com.manager1700.soccer.ui.theme.SoccerManagerTheme
 import com.manager1700.soccer.ui.utils.PreviewApp
 
@@ -55,6 +57,16 @@ fun AddEditPlayerContent(
                     onValueChange = { onEvent(AddEditPlayerContract.Event.PlayerNumberChanged(it)) },
                 )
 
+                FitnessInputField(
+                    value = state.fitness,
+                    onValueChange = { onEvent(AddEditPlayerContract.Event.FitnessChanged(it)) },
+                )
+
+                PlayerNoteInputField(
+                    value = state.note,
+                    onValueChange = { onEvent(AddEditPlayerContract.Event.NoteChanged(it)) },
+                    )
+
 
                 // Position
                 Text("Position: ${state.position}")
@@ -62,17 +74,6 @@ fun AddEditPlayerContent(
                 // Foot
                 Text("Foot: ${state.foot}")
 
-                // Attendance
-                Text("Attendance: ${state.attendance}")
-
-                // Sessions
-                Text("Sessions: ${state.sessions}")
-
-                // Fitness
-                Text("Fitness: ${state.fitness}")
-
-                // Note
-                Text("Note: ${state.note}")
             }
         }
 
@@ -102,8 +103,6 @@ fun AddEditPlayerContentPreview() {
                 playerNumber = "",
                 position = "df",
                 foot = "Right",
-                attendance = "0",
-                sessions = "0",
                 fitness = "100",
                 note = ""
             ),
