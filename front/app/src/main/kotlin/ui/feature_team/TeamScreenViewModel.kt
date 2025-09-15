@@ -2,6 +2,7 @@ package com.manager1700.soccer.ui.feature_team
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.manager1700.soccer.domain.models.Player
 import com.manager1700.soccer.domain.repo.SoccerRepository
 import com.manager1700.soccer.ui.base.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,6 +31,7 @@ class TeamScreenViewModel @Inject constructor(
             is TeamScreenContract.Event.BackClicked -> handleBackClicked()
             is TeamScreenContract.Event.SettingsClicked -> handleSettingsClicked()
             is TeamScreenContract.Event.AddPlayerClicked -> handleAddPlayerClicked()
+            is TeamScreenContract.Event.RemovePlayerClicked -> handleRemovePlayerClicked(event.player)
         }
     }
 
@@ -58,4 +60,9 @@ class TeamScreenViewModel @Inject constructor(
     private fun handleAddPlayerClicked() {
         setEffect { TeamScreenContract.Effect.NavigateToAddPlayer }
     }
+
+    private fun handleRemovePlayerClicked(player: Player) {
+        //todo Show confirmation popup
+    }
+
 }

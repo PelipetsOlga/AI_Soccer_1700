@@ -29,6 +29,7 @@ import com.manager1700.soccer.ui.components.AppCard
 import com.manager1700.soccer.ui.components.FitnessChip
 import com.manager1700.soccer.ui.components.PlayerStatusChip
 import com.manager1700.soccer.ui.components.SmallGreyButton
+import com.manager1700.soccer.ui.feature_team.TeamScreenContract
 import com.manager1700.soccer.ui.theme.SoccerManagerTheme
 import com.manager1700.soccer.ui.theme.colorBlack
 import com.manager1700.soccer.ui.theme.colorWhite
@@ -36,7 +37,10 @@ import com.manager1700.soccer.ui.theme.colorYellow
 import com.manager1700.soccer.ui.utils.PreviewApp
 
 @Composable
-fun PlayerCard(player: Player) {
+fun PlayerCard(
+    player: Player,
+    onEvent: (TeamScreenContract.Event) -> Unit,
+) {
 
     var expanded by remember { mutableStateOf(false) }
 
@@ -46,7 +50,7 @@ fun PlayerCard(player: Player) {
         onProfileClick = { expanded = true },
         onCloseClick = { expanded = false },
         onEditClick = {},
-        onRemoveClick = {},
+        onRemoveClick = { onEvent(TeamScreenContract.Event.RemovePlayerClicked(player)) },
         onSetActiveClick = {},
         onSetInjuredClick = {}
     )

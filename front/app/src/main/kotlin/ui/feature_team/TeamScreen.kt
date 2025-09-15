@@ -128,7 +128,7 @@ fun TeamScreenContent(
                         .fillMaxWidth()
                 ) {
                     items(state.players) { player ->
-                        PlayerCard(player)
+                        PlayerCard(player, onEvent)
                     }
                 }
             }
