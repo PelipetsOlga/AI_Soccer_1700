@@ -17,9 +17,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.manager1700.soccer.Montserrat
 import com.manager1700.soccer.domain.models.PlayerStatus
+import com.manager1700.soccer.domain.models.SportEventStatus
 import com.manager1700.soccer.ui.theme.colorGrey_2b
 import com.manager1700.soccer.ui.theme.colorLightGreen
 import com.manager1700.soccer.ui.theme.colorLightPink
+import com.manager1700.soccer.ui.theme.colorWhite
 import com.manager1700.soccer.ui.theme.colorYellow
 
 @Composable
@@ -85,6 +87,37 @@ fun PlayerStatusChipPreview() {
     ) {
         PlayerStatusChip(PlayerStatus.Active)
         PlayerStatusChip(PlayerStatus.Injured)
+    }
+}
+
+@Composable
+fun SportEventStatusChip(value: SportEventStatus) {
+    val color = if (value == SportEventStatus.Scheduled) {
+        colorWhite
+    } else if (value == SportEventStatus.Canceled) {
+        colorLightPink
+    } else {
+        colorLightGreen
+    }
+    Text(
+        text = stringResource(value.titleId),
+        color = colorGrey_2b,
+        fontFamily = Montserrat,
+        fontWeight = FontWeight.Normal,
+        modifier = Modifier
+            .clip(RoundedCornerShape(4.dp))
+            .background(color)
+            .padding(vertical = 2.dp, horizontal = 8.dp)
+    )
+}
+
+@Preview
+@Composable
+fun SportEventStatusChipPreview() {
+    Column {
+        SportEventStatusChip(SportEventStatus.Scheduled)
+        SportEventStatusChip(SportEventStatus.Canceled)
+        SportEventStatusChip(SportEventStatus.Completed)
     }
 }
 
