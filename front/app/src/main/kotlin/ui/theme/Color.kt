@@ -15,6 +15,7 @@ val colorGrey_66= Color(0xFF666666)
 val colorGrey_89= Color(0xFF898989)
 val colorGreen= Color(0xFF139B31)
 val colorLightGreen= Color(0xFF8BFC90)
+val colorYellow= Color(0xFFEEFFA4)
 val colorLightPink= Color(0xFFF99DA4)
 
 // Welcome Screen Colors
