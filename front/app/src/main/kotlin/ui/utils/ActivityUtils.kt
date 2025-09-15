@@ -6,7 +6,7 @@ import android.view.View
 import android.view.WindowManager
 import kotlin.apply
 
-fun Activity.setUpEdgeToEdgeMode(navBarColor: Int? = Color.rgb(59, 61, 79)) {
+fun Activity.setUpEdgeToEdgeMode(navBarColor: Int? = Color.rgb(0, 0, 0)) {
     window.apply {
         clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
