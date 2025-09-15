@@ -24,6 +24,7 @@ import com.manager1700.soccer.ui.theme.SoccerManagerTheme
 import com.manager1700.soccer.ui.theme.colorRed
 import com.manager1700.soccer.ui.theme.colorWhite
 import com.manager1700.soccer.ui.utils.PreviewApp
+import com.manager1700.soccer.ui.utils.statusBarTopPadding
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -36,7 +37,7 @@ fun Toolbar(
     modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier = modifier,
+        modifier = modifier.statusBarTopPadding(),
         contentAlignment = Alignment.BottomCenter
     ) {
         TopAppBar(
