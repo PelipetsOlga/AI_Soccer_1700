@@ -22,7 +22,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -30,8 +29,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.manager1700.soccer.R
 import com.manager1700.soccer.Screen
-import com.manager1700.soccer.domain.models.Player
-import com.manager1700.soccer.ui.components.Card
 import com.manager1700.soccer.ui.components.PrimaryButton
 import com.manager1700.soccer.ui.components.Toolbar
 import com.manager1700.soccer.ui.theme.SoccerManagerTheme
@@ -98,77 +95,61 @@ fun TeamScreenContent(
                 .verticalScroll(rememberScrollState())
                 .padding(all = 16.dp)
         ) {
-            // Players List Section
-            Card(
-                title = "Players",
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                if (state.isLoading) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(200.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        CircularProgressIndicator()
-                    }
-                } else if (state.players.isEmpty()) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(200.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = "empty players list",
-                            fontSize = 16.sp,
-                            color = MaterialTheme.colorScheme.onSurface,
-                            textAlign = TextAlign.Center
-                        )
-                    }
-                } else {
-                    LazyColumn(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(200.dp)
-                    ) {
-                        items(state.players) { player ->
-                            Text(
-                                text = player.name,
-                                fontSize = 16.sp,
-                                color = MaterialTheme.colorScheme.onSurface,
-                                modifier = Modifier.padding(vertical = 4.dp, horizontal = 16.dp)
-                            )
-                        }
-                    }
-                }
-            }
 
-            Card(
-                title = "Title", modifier = Modifier.fillMaxWidth()
-            ) {
+            if (state.isLoading) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(300.dp),
+                        .height(400.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
+                }
+            } else if (state.players.isEmpty()) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(400.dp),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = stringResource(R.string.team_title),
-                        fontSize = 32.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.primary,
-                        textAlign = TextAlign.Center
+                        text = stringResource(R.string.team_empty_list),
+                        fontSize = 16.sp,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        textAlign = TextAlign.Center,
                     )
+                }
+
+            } else {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp)
+                ) {
+                    items(state.players) { player ->
+                        Text(
+                            text = player.name,
+                            fontSize = 16.sp,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier.padding(vertical = 4.dp, horizontal = 16.dp)
+                        )
+                    }
                 }
             }
 
             // Add Player Button
-            PrimaryButton(
-                onClick = { onEvent(TeamScreenContract.Event.AddPlayerClicked) },
-                text = stringResource(R.string.add_player),
-                modifier = Modifier
-            )
+            if (state.isLoading.not()) {
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    PrimaryButton(
+                        onClick = { onEvent(TeamScreenContract.Event.AddPlayerClicked) },
+                        text = stringResource(R.string.add_player),
+                        modifier = Modifier
+                    )
+                }
+            }
         }
     }
 }
@@ -179,11 +160,12 @@ fun TeamScreenContentPreview() {
     SoccerManagerTheme {
         TeamScreenContent(
             state = TeamScreenContract.State(
+//                isLoading = true,
                 players = listOf(
-                    Player.EMPTY.copy(name = "Martin"),
-                    Player.EMPTY.copy(name = "Bob"),
-                    Player.EMPTY.copy(name = "Dan"),
-                    )
+//                    Player.EMPTY.copy(name = "Martin"),
+//                    Player.EMPTY.copy(name = "Bob"),
+//                    Player.EMPTY.copy(name = "Dan"),
+                )
             ),
             onEvent = {}
         )

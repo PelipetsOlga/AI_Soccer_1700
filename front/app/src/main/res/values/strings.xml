@@ -35,7 +35,8 @@
     
     <!-- Team Screen -->
     <string name="team_title">Team</string>
-    
+    <string name="team_empty_list">No players yet. \nTap "Add Player" to create one</string>
+
     <!-- Training Screen -->
     <string name="training_title">Training</string>
     
