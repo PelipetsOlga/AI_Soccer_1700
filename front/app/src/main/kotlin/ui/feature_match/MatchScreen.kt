@@ -27,7 +27,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.manager1700.soccer.R
 import com.manager1700.soccer.Screen
-import com.manager1700.soccer.ui.components.Card
+import com.manager1700.soccer.ui.components.AppCard
 import com.manager1700.soccer.ui.components.Toolbar
 import com.manager1700.soccer.ui.theme.SoccerManagerTheme
 import com.manager1700.soccer.ui.theme.colorBlack
@@ -88,7 +88,7 @@ fun MatchScreenContent(
                 .verticalScroll(rememberScrollState())
                 .padding(all = 16.dp)
         ) {
-            Card(
+            AppCard(
                 title = "Title", modifier = Modifier.fillMaxWidth()
             ) {
                 Box(

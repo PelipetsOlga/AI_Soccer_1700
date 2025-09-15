@@ -29,7 +29,7 @@ import com.manager1700.soccer.ui.utils.cardBrushLightGradient
 import com.manager1700.soccer.ui.utils.cardClipShape
 
 @Composable
-fun Card(title: String, modifier: Modifier = Modifier, content: @Composable () -> Unit) {
+fun AppCard(title: String, modifier: Modifier = Modifier, content: @Composable () -> Unit) {
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -69,7 +69,7 @@ fun Card(title: String, modifier: Modifier = Modifier, content: @Composable () -
 @Preview
 private fun CardPreview() {
     SoccerManagerTheme {
-        Card(title = "Title", modifier = Modifier.fillMaxWidth()) {
+        AppCard(title = "Title", modifier = Modifier.fillMaxWidth()) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()

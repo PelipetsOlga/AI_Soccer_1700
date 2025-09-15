@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.manager1700.soccer.R
-import com.manager1700.soccer.ui.components.Card
+import com.manager1700.soccer.ui.components.AppCard
 import com.manager1700.soccer.ui.components.PrimaryButton
 import com.manager1700.soccer.ui.components.SmallGreyButton
 import com.manager1700.soccer.ui.components.input.FitnessInputField
@@ -36,7 +36,7 @@ fun AddEditPlayerContent(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         // Player's data card
-        Card(
+        AppCard(
             title = "Player's data",
             modifier = Modifier.fillMaxWidth()
         ) {

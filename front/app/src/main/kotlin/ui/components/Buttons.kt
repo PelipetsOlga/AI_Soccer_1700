@@ -79,7 +79,7 @@ fun SmallGreyButton(
         onClick = { onClick() },
         enabled = enabled,
         modifier = modifier
-            .padding(vertical = 2.dp, horizontal = 4.dp),
+            .padding(vertical = 1.dp, horizontal = 2.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = colorGrey_66,
             disabledContentColor = colorGrey_66.copy(alpha = 0.8f)
@@ -87,7 +87,7 @@ fun SmallGreyButton(
     ) {
         AutoSizeText(
             text = text.uppercase(),
-            fontSize = 10.sp,
+            fontSize = 9.sp,
             fontWeight = FontWeight.Normal,
             color = colorWhite,
             fontFamily = Montserrat,

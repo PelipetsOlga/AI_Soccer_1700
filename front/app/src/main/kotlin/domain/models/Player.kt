@@ -58,5 +58,19 @@ data class Player(
             noteOfInjury = null,
             imageUrl = null,
         )
+
+        val TEST_1 = Player(
+            name = "Martin Gomes",
+            number = 21,
+            id = 11,
+            position = Position.Defender,
+            fitness = 99,
+            status = PlayerStatus.Active,
+            foot = Foot.Right,
+            note = "He is a new comer from New York. 19 Years old. 75 kg.",
+            dateOfInjury = null,
+            noteOfInjury = null,
+            imageUrl = null,
+        )
     }
 }

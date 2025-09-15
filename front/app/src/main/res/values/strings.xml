@@ -21,7 +21,7 @@
     <string name="welcome_title">WELCOME TO</string>
     <string name="app_name_full">OLIMP FOOTBALL MANAGER</string>
     <string name="welcome_text">Organize trainings, matches,\nand manage your team\nlike a pro!</string>
-    
+
     <!-- Home Screen -->
     <string name="home_title">Home</string>
     <string name="home_welcome_message">Welcome to your team dashboard</string>
@@ -32,23 +32,23 @@
     <string name="home_schedule_training">Schedule Training</string>
     <string name="home_upcoming_matches">Upcoming Matches</string>
     <string name="home_team_stats">Team Statistics</string>
-    
+
     <!-- Team Screen -->
     <string name="team_title">Team</string>
     <string name="team_empty_list">No players yet. \nTap "Add Player" to create one</string>
 
     <!-- Training Screen -->
     <string name="training_title">Training</string>
-    
+
     <!-- Match Screen -->
     <string name="match_title">Match</string>
-    
+
     <!-- Analytics Screen -->
     <string name="analytics_title">Analytics</string>
-    
+
     <!-- Settings Screen -->
     <string name="settings_title">Settings</string>
-    
+
     <!-- Add/Edit Player Screen -->
     <string name="add_player_title">Add Player</string>
     <string name="edit_player_title">Edit Player</string>
@@ -75,4 +75,11 @@
     <string name="tint_position">Please choose Player\'s position</string>
     <string name="tint_fitness">Please enter Player\'s condition (%)</string>
     <string name="tint_note">Please make a quick note about this Player</string>
+
+    <string name="btn_profile">Profile</string>
+    <string name="btn_edit">Edit</string>
+    <string name="btn_set_injured">Set Injured</string>
+    <string name="btn_set_active">Set Active</string>
+    <string name="btn_remove">Remove</string>
+    <string name="btn_close">Close</string>
 </resources>

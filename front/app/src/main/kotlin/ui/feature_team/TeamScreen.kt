@@ -29,8 +29,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.manager1700.soccer.R
 import com.manager1700.soccer.Screen
+import com.manager1700.soccer.domain.models.Foot
+import com.manager1700.soccer.domain.models.Player
+import com.manager1700.soccer.domain.models.PlayerStatus
+import com.manager1700.soccer.domain.models.Position
 import com.manager1700.soccer.ui.components.PrimaryButton
 import com.manager1700.soccer.ui.components.Toolbar
+import com.manager1700.soccer.ui.feature_team.compose.PlayerCard
 import com.manager1700.soccer.ui.theme.SoccerManagerTheme
 import com.manager1700.soccer.ui.theme.colorBlack
 import com.manager1700.soccer.ui.utils.PreviewApp
@@ -91,7 +96,7 @@ fun TeamScreenContent(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-//                .padding(paddingValues)
+                .padding(paddingValues)
                 .verticalScroll(rememberScrollState())
                 .padding(all = 16.dp)
         ) {
@@ -127,12 +132,7 @@ fun TeamScreenContent(
                         .height(200.dp)
                 ) {
                     items(state.players) { player ->
-                        Text(
-                            text = player.name,
-                            fontSize = 16.sp,
-                            color = MaterialTheme.colorScheme.onSurface,
-                            modifier = Modifier.padding(vertical = 4.dp, horizontal = 16.dp)
-                        )
+                        PlayerCard(player)
                     }
                 }
             }
@@ -162,7 +162,8 @@ fun TeamScreenContentPreview() {
             state = TeamScreenContract.State(
 //                isLoading = true,
                 players = listOf(
-//                    Player.EMPTY.copy(name = "Martin"),
+                    Player.TEST_1,
+                    Player.TEST_1,
 //                    Player.EMPTY.copy(name = "Bob"),
 //                    Player.EMPTY.copy(name = "Dan"),
                 )

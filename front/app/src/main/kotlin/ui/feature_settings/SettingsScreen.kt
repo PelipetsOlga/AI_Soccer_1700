@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.manager1700.soccer.R
-import com.manager1700.soccer.ui.components.Card
+import com.manager1700.soccer.ui.components.AppCard
 import com.manager1700.soccer.ui.components.Toolbar
 import com.manager1700.soccer.ui.theme.SoccerManagerTheme
 import com.manager1700.soccer.ui.theme.colorBlack
@@ -85,7 +85,7 @@ fun SettingsScreenContent(
                 .verticalScroll(rememberScrollState())
                 .padding(all = 16.dp)
         ) {
-            Card(
+            AppCard(
                 title = "Title", modifier = Modifier.fillMaxWidth()
             ) {
                 Box(
