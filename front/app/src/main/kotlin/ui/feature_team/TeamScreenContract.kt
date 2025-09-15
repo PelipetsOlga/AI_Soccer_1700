@@ -15,7 +15,9 @@ object TeamScreenContract {
      */
     data class State(
         val isLoading: Boolean = false,
-        val players: List<Player> = emptyList()
+        val players: List<Player> = emptyList(),
+        val showRemovePlayerDialog: Boolean = false,
+        val playerToRemove: Player? = null
     ) : UiState
     
     /**
@@ -26,6 +28,8 @@ object TeamScreenContract {
         data object SettingsClicked : Event()
         data object AddPlayerClicked : Event()
         data class RemovePlayerClicked(val player: Player) : Event()
+        data object ConfirmRemovePlayer : Event()
+        data object CancelRemovePlayer : Event()
     }
     
     /**

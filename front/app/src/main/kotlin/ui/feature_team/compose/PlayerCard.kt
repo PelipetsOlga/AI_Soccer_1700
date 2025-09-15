@@ -108,8 +108,12 @@ private fun ExpandablePlayerCard(
                     SmallGreyButton(
                         text = stringResource(R.string.btn_profile),
                         onClick = { onProfileClick() })
-                    SmallGreyButton(text = stringResource(R.string.btn_set_injured), onClick = {})
-                    SmallGreyButton(text = stringResource(R.string.btn_remove), onClick = {})
+                    SmallGreyButton(
+                        text = stringResource(R.string.btn_set_injured),
+                        onClick = { onSetInjuredClick() })
+                    SmallGreyButton(
+                        text = stringResource(R.string.btn_remove),
+                        onClick = { onRemoveClick() })
                 }
             } else {
                 Row(modifier = Modifier.fillMaxWidth()) {

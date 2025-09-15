@@ -10,11 +10,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -147,6 +149,35 @@ fun TeamScreenContent(
                 }
             }
         }
+        
+        // Confirmation Dialog
+        if (state.showRemovePlayerDialog) {
+            AlertDialog(
+                onDismissRequest = { onEvent(TeamScreenContract.Event.CancelRemovePlayer) },
+                title = {
+                    Text(
+                        text = "Are you sure you want to remove this player?",
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                },
+                confirmButton = {
+                    TextButton(
+                        onClick = { onEvent(TeamScreenContract.Event.ConfirmRemovePlayer) }
+                    ) {
+                        Text("YES")
+                    }
+                },
+                dismissButton = {
+                    TextButton(
+                        onClick = { onEvent(TeamScreenContract.Event.CancelRemovePlayer) }
+                    ) {
+                        Text("NO")
+                    }
+                },
+                containerColor = MaterialTheme.colorScheme.surface,
+                textContentColor = MaterialTheme.colorScheme.onSurface
+            )
+        }
     }
 }
 
@@ -156,6 +187,7 @@ fun TeamScreenContentPreview() {
     SoccerManagerTheme {
         TeamScreenContent(
             state = TeamScreenContract.State(
+                showRemovePlayerDialog = true,
 //                isLoading = true,
                 players = listOf(
                     Player.TEST_1,

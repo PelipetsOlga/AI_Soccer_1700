@@ -32,6 +32,8 @@ class TeamScreenViewModel @Inject constructor(
             is TeamScreenContract.Event.SettingsClicked -> handleSettingsClicked()
             is TeamScreenContract.Event.AddPlayerClicked -> handleAddPlayerClicked()
             is TeamScreenContract.Event.RemovePlayerClicked -> handleRemovePlayerClicked(event.player)
+            is TeamScreenContract.Event.ConfirmRemovePlayer -> handleConfirmRemovePlayer()
+            is TeamScreenContract.Event.CancelRemovePlayer -> handleCancelRemovePlayer()
         }
     }
 
@@ -62,7 +64,42 @@ class TeamScreenViewModel @Inject constructor(
     }
 
     private fun handleRemovePlayerClicked(player: Player) {
-        //todo Show confirmation popup
+        setState { 
+            copy(
+                showRemovePlayerDialog = true,
+                playerToRemove = player
+            ) 
+        }
+    }
+
+    private fun handleConfirmRemovePlayer() {
+        val playerToRemove = viewState.value.playerToRemove
+        if (playerToRemove != null) {
+            viewModelScope.launch {
+                try {
+                    soccerRepository.deletePlayerById(playerToRemove.id)
+                    // Reload players to update the UI
+                    loadPlayers()
+                } catch (e: Exception) {
+                    Log.e("TeamScreenViewModel", "Error removing player", e)
+                }
+            }
+        }
+        setState { 
+            copy(
+                showRemovePlayerDialog = false,
+                playerToRemove = null
+            ) 
+        }
+    }
+
+    private fun handleCancelRemovePlayer() {
+        setState { 
+            copy(
+                showRemovePlayerDialog = false,
+                playerToRemove = null
+            ) 
+        }
     }
 
 }
