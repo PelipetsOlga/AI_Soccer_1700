@@ -29,10 +29,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.manager1700.soccer.R
 import com.manager1700.soccer.Screen
-import com.manager1700.soccer.domain.models.Foot
 import com.manager1700.soccer.domain.models.Player
-import com.manager1700.soccer.domain.models.PlayerStatus
-import com.manager1700.soccer.domain.models.Position
 import com.manager1700.soccer.ui.components.PrimaryButton
 import com.manager1700.soccer.ui.components.Toolbar
 import com.manager1700.soccer.ui.feature_team.compose.PlayerCard
@@ -97,7 +94,7 @@ fun TeamScreenContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .verticalScroll(rememberScrollState())
+//                .verticalScroll(rememberScrollState())
                 .padding(all = 16.dp)
         ) {
 
@@ -129,7 +126,6 @@ fun TeamScreenContent(
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(200.dp)
                 ) {
                     items(state.players) { player ->
                         PlayerCard(player)

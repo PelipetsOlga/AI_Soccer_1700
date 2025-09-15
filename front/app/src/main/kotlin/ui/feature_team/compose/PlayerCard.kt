@@ -1,6 +1,5 @@
 package com.manager1700.soccer.ui.feature_team.compose
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -41,149 +40,143 @@ fun PlayerCard(player: Player) {
 
     var expanded by remember { mutableStateOf(false) }
 
-    AnimatedVisibility(expanded.not()) {
-        CollapsedPlayerCard(
-            player,
-            onRemoveClick = {},
-            onProfileClick = { expanded = true },
-            onSetInjuredClick = {},
-        )
-    }
-    AnimatedVisibility(expanded) {
-        ExpandedPlayerCard(
-            player,
-            onEditClick = {},
-            onCloseClick = { expanded = false },
-            onSetActiveClick = {})
-    }
+    ExpandablePlayerCard(
+        player = player,
+        expanded = expanded,
+        onProfileClick = { expanded = true },
+        onCloseClick = { expanded = false },
+        onEditClick = {},
+        onRemoveClick = {},
+        onSetActiveClick = {},
+        onSetInjuredClick = {}
+    )
 }
 
 @Composable
-private fun CollapsedPlayerCard(
+private fun ExpandablePlayerCard(
     player: Player,
+    expanded: Boolean,
     onProfileClick: () -> Unit,
     onSetInjuredClick: () -> Unit,
     onRemoveClick: () -> Unit,
-) {
-    AppCard(title = "${player.name} | ${player.number} | ${player.position.shortName}") {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp)
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                FitnessChip(player.fitness)
-                Text(
-                    text = "${stringResource(R.string.field_fitness)}: ${player.fitness}%",
-                    fontSize = 16.sp,
-                    fontFamily = Montserrat,
-                    color = colorWhite,
-                    modifier = Modifier.padding(horizontal = 8.dp)
-                )
-                PlayerStatusChip(player.status)
-            }
-            Text(
-                text = player.note,
-                fontSize = 14.sp,
-                fontFamily = Montserrat,
-                fontWeight = FontWeight.ExtraLight,
-                color = colorWhite,
-                modifier = Modifier.padding(horizontal = 8.dp)
-            )
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 4.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                SmallGreyButton(
-                    text = stringResource(R.string.btn_profile),
-                    onClick = { onProfileClick() })
-                SmallGreyButton(text = stringResource(R.string.btn_set_injured), onClick = {})
-                SmallGreyButton(text = stringResource(R.string.btn_remove), onClick = {})
-            }
-        }
-    }
-
-}
-
-@Composable
-private fun ExpandedPlayerCard(
-    player: Player,
     onCloseClick: () -> Unit,
     onSetActiveClick: () -> Unit,
     onEditClick: () -> Unit,
 ) {
-    AppCard(title = player.name) {
+    AppCard(
+        title = if (expanded) {
+            player.name
+        } else {
+            "${player.name} | ${player.number} | ${player.position.shortName}"
+        }
+    ) {
         Column(modifier = Modifier.fillMaxWidth()) {
-            Row(modifier = Modifier.fillMaxWidth()) {
-                Box(
-                    Modifier
-                        .background(colorYellow)
-                        .width(75.dp)
-                        .height(100.dp)
-                )
-                Column(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(start = 8.dp)
+            if (expanded.not()) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
+                    FitnessChip(player.fitness)
                     Text(
-                        text = "${stringResource(R.string.field_name)}: ${player.name}",
-                        fontSize = 14.sp,
+                        text = "${stringResource(R.string.field_fitness)}: ${player.fitness}%",
+                        fontSize = 16.sp,
                         fontFamily = Montserrat,
                         color = colorWhite,
+                        modifier = Modifier.padding(horizontal = 8.dp)
                     )
-                    Text(
-                        text = "${stringResource(R.string.field_number)}: ${player.number}",
-                        fontSize = 12.sp,
-                        fontFamily = Montserrat,
-                        color = colorWhite,
-                    )
-                    Text(
-                        text = "${stringResource(R.string.field_position)}: ${stringResource(player.position.fullNameId)}",
-                        fontSize = 12.sp,
-                        fontFamily = Montserrat,
-                        color = colorWhite,
-                    )
-                    Text(
-                        text = "${stringResource(R.string.field_foot)}: ${stringResource(player.foot.titleId)}",
-                        fontSize = 12.sp,
-                        fontFamily = Montserrat,
-                        color = colorWhite,
-                    )
+                    PlayerStatusChip(player.status)
                 }
-            }
-            Text(
-                text = player.note,
-                fontSize = 14.sp,
-                fontFamily = Montserrat,
-                fontWeight = FontWeight.ExtraLight,
-                color = colorWhite,
-                modifier = Modifier
-                    .padding(horizontal = 8.dp)
-                    .padding(top = 4.dp)
-            )
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 4.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                SmallGreyButton(
-                    text = stringResource(R.string.btn_edit),
-                    onClick = { onEditClick })
-                SmallGreyButton(
-                    text = stringResource(R.string.btn_set_active),
-                    onClick = { onSetActiveClick() })
-                SmallGreyButton(
-                    text = stringResource(R.string.btn_close),
-                    onClick = { onCloseClick() })
+                Text(
+                    text = player.note,
+                    fontSize = 14.sp,
+                    fontFamily = Montserrat,
+                    fontWeight = FontWeight.ExtraLight,
+                    color = colorWhite,
+                    modifier = Modifier.padding(horizontal = 8.dp)
+                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 4.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    SmallGreyButton(
+                        text = stringResource(R.string.btn_profile),
+                        onClick = { onProfileClick() })
+                    SmallGreyButton(text = stringResource(R.string.btn_set_injured), onClick = {})
+                    SmallGreyButton(text = stringResource(R.string.btn_remove), onClick = {})
+                }
+            } else {
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    Box(
+                        Modifier
+                            .background(colorYellow)
+                            .width(75.dp)
+                            .height(100.dp)
+                    )
+                    Column(
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(start = 8.dp)
+                    ) {
+                        Text(
+                            text = "${stringResource(R.string.field_name)}: ${player.name}",
+                            fontSize = 14.sp,
+                            fontFamily = Montserrat,
+                            color = colorWhite,
+                        )
+                        Text(
+                            text = "${stringResource(R.string.field_number)}: ${player.number}",
+                            fontSize = 12.sp,
+                            fontFamily = Montserrat,
+                            color = colorWhite,
+                        )
+                        Text(
+                            text = "${stringResource(R.string.field_position)}: ${
+                                stringResource(
+                                    player.position.fullNameId
+                                )
+                            }",
+                            fontSize = 12.sp,
+                            fontFamily = Montserrat,
+                            color = colorWhite,
+                        )
+                        Text(
+                            text = "${stringResource(R.string.field_foot)}: ${stringResource(player.foot.titleId)}",
+                            fontSize = 12.sp,
+                            fontFamily = Montserrat,
+                            color = colorWhite,
+                        )
+                    }
+                }
+                Text(
+                    text = player.note,
+                    fontSize = 14.sp,
+                    fontFamily = Montserrat,
+                    fontWeight = FontWeight.ExtraLight,
+                    color = colorWhite,
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp)
+                        .padding(top = 4.dp)
+                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 4.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    SmallGreyButton(
+                        text = stringResource(R.string.btn_edit),
+                        onClick = { onEditClick })
+                    SmallGreyButton(
+                        text = stringResource(R.string.btn_set_active),
+                        onClick = { onSetActiveClick() })
+                    SmallGreyButton(
+                        text = stringResource(R.string.btn_close),
+                        onClick = { onCloseClick() })
+                }
             }
         }
     }
@@ -199,9 +192,9 @@ private fun PlayerCardPreview() {
                 .background(colorBlack)
                 .padding(all = 16.dp)
         ) {
-            CollapsedPlayerCard(player = Player.TEST_1, {}, {}, {})
+            ExpandablePlayerCard(player = Player.TEST_1, expanded = false, {}, {}, {}, {}, {}, {})
             Spacer(Modifier.height(16.dp))
-            ExpandedPlayerCard(player = Player.TEST_1, {}, {}, {})
+            ExpandablePlayerCard(player = Player.TEST_1, expanded = true, {}, {}, {}, {}, {}, {})
         }
     }
 }
