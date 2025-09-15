@@ -19,6 +19,7 @@ class TrainingScreenViewModel @Inject constructor() : MviViewModel<
         when (event) {
             is TrainingScreenContract.Event.BackClicked -> handleBackClicked()
             is TrainingScreenContract.Event.SettingsClicked -> handleSettingsClicked()
+            is TrainingScreenContract.Event.AddTrainingClicked -> handleAddTrainingClicked()
         }
     }
     
@@ -28,5 +29,9 @@ class TrainingScreenViewModel @Inject constructor() : MviViewModel<
     
     private fun handleSettingsClicked() {
         setEffect { TrainingScreenContract.Effect.NavigateToSettings }
+    }
+    
+    private fun handleAddTrainingClicked() {
+        setEffect { TrainingScreenContract.Effect.NavigateToAddTraining }
     }
 }

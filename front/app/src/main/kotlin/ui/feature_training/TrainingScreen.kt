@@ -1,5 +1,6 @@
 package com.manager1700.soccer.ui.feature_training
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,6 +29,7 @@ import androidx.navigation.NavController
 import com.manager1700.soccer.R
 import com.manager1700.soccer.Screen
 import com.manager1700.soccer.ui.components.AppCard
+import com.manager1700.soccer.ui.components.PrimaryButton
 import com.manager1700.soccer.ui.components.Toolbar
 import com.manager1700.soccer.ui.theme.SoccerManagerTheme
 import com.manager1700.soccer.ui.theme.colorBlack
@@ -52,6 +54,10 @@ fun TrainingScreen(
 
                 is TrainingScreenContract.Effect.NavigateToSettings -> {
                     mainNavController.navigate(Screen.Settings.route)
+                }
+
+                is TrainingScreenContract.Effect.NavigateToAddTraining -> {
+                    mainNavController.navigate(Screen.AddTraining.route)
                 }
             }
         }
@@ -87,7 +93,8 @@ fun TrainingScreenContent(
                 .fillMaxSize()
                 .padding(paddingValues)
                 .verticalScroll(rememberScrollState())
-                .padding(all = 16.dp)
+                .padding(all = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             AppCard(
                 title = "Title", modifier = Modifier.fillMaxWidth()
@@ -106,6 +113,18 @@ fun TrainingScreenContent(
                         textAlign = TextAlign.Center
                     )
                 }
+            }
+
+            // Add Training Button
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                PrimaryButton(
+                    onClick = { onEvent(TrainingScreenContract.Event.AddTrainingClicked) },
+                    text = stringResource(R.string.add_training),
+                    modifier = Modifier
+                )
             }
         }
     }

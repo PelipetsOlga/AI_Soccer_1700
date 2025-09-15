@@ -83,4 +83,22 @@
     <string name="btn_set_active">Set Active</string>
     <string name="btn_remove">Remove</string>
     <string name="btn_close">Close</string>
+
+    <!-- Add/Edit Training Screen -->
+    <string name="add_training_title">Add Training</string>
+    <string name="edit_training_title">Edit Training</string>
+    <string name="training_data_title">Training Data</string>
+    <string name="add_training">Add Training</string>
+    <string name="field_type">Type</string>
+    <string name="field_date">Date</string>
+    <string name="field_start_time">Start Time</string>
+    <string name="field_end_time">End Time</string>
+    <string name="field_venue">Venue</string>
+    <string name="field_training_note">Note</string>
+    <string name="tint_type">Please choose the training type</string>
+    <string name="tint_date">Please enter the date (dd mm yyyy)</string>
+    <string name="tint_start_time">Please enter start time</string>
+    <string name="tint_end_time">Please enter end time</string>
+    <string name="tint_venue">Please enter or choose venue</string>
+    <string name="tint_training_note">Please make a quick note about this training</string>
 </resources>

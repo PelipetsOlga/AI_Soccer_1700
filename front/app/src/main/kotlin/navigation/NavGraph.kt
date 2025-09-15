@@ -9,6 +9,7 @@ import com.manager1700.soccer.ui.feature_splash.SplashScreen
 import com.manager1700.soccer.ui.feature_welcome.WelcomeScreen
 import com.manager1700.soccer.ui.feature_settings.SettingsScreen
 import com.manager1700.soccer.ui.feature_add_edit_player.AddEditPlayerScreen
+import com.manager1700.soccer.ui.feature_add_edit_training.AddEditTrainingScreen
 import com.manager1700.soccer.ui.screens.HomeWrapperScreen
 
 @Composable
@@ -46,6 +47,20 @@ fun SetupNavGraph(navController: NavHostController) {
                 isEditMode = true,
                 navController = navController,
                 player = null // For add player flow
+            )
+        }
+
+        composable(route = Screen.AddTraining.route) {
+            AddEditTrainingScreen(
+                training = null, // For add training flow
+                navController = navController
+            )
+        }
+
+        composable(route = Screen.EditTraining.route) {
+            AddEditTrainingScreen(
+                training = null, // For edit training flow - would need to pass actual training
+                navController = navController
             )
         }
         
