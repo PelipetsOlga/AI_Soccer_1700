@@ -17,6 +17,7 @@ import com.manager1700.soccer.ui.components.input.FitnessInputField
 import com.manager1700.soccer.ui.components.input.FootInputField
 import com.manager1700.soccer.ui.components.input.NameInputField
 import com.manager1700.soccer.ui.components.input.NumberInputField
+import com.manager1700.soccer.ui.components.input.PhotoPickerField
 import com.manager1700.soccer.ui.components.input.PlayerNoteInputField
 import com.manager1700.soccer.ui.components.input.PositionInputField
 import com.manager1700.soccer.ui.theme.SoccerManagerTheme
@@ -78,7 +79,11 @@ fun AddEditPlayerContent(
                     onValueChange = { onEvent(AddEditPlayerContract.Event.NoteChanged(it)) },
                 )
 
-
+                PhotoPickerField(
+                    imageUrl = state.imageUrl,
+                    onPhotoPickerClick = { onEvent(AddEditPlayerContract.Event.PhotoPickerClicked) },
+                    onDeletePhotoClick = { onEvent(AddEditPlayerContract.Event.DeletePhotoClicked) }
+                )
             }
         }
 

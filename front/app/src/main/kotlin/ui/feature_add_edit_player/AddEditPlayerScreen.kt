@@ -1,5 +1,8 @@
 package com.manager1700.soccer.ui.feature_add_edit_player
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -11,6 +14,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -33,6 +37,16 @@ fun AddEditPlayerScreen(
     viewModel: AddEditPlayerViewModel = hiltViewModel()
 ) {
     val state by viewModel.viewState.collectAsState()
+    val context = LocalContext.current
+
+    // Photo picker launcher
+    val photoPickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        uri?.let {
+            viewModel.setEvent(AddEditPlayerContract.Event.ImageSelected(it.toString()))
+        }
+    }
 
     // Initialize with player data
     LaunchedEffect(player) {
@@ -53,6 +67,10 @@ fun AddEditPlayerScreen(
 
                 is AddEditPlayerContract.Effect.ShowError -> {
                     // Handle error display - could show a snackbar or toast
+                }
+
+                is AddEditPlayerContract.Effect.LaunchPhotoPicker -> {
+                    photoPickerLauncher.launch("image/*")
                 }
             }
         }

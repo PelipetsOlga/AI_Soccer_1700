@@ -36,7 +36,8 @@ class AddEditPlayerViewModel @Inject constructor(
                 position = player?.position,
                 foot = player?.foot,
                 fitness = player?.fitness?.toString().orEmpty(),
-                note = player?.note.orEmpty()
+                note = player?.note.orEmpty(),
+                imageUrl = player?.imageUrl
             )
         }
     }
@@ -52,6 +53,9 @@ class AddEditPlayerViewModel @Inject constructor(
             is AddEditPlayerContract.Event.FootChanged -> handleFootChanged(event.foot)
             is AddEditPlayerContract.Event.FitnessChanged -> handleFitnessChanged(event.fitness)
             is AddEditPlayerContract.Event.NoteChanged -> handleNoteChanged(event.note)
+            is AddEditPlayerContract.Event.PhotoPickerClicked -> handlePhotoPickerClicked()
+            is AddEditPlayerContract.Event.ImageSelected -> handleImageSelected(event.imageUri)
+            is AddEditPlayerContract.Event.DeletePhotoClicked -> handleDeletePhotoClicked()
         }
     }
 
@@ -105,7 +109,7 @@ class AddEditPlayerViewModel @Inject constructor(
             note = state.note,
             dateOfInjury = null,
             noteOfInjury = null,
-            imageUrl = null,
+            imageUrl = state.imageUrl,
         )
     }
 
@@ -161,5 +165,17 @@ class AddEditPlayerViewModel @Inject constructor(
                 isFormValid = isCreatePlayerFormValid(state = viewState.value.copy(note = note))
             )
         }
+    }
+
+    private fun handlePhotoPickerClicked() {
+        setEffect { AddEditPlayerContract.Effect.LaunchPhotoPicker }
+    }
+
+    private fun handleImageSelected(imageUri: String) {
+        setState { copy(imageUrl = imageUri) }
+    }
+
+    private fun handleDeletePhotoClicked() {
+        setState { copy(imageUrl = null) }
     }
 }

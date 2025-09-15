@@ -69,6 +69,7 @@
     <string name="field_position">Position</string>
     <string name="field_fitness">Fitness</string>
     <string name="field_note">Note</string>
+    <string name="field_photo">Avatar</string>
     <string name="tint_name">Please enter Player\'s name</string>
     <string name="tint_number">Please enter Player\'s number</string>
     <string name="tint_foot">Please choose Player\'s preferred foot</string>

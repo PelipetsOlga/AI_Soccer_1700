@@ -25,6 +25,7 @@ object AddEditPlayerContract {
         val foot: Foot? = null,
         val fitness: String = "",
         val note: String = "",
+        val imageUrl: String? = null,
         val errorMessage: String? = null,
         val isFormValid: Boolean = false,
     ) : UiState
@@ -52,6 +53,9 @@ object AddEditPlayerContract {
         data class FootChanged(val foot: Foot) : Event()
         data class FitnessChanged(val fitness: String) : Event()
         data class NoteChanged(val note: String) : Event()
+        data object PhotoPickerClicked : Event()
+        data class ImageSelected(val imageUri: String) : Event()
+        data object DeletePhotoClicked : Event()
     }
 
     /**
@@ -61,5 +65,6 @@ object AddEditPlayerContract {
         data object NavigateBack : Effect()
         data object NavigateToTeam : Effect()
         data class ShowError(val message: String) : Effect()
+        data object LaunchPhotoPicker : Effect()
     }
 }
