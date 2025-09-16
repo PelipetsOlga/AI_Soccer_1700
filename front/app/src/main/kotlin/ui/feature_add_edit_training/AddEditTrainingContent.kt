@@ -13,12 +13,11 @@ import com.manager1700.soccer.R
 import com.manager1700.soccer.ui.components.AppCard
 import com.manager1700.soccer.ui.components.PrimaryButton
 import com.manager1700.soccer.ui.components.SmallGreyButton
-import com.manager1700.soccer.ui.components.input.DateInputField
-import com.manager1700.soccer.ui.components.input.EndTimeInputField
-import com.manager1700.soccer.ui.components.input.StartTimeInputField
+import com.manager1700.soccer.ui.components.input.DatePickerField
+import com.manager1700.soccer.ui.components.input.TimePickerField
 import com.manager1700.soccer.ui.components.input.TrainingNoteInputField
-import com.manager1700.soccer.ui.components.input.TypeInputField
-import com.manager1700.soccer.ui.components.input.VenueInputField
+import com.manager1700.soccer.ui.components.input.TypePickerField
+import com.manager1700.soccer.ui.components.input.VenuePickerField
 import com.manager1700.soccer.ui.theme.SoccerManagerTheme
 import com.manager1700.soccer.ui.utils.PreviewApp
 
@@ -48,29 +47,38 @@ fun AddEditTrainingContent(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
 
-                TypeInputField(
+                TypePickerField(
                     value = state.type,
                     onValueChange = { onEvent(AddEditTrainingContract.Event.TypeChanged(it)) },
+                    onTypePickerClick = { onEvent(AddEditTrainingContract.Event.TypePickerClicked) },
                 )
 
-                DateInputField(
+                DatePickerField(
                     value = state.date,
                     onValueChange = { onEvent(AddEditTrainingContract.Event.DateChanged(it)) },
+                    onDatePickerClick = { onEvent(AddEditTrainingContract.Event.DatePickerClicked) },
                 )
 
-                StartTimeInputField(
+                TimePickerField(
                     value = state.startTime,
                     onValueChange = { onEvent(AddEditTrainingContract.Event.StartTimeChanged(it)) },
+                    onTimePickerClick = { onEvent(AddEditTrainingContract.Event.StartTimePickerClicked) },
+                    label = stringResource(R.string.field_start_time),
+                    placeholder = stringResource(R.string.tint_start_time),
                 )
 
-                EndTimeInputField(
+                TimePickerField(
                     value = state.endTime,
                     onValueChange = { onEvent(AddEditTrainingContract.Event.EndTimeChanged(it)) },
+                    onTimePickerClick = { onEvent(AddEditTrainingContract.Event.EndTimePickerClicked) },
+                    label = stringResource(R.string.field_end_time),
+                    placeholder = stringResource(R.string.tint_end_time),
                 )
 
-                VenueInputField(
+                VenuePickerField(
                     value = state.venue,
                     onValueChange = { onEvent(AddEditTrainingContract.Event.VenueChanged(it)) },
+                    onVenuePickerClick = { onEvent(AddEditTrainingContract.Event.VenuePickerClicked) },
                 )
 
                 TrainingNoteInputField(

@@ -50,6 +50,11 @@ object AddEditTrainingContract {
         data class EndTimeChanged(val endTime: String) : Event()
         data class VenueChanged(val venue: String) : Event()
         data class NoteChanged(val note: String) : Event()
+        data object DatePickerClicked : Event()
+        data object StartTimePickerClicked : Event()
+        data object EndTimePickerClicked : Event()
+        data object TypePickerClicked : Event()
+        data object VenuePickerClicked : Event()
     }
 
     /**
@@ -59,5 +64,10 @@ object AddEditTrainingContract {
         data object NavigateBack : Effect()
         data object NavigateToTraining : Effect()
         data class ShowError(val message: String) : Effect()
+        data object ShowDatePicker : Effect()
+        data object ShowStartTimePicker : Effect()
+        data object ShowEndTimePicker : Effect()
+        data object ShowTypePicker : Effect()
+        data object ShowVenuePicker : Effect()
     }
 }

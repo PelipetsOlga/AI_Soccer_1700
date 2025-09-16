@@ -1,16 +1,32 @@
 package com.manager1700.soccer.ui.feature_add_edit_training
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TextButton
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
+import android.content.Context
+import java.util.Calendar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -22,6 +38,12 @@ import com.manager1700.soccer.ui.theme.SoccerManagerTheme
 import com.manager1700.soccer.ui.theme.colorBlack
 import com.manager1700.soccer.ui.utils.PreviewApp
 import com.manager1700.soccer.ui.utils.statusBarTopPadding
+import com.manager1700.soccer.ui.components.input.formatDate
+import com.manager1700.soccer.ui.components.input.formatTime
+import com.manager1700.soccer.ui.components.input.TrainingTypes
+import com.manager1700.soccer.ui.components.input.VenueOptions
+import java.time.LocalDate
+import java.time.LocalTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -31,6 +53,11 @@ fun AddEditTrainingScreen(
     viewModel: AddEditTrainingViewModel = hiltViewModel()
 ) {
     val state by viewModel.viewState.collectAsState()
+    var showDatePicker by remember { mutableStateOf(false) }
+    var showStartTimePicker by remember { mutableStateOf(false) }
+    var showEndTimePicker by remember { mutableStateOf(false) }
+    var showTypePicker by remember { mutableStateOf(false) }
+    var showVenuePicker by remember { mutableStateOf(false) }
 
     // Initialize with training data
     LaunchedEffect(training) {
@@ -52,6 +79,21 @@ fun AddEditTrainingScreen(
                     // For now, just log it
                     android.util.Log.e("AddEditTraining", effect.message)
                 }
+                is AddEditTrainingContract.Effect.ShowDatePicker -> {
+                    showDatePicker = true
+                }
+                is AddEditTrainingContract.Effect.ShowStartTimePicker -> {
+                    showStartTimePicker = true
+                }
+                is AddEditTrainingContract.Effect.ShowEndTimePicker -> {
+                    showEndTimePicker = true
+                }
+                is AddEditTrainingContract.Effect.ShowTypePicker -> {
+                    showTypePicker = true
+                }
+                is AddEditTrainingContract.Effect.ShowVenuePicker -> {
+                    showVenuePicker = true
+                }
             }
         }
     }
@@ -61,6 +103,144 @@ fun AddEditTrainingScreen(
         onEvent = { viewModel.setEvent(it) },
         isEditMode = training != null
     )
+
+    val context = LocalContext.current
+    val calendar = Calendar.getInstance()
+
+    // Show Date Picker
+    LaunchedEffect(showDatePicker) {
+        if (showDatePicker) {
+            val datePickerDialog = DatePickerDialog(
+                context,
+                { _, year, month, dayOfMonth ->
+                    val selectedDate = LocalDate.of(year, month + 1, dayOfMonth)
+                    viewModel.setEvent(AddEditTrainingContract.Event.DateChanged(formatDate(selectedDate)))
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+            )
+            datePickerDialog.show()
+        }
+    }
+
+    // Show Start Time Picker
+    LaunchedEffect(showStartTimePicker) {
+        if (showStartTimePicker) {
+            val timePickerDialog = TimePickerDialog(
+                context,
+                { _, hourOfDay, minute ->
+                    val selectedTime = LocalTime.of(hourOfDay, minute)
+                    viewModel.setEvent(AddEditTrainingContract.Event.StartTimeChanged(formatTime(selectedTime)))
+                },
+                calendar.get(Calendar.HOUR_OF_DAY),
+                calendar.get(Calendar.MINUTE),
+                true
+            )
+            timePickerDialog.show()
+        }
+    }
+
+    // Show End Time Picker
+    LaunchedEffect(showEndTimePicker) {
+        if (showEndTimePicker) {
+            val timePickerDialog = TimePickerDialog(
+                context,
+                { _, hourOfDay, minute ->
+                    val selectedTime = LocalTime.of(hourOfDay, minute)
+                    viewModel.setEvent(AddEditTrainingContract.Event.EndTimeChanged(formatTime(selectedTime)))
+                },
+                calendar.get(Calendar.HOUR_OF_DAY),
+                calendar.get(Calendar.MINUTE),
+                true
+            )
+            timePickerDialog.show()
+        }
+    }
+
+    // Show Type Picker
+    LaunchedEffect(showTypePicker) {
+        if (showTypePicker) {
+            // This will be handled by the AlertDialog below
+        }
+    }
+
+    // Type Picker Dialog
+    if (showTypePicker) {
+        AlertDialog(
+            onDismissRequest = { showTypePicker = false },
+            title = { androidx.compose.material3.Text("Select Training Type") },
+            text = {
+                Column {
+                    TrainingTypes.ALL_TYPES.forEach { type ->
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    viewModel.setEvent(AddEditTrainingContract.Event.TypeChanged(type))
+                                    showTypePicker = false
+                                }
+                                .padding(16.dp)
+                        ) {
+                            androidx.compose.material3.Text(
+                                text = type,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = { showTypePicker = false }
+                ) {
+                    androidx.compose.material3.Text("Cancel")
+                }
+            }
+        )
+    }
+
+    // Show Venue Picker
+    LaunchedEffect(showVenuePicker) {
+        if (showVenuePicker) {
+            // This will be handled by the AlertDialog below
+        }
+    }
+
+    // Venue Picker Dialog
+    if (showVenuePicker) {
+        AlertDialog(
+            onDismissRequest = { showVenuePicker = false },
+            title = { androidx.compose.material3.Text("Select Venue") },
+            text = {
+                Column {
+                    VenueOptions.ALL_VENUES.forEach { venue ->
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    viewModel.setEvent(AddEditTrainingContract.Event.VenueChanged(venue))
+                                    showVenuePicker = false
+                                }
+                                .padding(16.dp)
+                        ) {
+                            androidx.compose.material3.Text(
+                                text = venue,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = { showVenuePicker = false }
+                ) {
+                    androidx.compose.material3.Text("Cancel")
+                }
+            }
+        )
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

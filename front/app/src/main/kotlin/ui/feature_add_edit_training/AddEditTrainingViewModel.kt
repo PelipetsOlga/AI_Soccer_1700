@@ -52,6 +52,11 @@ class AddEditTrainingViewModel @Inject constructor(
             is AddEditTrainingContract.Event.EndTimeChanged -> handleEndTimeChanged(event.endTime)
             is AddEditTrainingContract.Event.VenueChanged -> handleVenueChanged(event.venue)
             is AddEditTrainingContract.Event.NoteChanged -> handleNoteChanged(event.note)
+            is AddEditTrainingContract.Event.DatePickerClicked -> handleDatePickerClicked()
+            is AddEditTrainingContract.Event.StartTimePickerClicked -> handleStartTimePickerClicked()
+            is AddEditTrainingContract.Event.EndTimePickerClicked -> handleEndTimePickerClicked()
+            is AddEditTrainingContract.Event.TypePickerClicked -> handleTypePickerClicked()
+            is AddEditTrainingContract.Event.VenuePickerClicked -> handleVenuePickerClicked()
         }
     }
 
@@ -144,5 +149,25 @@ class AddEditTrainingViewModel @Inject constructor(
         setState { 
             copy(note = note, isFormValid = isCreateTrainingFormValid(copy(note = note)))
         }
+    }
+
+    private fun handleDatePickerClicked() {
+        setEffect { AddEditTrainingContract.Effect.ShowDatePicker }
+    }
+
+    private fun handleStartTimePickerClicked() {
+        setEffect { AddEditTrainingContract.Effect.ShowStartTimePicker }
+    }
+
+    private fun handleEndTimePickerClicked() {
+        setEffect { AddEditTrainingContract.Effect.ShowEndTimePicker }
+    }
+
+    private fun handleTypePickerClicked() {
+        setEffect { AddEditTrainingContract.Effect.ShowTypePicker }
+    }
+
+    private fun handleVenuePickerClicked() {
+        setEffect { AddEditTrainingContract.Effect.ShowVenuePicker }
     }
 }
