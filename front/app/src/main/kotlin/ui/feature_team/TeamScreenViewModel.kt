@@ -77,7 +77,7 @@ class TeamScreenViewModel @Inject constructor(
     }
 
     private fun handleEditPlayerClicked(player: Player) {
-        // todo
+        setEffect { TeamScreenContract.Effect.NavigateToEditPlayer(player) }
     }
 
     private fun handleConfirmRemovePlayer() {

@@ -41,5 +41,6 @@ object TeamScreenContract {
         data object NavigateBack : Effect()
         data object NavigateToSettings : Effect()
         data object NavigateToAddPlayer : Effect()
+        data class NavigateToEditPlayer(val player: Player) : Effect()
     }
 }

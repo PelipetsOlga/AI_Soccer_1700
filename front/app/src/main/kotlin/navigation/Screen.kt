@@ -19,7 +19,7 @@ sealed class Screen(val route: String) {
     
     // Add/Edit Player screen
     data object AddPlayer : Screen("add_player_screen")
-    data object EditPlayer : Screen("edit_player_screen")
+    data object EditPlayer : Screen("edit_player_screen/{playerId}")
     
     // Add/Edit Training screen
     data object AddTraining : Screen("add_training_screen")

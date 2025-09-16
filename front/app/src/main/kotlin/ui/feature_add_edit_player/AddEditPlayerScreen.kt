@@ -34,6 +34,7 @@ fun AddEditPlayerScreen(
     isEditMode: Boolean = false,
     navController: NavController,
     player: Player?,
+    playerId: Int? = null,
     viewModel: AddEditPlayerViewModel = hiltViewModel()
 ) {
     val state by viewModel.viewState.collectAsState()
@@ -49,8 +50,12 @@ fun AddEditPlayerScreen(
     }
 
     // Initialize with player data
-    LaunchedEffect(player) {
-        viewModel.initializeWithPlayer(player, isEditMode)
+    LaunchedEffect(player, playerId) {
+        if (isEditMode && playerId != null) {
+            viewModel.initializeWithPlayerId(playerId, isEditMode)
+        } else {
+            viewModel.initializeWithPlayer(player, isEditMode)
+        }
     }
 
     // Handle side effects

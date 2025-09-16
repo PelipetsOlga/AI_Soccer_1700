@@ -203,7 +203,7 @@ private fun ExpandablePlayerCard(
                 ) {
                     SmallGreyButton(
                         text = stringResource(R.string.btn_edit),
-                        onClick = { onEditClick },
+                        onClick = { onEditClick() },
                         modifier = Modifier.weight(1f)
                     )
                     SmallGreyButton(

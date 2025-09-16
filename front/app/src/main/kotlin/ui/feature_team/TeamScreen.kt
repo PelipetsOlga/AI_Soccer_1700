@@ -73,6 +73,10 @@ fun TeamScreen(
                 is TeamScreenContract.Effect.NavigateToAddPlayer -> {
                     mainNavController.navigate(Screen.AddPlayer.route)
                 }
+
+                is TeamScreenContract.Effect.NavigateToEditPlayer -> {
+                    mainNavController.navigate("edit_player_screen/${effect.player.id}")
+                }
             }
         }
     }

@@ -47,6 +47,18 @@ class AddEditPlayerViewModel @Inject constructor(
         }
     }
 
+    fun initializeWithPlayerId(playerId: Int, isEditMode: Boolean) {
+        viewModelScope.launch {
+            try {
+                val player = repository.getPlayerById(playerId)
+                initializeWithPlayer(player, isEditMode)
+            } catch (e: Exception) {
+                Log.e("AddEditPlayerViewModel", "Error loading player with ID: $playerId", e)
+                setEffect { AddEditPlayerContract.Effect.ShowError("Failed to load player data") }
+            }
+        }
+    }
+
     override fun handleEvent(event: AddEditPlayerContract.Event) {
         when (event) {
             is AddEditPlayerContract.Event.BackClicked -> handleBackClicked()

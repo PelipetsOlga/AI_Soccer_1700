@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
+import androidx.navigation.NavType
 import com.manager1700.soccer.Screen
 import com.manager1700.soccer.ui.feature_splash.SplashScreen
 import com.manager1700.soccer.ui.feature_welcome.WelcomeScreen
@@ -42,11 +44,18 @@ fun SetupNavGraph(navController: NavHostController) {
             )
         }
 
-        composable(route = Screen.EditPlayer.route) {
+        composable(
+            route = Screen.EditPlayer.route,
+            arguments = listOf(
+                navArgument("playerId") { type = NavType.IntType }
+            )
+        ) { backStackEntry ->
+            val playerId = backStackEntry.arguments?.getInt("playerId") ?: 0
             AddEditPlayerScreen(
                 isEditMode = true,
                 navController = navController,
-                player = null // For add player flow
+                player = null,
+                playerId = playerId
             )
         }
 
