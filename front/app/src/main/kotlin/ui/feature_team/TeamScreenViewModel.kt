@@ -2,6 +2,7 @@ package com.manager1700.soccer.ui.feature_team
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.manager1700.soccer.data.utils.ImageFileManager
 import com.manager1700.soccer.domain.models.Player
 import com.manager1700.soccer.domain.repo.SoccerRepository
 import com.manager1700.soccer.ui.base.MviViewModel
@@ -11,7 +12,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TeamScreenViewModel @Inject constructor(
-    private val soccerRepository: SoccerRepository
+    private val soccerRepository: SoccerRepository,
+    private val imageFileManager: ImageFileManager
 ) : MviViewModel<
         TeamScreenContract.Event,
         TeamScreenContract.State,
@@ -77,7 +79,14 @@ class TeamScreenViewModel @Inject constructor(
         if (playerToRemove != null) {
             viewModelScope.launch {
                 try {
+                    // Delete player's image file if it exists
+                    playerToRemove.imageUrl?.let { imagePath ->
+                        imageFileManager.deleteImage(imagePath)
+                    }
+                    
+                    // Delete player from database
                     soccerRepository.deletePlayerById(playerToRemove.id)
+                    
                     // Reload players to update the UI
                     loadPlayers()
                 } catch (e: Exception) {

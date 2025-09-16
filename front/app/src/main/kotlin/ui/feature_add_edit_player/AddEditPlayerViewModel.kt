@@ -1,7 +1,9 @@
 package com.manager1700.soccer.ui.feature_add_edit_player
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.manager1700.soccer.data.utils.ImageFileManager
 import com.manager1700.soccer.domain.models.Foot
 import com.manager1700.soccer.domain.models.Player
 import com.manager1700.soccer.domain.models.PlayerStatus
@@ -10,12 +12,15 @@ import com.manager1700.soccer.domain.repo.SoccerRepository
 import com.manager1700.soccer.ui.base.MviViewModel
 import com.manager1700.soccer.ui.feature_add_edit_player.AddEditPlayerContract.isCreatePlayerFormValid
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
 class AddEditPlayerViewModel @Inject constructor(
-    private val repository: SoccerRepository
+    private val repository: SoccerRepository,
+    private val imageFileManager: ImageFileManager
 ) : MviViewModel<
         AddEditPlayerContract.Event,
         AddEditPlayerContract.State,
@@ -172,10 +177,33 @@ class AddEditPlayerViewModel @Inject constructor(
     }
 
     private fun handleImageSelected(imageUri: String) {
-        setState { copy(imageUrl = imageUri) }
+        viewModelScope.launch {
+            try {
+                val uri = Uri.parse(imageUri)
+                val localImagePath = withContext(Dispatchers.IO) {
+                    imageFileManager.saveImageFromUri(uri)
+                }
+                
+                if (localImagePath != null) {
+                    setState { copy(imageUrl = localImagePath) }
+                    Log.d("AddEditPlayerViewModel", "Image saved to: $localImagePath")
+                } else {
+                    Log.e("AddEditPlayerViewModel", "Failed to save image from URI: $imageUri")
+                    setEffect { AddEditPlayerContract.Effect.ShowError("Failed to save image") }
+                }
+            } catch (e: Exception) {
+                Log.e("AddEditPlayerViewModel", "Error handling image selection", e)
+                setEffect { AddEditPlayerContract.Effect.ShowError("Error saving image: ${e.message}") }
+            }
+        }
     }
 
     private fun handleDeletePhotoClicked() {
+        val currentImagePath = viewState.value.imageUrl
+        if (currentImagePath != null) {
+            // Delete the file from storage
+            imageFileManager.deleteImage(currentImagePath)
+        }
         setState { copy(imageUrl = null) }
     }
 }

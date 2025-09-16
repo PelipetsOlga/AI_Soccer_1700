@@ -24,12 +24,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import java.io.File
 import com.manager1700.soccer.Montserrat
 import com.manager1700.soccer.R
 import com.manager1700.soccer.ui.theme.SoccerManagerTheme
@@ -44,6 +47,7 @@ fun PhotoPickerField(
     onDeletePhotoClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
     Column(
         modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -67,7 +71,9 @@ fun PhotoPickerField(
                     .clickable { onPhotoPickerClick() }
             ) {
                 AsyncImage(
-                    model = imageUrl,
+                    model = ImageRequest.Builder(context)
+                        .data(File(imageUrl))
+                        .build(),
                     contentDescription = "Player photo",
                     modifier = Modifier
                         .fillMaxWidth()

@@ -22,11 +22,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import java.io.File
 import com.manager1700.soccer.Montserrat
 import com.manager1700.soccer.R
 import com.manager1700.soccer.domain.models.Player
@@ -72,6 +75,7 @@ private fun ExpandablePlayerCard(
     onSetActiveClick: () -> Unit,
     onEditClick: () -> Unit,
 ) {
+    val context = LocalContext.current
     AppCard(
         title = if (expanded) {
             player.name
@@ -130,7 +134,9 @@ private fun ExpandablePlayerCard(
                     ) {
                         if (player.imageUrl != null) {
                             AsyncImage(
-                                model = player.imageUrl,
+                                model = ImageRequest.Builder(context)
+                                    .data(File(player.imageUrl))
+                                    .build(),
                                 contentDescription = "Player photo",
                                 modifier = Modifier
                                     .fillMaxWidth()
