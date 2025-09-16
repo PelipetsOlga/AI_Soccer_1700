@@ -22,6 +22,7 @@ object TrainingScreenContract {
     sealed class Event : UiEvent {
         data object BackClicked : Event()
         data object SettingsClicked : Event()
+        data object AddTrainingClicked : Event()
     }
     
     /**
@@ -30,5 +31,6 @@ object TrainingScreenContract {
     sealed class Effect : UiEffect {
         data object NavigateBack : Effect()
         data object NavigateToSettings : Effect()
+        data object NavigateToAddTraining : Effect()
     }
 }
