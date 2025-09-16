@@ -29,7 +29,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import java.io.File
 import com.manager1700.soccer.Montserrat
 import com.manager1700.soccer.R
 import com.manager1700.soccer.domain.models.Player
@@ -41,8 +40,8 @@ import com.manager1700.soccer.ui.feature_team.TeamScreenContract
 import com.manager1700.soccer.ui.theme.SoccerManagerTheme
 import com.manager1700.soccer.ui.theme.colorBlack
 import com.manager1700.soccer.ui.theme.colorWhite
-import com.manager1700.soccer.ui.theme.colorYellow
 import com.manager1700.soccer.ui.utils.PreviewApp
+import java.io.File
 
 @Composable
 fun PlayerCard(
@@ -116,13 +115,19 @@ private fun ExpandablePlayerCard(
                 ) {
                     SmallGreyButton(
                         text = stringResource(R.string.btn_profile),
-                        onClick = { onProfileClick() })
+                        onClick = { onProfileClick() },
+                        modifier = Modifier.weight(1f)
+                    )
                     SmallGreyButton(
                         text = stringResource(R.string.btn_set_injured),
-                        onClick = { onSetInjuredClick() })
+                        onClick = { onSetInjuredClick() },
+                        modifier = Modifier.weight(1f)
+                    )
                     SmallGreyButton(
                         text = stringResource(R.string.btn_remove),
-                        onClick = { onRemoveClick() })
+                        onClick = { onRemoveClick() },
+                        modifier = Modifier.weight(1f)
+                    )
                 }
             } else {
                 Row(modifier = Modifier.fillMaxWidth()) {
@@ -130,7 +135,6 @@ private fun ExpandablePlayerCard(
                         modifier = Modifier
                             .size(75.dp, 100.dp)
                             .clip(RoundedCornerShape(8.dp))
-                            .background(colorYellow)
                     ) {
                         if (player.imageUrl != null) {
                             AsyncImage(
@@ -199,13 +203,19 @@ private fun ExpandablePlayerCard(
                 ) {
                     SmallGreyButton(
                         text = stringResource(R.string.btn_edit),
-                        onClick = { onEditClick })
+                        onClick = { onEditClick },
+                        modifier = Modifier.weight(1f)
+                    )
                     SmallGreyButton(
                         text = stringResource(R.string.btn_set_active),
-                        onClick = { onSetActiveClick() })
+                        onClick = { onSetActiveClick() },
+                        modifier = Modifier.weight(1f)
+                    )
                     SmallGreyButton(
                         text = stringResource(R.string.btn_close),
-                        onClick = { onCloseClick() })
+                        onClick = { onCloseClick() },
+                        modifier = Modifier.weight(1f)
+                    )
                 }
             }
         }

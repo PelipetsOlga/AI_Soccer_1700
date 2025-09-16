@@ -143,7 +143,10 @@ fun HomeWrapperScreen(
         NavHost(
             navController = bottomNavController,
             startDestination = Screen.Home.route,
-            modifier = Modifier.padding(paddingValues)
+            modifier = Modifier
+//                .background(Color.Green)
+                .padding(paddingValues)
+//                .background(Color.Cyan)
         ) {
             composable(Screen.Team.route) {
                 TeamScreen(
@@ -246,7 +249,7 @@ fun HomeWrapperScreenPreview() {
                                         Modifier
                                             .clip(cardVeryBigClipShape)
                                             .background(colorBlack)
-                                            .padding(all =  3.dp)
+                                            .padding(all = 3.dp)
                                             .background(colorGrey_2b)
                                             .size(if (item.route == Screen.Home.route) 72.dp else 48.dp)
                                 )
@@ -267,7 +270,10 @@ fun HomeWrapperScreenPreview() {
                 }
             }
         ) { paddingValues ->
-            Box(modifier = Modifier.padding(paddingValues)) {
+            Box(
+                modifier = Modifier
+                    .padding(paddingValues)
+            ) {
                 HomeScreen(
                     mainNavController = rememberNavController(),
                     bottomNavController = rememberNavController(),

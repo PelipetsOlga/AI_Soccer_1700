@@ -1,5 +1,7 @@
 package com.manager1700.soccer.ui.feature_team
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,6 +25,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -38,6 +41,7 @@ import com.manager1700.soccer.ui.feature_team.compose.PlayerCard
 import com.manager1700.soccer.ui.theme.SoccerManagerTheme
 import com.manager1700.soccer.ui.theme.colorBlack
 import com.manager1700.soccer.ui.utils.PreviewApp
+import com.manager1700.soccer.ui.utils.statusBarTopPadding
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -95,8 +99,7 @@ fun TeamScreenContent(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
-//                .verticalScroll(rememberScrollState())
+                .padding(top = paddingValues.calculateTopPadding())
                 .padding(all = 16.dp)
         ) {
 
@@ -127,7 +130,8 @@ fun TeamScreenContent(
             } else {
                 LazyColumn(
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     items(state.players) { player ->
                         PlayerCard(player, onEvent)
