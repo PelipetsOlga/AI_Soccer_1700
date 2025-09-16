@@ -36,6 +36,7 @@ class TeamScreenViewModel @Inject constructor(
             is TeamScreenContract.Event.RemovePlayerClicked -> handleRemovePlayerClicked(event.player)
             is TeamScreenContract.Event.ConfirmRemovePlayer -> handleConfirmRemovePlayer()
             is TeamScreenContract.Event.CancelRemovePlayer -> handleCancelRemovePlayer()
+            is TeamScreenContract.Event.ReloadPlayers -> loadPlayers()
         }
     }
 

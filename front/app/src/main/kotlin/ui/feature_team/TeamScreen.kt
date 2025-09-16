@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -51,6 +52,11 @@ fun TeamScreen(
     viewModel: TeamScreenViewModel = hiltViewModel()
 ) {
     val state by viewModel.viewState.collectAsState()
+
+    // Reload players when screen is composed (when user returns from other screens)
+    LaunchedEffect(Unit) {
+        viewModel.setEvent(TeamScreenContract.Event.ReloadPlayers)
+    }
 
     // Handle side effects
     LaunchedEffect(Unit) {
@@ -100,9 +106,8 @@ fun TeamScreenContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(top = paddingValues.calculateTopPadding())
-                .padding(all = 16.dp)
+                .padding(horizontal = 16.dp)
         ) {
-
             if (state.isLoading) {
                 Box(
                     modifier = Modifier
@@ -126,12 +131,13 @@ fun TeamScreenContent(
                         textAlign = TextAlign.Center,
                     )
                 }
-
             } else {
                 LazyColumn(
                     modifier = Modifier
+                        .weight(1f)
                         .fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    contentPadding = PaddingValues(vertical = 16.dp)
                 ) {
                     items(state.players) { player ->
                         PlayerCard(player, onEvent)
@@ -139,10 +145,12 @@ fun TeamScreenContent(
                 }
             }
 
-            // Add Player Button
+            // Add Player Button - always visible at bottom
             if (state.isLoading.not()) {
                 Box(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 16.dp),
                     contentAlignment = Alignment.Center
                 ) {
                     PrimaryButton(

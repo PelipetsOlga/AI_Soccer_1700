@@ -82,7 +82,7 @@ private fun ExpandablePlayerCard(
             "${player.name} | ${player.number} | ${player.position.shortName}"
         }
     ) {
-        Column(modifier = Modifier.fillMaxWidth()) {
+        Column(modifier = Modifier.fillMaxWidth().padding(all = 4.dp)) {
             if (expanded.not()) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
