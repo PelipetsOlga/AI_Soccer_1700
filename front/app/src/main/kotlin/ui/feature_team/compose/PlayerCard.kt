@@ -56,7 +56,7 @@ fun PlayerCard(
         expanded = expanded,
         onProfileClick = { expanded = true },
         onCloseClick = { expanded = false },
-        onEditClick = {},
+        onEditClick = {onEvent(TeamScreenContract.Event.EditPlayerClicked(player))},
         onRemoveClick = { onEvent(TeamScreenContract.Event.RemovePlayerClicked(player)) },
         onSetActiveClick = {},
         onSetInjuredClick = {}

@@ -28,6 +28,7 @@ object TeamScreenContract {
         data object SettingsClicked : Event()
         data object AddPlayerClicked : Event()
         data class RemovePlayerClicked(val player: Player) : Event()
+        data class EditPlayerClicked(val player: Player) : Event()
         data object ConfirmRemovePlayer : Event()
         data object CancelRemovePlayer : Event()
         data object ReloadPlayers : Event()
