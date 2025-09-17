@@ -43,6 +43,8 @@ class TeamScreenViewModel @Inject constructor(
             is TeamScreenContract.Event.InjuryDateChanged -> handleInjuryDateChanged(event.date)
             is TeamScreenContract.Event.ConfirmSetInjured -> handleConfirmSetInjured()
             is TeamScreenContract.Event.CancelSetInjured -> handleCancelSetInjured()
+            is TeamScreenContract.Event.ConfirmSetActive -> handleConfirmSetActive()
+            is TeamScreenContract.Event.CancelSetActive -> handleCancelSetActive()
         }
     }
 
@@ -123,17 +125,11 @@ class TeamScreenViewModel @Inject constructor(
     }
 
     private fun handleSetActivePlayerClicked(player: Player) {
-        viewModelScope.launch {
-            try {
-                val updatedPlayer = player.copy(
-                    status = com.manager1700.soccer.domain.models.PlayerStatus.Active,
-                    dateOfInjury = null
-                )
-                soccerRepository.updatePlayer(updatedPlayer)
-                loadPlayers() // Reload to update UI
-            } catch (e: Exception) {
-                Log.e("TeamScreenViewModel", "Error setting player active", e)
-            }
+        setState { 
+            copy(
+                showSetActiveDialog = true,
+                playerToSetActive = player
+            ) 
         }
     }
 
@@ -185,6 +181,40 @@ class TeamScreenViewModel @Inject constructor(
                 showSetInjuredDialog = false,
                 playerToSetInjured = null,
                 injuryDate = ""
+            ) 
+        }
+    }
+
+    private fun handleConfirmSetActive() {
+        val playerToSetActive = viewState.value.playerToSetActive
+        if (playerToSetActive != null) {
+            viewModelScope.launch {
+                try {
+                    val updatedPlayer = playerToSetActive.copy(
+                        status = com.manager1700.soccer.domain.models.PlayerStatus.Active,
+                        dateOfInjury = null
+                    )
+                    soccerRepository.updatePlayer(updatedPlayer)
+                    loadPlayers() // Reload to update UI
+                } catch (e: Exception) {
+                    Log.e("TeamScreenViewModel", "Error setting player active", e)
+                }
+            }
+        }
+        
+        setState { 
+            copy(
+                showSetActiveDialog = false,
+                playerToSetActive = null
+            ) 
+        }
+    }
+
+    private fun handleCancelSetActive() {
+        setState { 
+            copy(
+                showSetActiveDialog = false,
+                playerToSetActive = null
             ) 
         }
     }

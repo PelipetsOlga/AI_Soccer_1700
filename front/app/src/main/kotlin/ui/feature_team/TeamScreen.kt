@@ -119,20 +119,49 @@ fun TeamScreen(
         onEvent = { viewModel.setEvent(it) }
     )
 
-    // Set Injured Dialog
-    if (state.showSetInjuredDialog && state.playerToSetInjured != null) {
-        val player = state.playerToSetInjured!!
-        SetInjuredDialog(
-            player = player,
-            injuryDate = state.injuryDate,
-            onInjuryDateChanged = { viewModel.setEvent(TeamScreenContract.Event.InjuryDateChanged(it)) },
-            onDatePickerClick = {
-                showDatePicker = true
-            },
-            onConfirm = { viewModel.setEvent(TeamScreenContract.Event.ConfirmSetInjured) },
-            onCancel = { viewModel.setEvent(TeamScreenContract.Event.CancelSetInjured) }
-        )
-    }
+        // Set Injured Dialog
+        if (state.showSetInjuredDialog && state.playerToSetInjured != null) {
+            val player = state.playerToSetInjured!!
+            SetInjuredDialog(
+                player = player,
+                injuryDate = state.injuryDate,
+                onInjuryDateChanged = { viewModel.setEvent(TeamScreenContract.Event.InjuryDateChanged(it)) },
+                onDatePickerClick = {
+                    showDatePicker = true
+                },
+                onConfirm = { viewModel.setEvent(TeamScreenContract.Event.ConfirmSetInjured) },
+                onCancel = { viewModel.setEvent(TeamScreenContract.Event.CancelSetInjured) }
+            )
+        }
+
+        // Set Active Confirmation Dialog
+        if (state.showSetActiveDialog) {
+            AlertDialog(
+                onDismissRequest = { viewModel.setEvent(TeamScreenContract.Event.CancelSetActive) },
+                title = {
+                    Text(
+                        text = "Are you sure that player is active?",
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                },
+                confirmButton = {
+                    TextButton(
+                        onClick = { viewModel.setEvent(TeamScreenContract.Event.ConfirmSetActive) }
+                    ) {
+                        Text("YES")
+                    }
+                },
+                dismissButton = {
+                    TextButton(
+                        onClick = { viewModel.setEvent(TeamScreenContract.Event.CancelSetActive) }
+                    ) {
+                        Text("NO")
+                    }
+                },
+                containerColor = MaterialTheme.colorScheme.surface,
+                textContentColor = MaterialTheme.colorScheme.onSurface
+            )
+        }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
