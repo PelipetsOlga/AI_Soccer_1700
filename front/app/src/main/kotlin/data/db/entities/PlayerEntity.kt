@@ -19,7 +19,6 @@ data class PlayerEntity(
     val status: String, // Store as string key
     val note: String,
     val dateOfInjury: String?,
-    val noteOfInjury: String?,
     val imageUrl: String?,
 )
 
@@ -35,7 +34,6 @@ fun PlayerEntity.toDomainModel(): Player {
         status = PlayerStatus.entries.first { it.key == status },
         note = note,
         dateOfInjury = dateOfInjury,
-        noteOfInjury = noteOfInjury,
         imageUrl = imageUrl,
     )
 }
@@ -51,7 +49,6 @@ fun Player.toEntity(): PlayerEntity {
         status = status.key,
         note = note,
         dateOfInjury = dateOfInjury,
-        noteOfInjury = noteOfInjury,
         imageUrl = imageUrl,
     )
 }

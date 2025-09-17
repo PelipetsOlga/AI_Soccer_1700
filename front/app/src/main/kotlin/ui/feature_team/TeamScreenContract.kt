@@ -20,8 +20,7 @@ object TeamScreenContract {
         val playerToRemove: Player? = null,
         val showSetInjuredDialog: Boolean = false,
         val playerToSetInjured: Player? = null,
-        val injuryDate: String = "",
-        val injuryNote: String = ""
+        val injuryDate: String = ""
     ) : UiState
     
     /**
@@ -39,7 +38,6 @@ object TeamScreenContract {
         data object CancelRemovePlayer : Event()
         data object ReloadPlayers : Event()
         data class InjuryDateChanged(val date: String) : Event()
-        data class InjuryNoteChanged(val note: String) : Event()
         data object ConfirmSetInjured : Event()
         data object CancelSetInjured : Event()
     }

@@ -125,7 +125,6 @@ class AddEditPlayerViewModel @Inject constructor(
             status = PlayerStatus.Active,
             note = state.note,
             dateOfInjury = null,
-            noteOfInjury = null,
             imageUrl = state.imageUrl,
         )
     }

@@ -20,16 +20,13 @@ import androidx.compose.ui.unit.sp
 import com.manager1700.soccer.Montserrat
 import com.manager1700.soccer.domain.models.Player
 import com.manager1700.soccer.ui.components.input.DatePickerField
-import com.manager1700.soccer.ui.components.input.PlayerNoteInputField
 import com.manager1700.soccer.ui.theme.colorWhite
 
 @Composable
 fun SetInjuredDialog(
     player: Player,
     injuryDate: String,
-    injuryNote: String,
     onInjuryDateChanged: (String) -> Unit,
-    onInjuryNoteChanged: (String) -> Unit,
     onDatePickerClick: () -> Unit,
     onConfirm: () -> Unit,
     onCancel: () -> Unit
@@ -46,20 +43,11 @@ fun SetInjuredDialog(
             )
         },
         text = {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                DatePickerField(
-                    value = injuryDate,
-                    onValueChange = onInjuryDateChanged,
-                    onDatePickerClick = onDatePickerClick
-                )
-                
-                PlayerNoteInputField(
-                    value = injuryNote,
-                    onValueChange = onInjuryNoteChanged
-                )
-            }
+            DatePickerField(
+                value = injuryDate,
+                onValueChange = onInjuryDateChanged,
+                onDatePickerClick = onDatePickerClick
+            )
         },
         confirmButton = {
             TextButton(

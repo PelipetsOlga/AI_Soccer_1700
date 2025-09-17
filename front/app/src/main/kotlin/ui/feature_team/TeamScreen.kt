@@ -125,9 +125,7 @@ fun TeamScreen(
         SetInjuredDialog(
             player = player,
             injuryDate = state.injuryDate,
-            injuryNote = state.injuryNote,
             onInjuryDateChanged = { viewModel.setEvent(TeamScreenContract.Event.InjuryDateChanged(it)) },
-            onInjuryNoteChanged = { viewModel.setEvent(TeamScreenContract.Event.InjuryNoteChanged(it)) },
             onDatePickerClick = {
                 showDatePicker = true
             },

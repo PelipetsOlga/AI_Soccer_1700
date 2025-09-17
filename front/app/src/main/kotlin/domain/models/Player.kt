@@ -41,7 +41,6 @@ data class Player(
     val status: PlayerStatus,
     val note: String,
     val dateOfInjury: String?,
-    val noteOfInjury: String?,
     val imageUrl: String?,
 ) {
     companion object {
@@ -55,7 +54,6 @@ data class Player(
             status = PlayerStatus.Active,
             note = "",
             dateOfInjury = null,
-            noteOfInjury = null,
             imageUrl = null,
         )
 
@@ -69,7 +67,6 @@ data class Player(
             foot = Foot.Right,
             note = "He is a new comer from New York. 19 Years old. 75 kg.",
             dateOfInjury = null,
-            noteOfInjury = null,
             imageUrl = null,
         )
     }

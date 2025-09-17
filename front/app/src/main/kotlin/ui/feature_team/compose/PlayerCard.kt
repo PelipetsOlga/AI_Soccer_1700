@@ -118,11 +118,19 @@ private fun ExpandablePlayerCard(
                         onClick = { onProfileClick() },
                         modifier = Modifier.weight(1f)
                     )
-                    SmallGreyButton(
-                        text = stringResource(R.string.btn_set_injured),
-                        onClick = { onSetInjuredClick(player) },
-                        modifier = Modifier.weight(1f)
-                    )
+                    if (player.status == com.manager1700.soccer.domain.models.PlayerStatus.Active) {
+                        SmallGreyButton(
+                            text = stringResource(R.string.btn_set_injured),
+                            onClick = { onSetInjuredClick(player) },
+                            modifier = Modifier.weight(1f)
+                        )
+                    } else {
+                        SmallGreyButton(
+                            text = stringResource(R.string.btn_set_active),
+                            onClick = { onSetActiveClick() },
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
                     SmallGreyButton(
                         text = stringResource(R.string.btn_remove),
                         onClick = { onRemoveClick() },
@@ -206,11 +214,19 @@ private fun ExpandablePlayerCard(
                         onClick = { onEditClick() },
                         modifier = Modifier.weight(1f)
                     )
-                    SmallGreyButton(
-                        text = stringResource(R.string.btn_set_active),
-                        onClick = { onSetActiveClick() },
-                        modifier = Modifier.weight(1f)
-                    )
+                    if (player.status == com.manager1700.soccer.domain.models.PlayerStatus.Active) {
+                        SmallGreyButton(
+                            text = stringResource(R.string.btn_set_injured),
+                            onClick = { onSetInjuredClick(player) },
+                            modifier = Modifier.weight(1f)
+                        )
+                    } else {
+                        SmallGreyButton(
+                            text = stringResource(R.string.btn_set_active),
+                            onClick = { onSetActiveClick() },
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
                     SmallGreyButton(
                         text = stringResource(R.string.btn_close),
                         onClick = { onCloseClick() },
