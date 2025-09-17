@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.MyApplication" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.MyApplication" parent="android:Theme.Material.Light.NoActionBar">
+        <!-- Apply custom AlertDialog theme globally -->
+        <item name="android:alertDialogTheme">@style/CustomAlertDialog</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/color_grey_89</item>
+        <item name="android:colorBackground">@color/color_grey_3b</item>
+        <item name="android:windowBackground">@color/color_grey_3b</item>
+    </style>
     
     <!-- Custom Date Picker Dialog Theme -->
     <style name="CustomDatePickerDialog" parent="android:Theme.Material.Dialog">
@@ -42,6 +49,24 @@
         <item name="android:colorBackground">@color/color_grey_2b</item>
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorSecondary">@color/color_grey_89</item>
+    </style>
+    
+    <!-- Custom AlertDialog Theme -->
+    <style name="CustomAlertDialog" parent="android:Theme.Material.Dialog.Alert">
+        <item name="android:colorBackground">@color/color_grey_3b</item>
+        <item name="android:windowBackground">@color/color_grey_3b</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/color_grey_89</item>
+        <item name="android:colorAccent">@color/color_red</item>
+        <item name="android:buttonBarButtonStyle">@style/CustomAlertDialogButton</item>
+    </style>
+    
+    <!-- Custom AlertDialog Button Style -->
+    <style name="CustomAlertDialogButton" parent="android:Widget.Material.Button">
+        <item name="android:textColor">@color/color_red</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">16sp</item>
     </style>
     
 </resources>

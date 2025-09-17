@@ -13,9 +13,21 @@ import androidx.core.view.WindowCompat
 import com.manager1700.soccer.AppTypography
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = colorRed,
+    secondary = colorGrey_66,
+    tertiary = colorGrey_89,
+    background = colorBlack,
+    surface = colorGrey_3b,
+    onPrimary = colorWhite,
+    onSecondary = colorWhite,
+    onTertiary = colorWhite,
+    onBackground = colorWhite,
+    onSurface = colorWhite,
+    onSurfaceVariant = colorGrey_89,
+    outline = colorGrey_66,
+    outlineVariant = colorGrey_2b,
+    error = colorRed,
+    onError = colorWhite
 )
 
 @Composable
