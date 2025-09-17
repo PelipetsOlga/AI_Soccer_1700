@@ -58,8 +58,8 @@ fun PlayerCard(
         onCloseClick = { expanded = false },
         onEditClick = {onEvent(TeamScreenContract.Event.EditPlayerClicked(player))},
         onRemoveClick = { onEvent(TeamScreenContract.Event.RemovePlayerClicked(player)) },
-        onSetActiveClick = {},
-        onSetInjuredClick = {}
+        onSetActiveClick = {onEvent(TeamScreenContract.Event.SetActiveClicked(player))},
+        onSetInjuredClick = { onEvent(TeamScreenContract.Event.SetInjuredClicked(player)) }
     )
 }
 
@@ -68,7 +68,7 @@ private fun ExpandablePlayerCard(
     player: Player,
     expanded: Boolean,
     onProfileClick: () -> Unit,
-    onSetInjuredClick: () -> Unit,
+    onSetInjuredClick: (Player) -> Unit,
     onRemoveClick: () -> Unit,
     onCloseClick: () -> Unit,
     onSetActiveClick: () -> Unit,
@@ -120,7 +120,7 @@ private fun ExpandablePlayerCard(
                     )
                     SmallGreyButton(
                         text = stringResource(R.string.btn_set_injured),
-                        onClick = { onSetInjuredClick() },
+                        onClick = { onSetInjuredClick(player) },
                         modifier = Modifier.weight(1f)
                     )
                     SmallGreyButton(

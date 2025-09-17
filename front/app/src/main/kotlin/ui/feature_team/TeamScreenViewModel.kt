@@ -35,6 +35,8 @@ class TeamScreenViewModel @Inject constructor(
             is TeamScreenContract.Event.AddPlayerClicked -> handleAddPlayerClicked()
             is TeamScreenContract.Event.RemovePlayerClicked -> handleRemovePlayerClicked(event.player)
             is TeamScreenContract.Event.EditPlayerClicked -> handleEditPlayerClicked(event.player)
+            is TeamScreenContract.Event.SetActiveClicked -> handleSetActivePlayerClicked(event.player)
+            is TeamScreenContract.Event.SetInjuredClicked -> handleSetInjuredPlayerClicked(event.player)
             is TeamScreenContract.Event.ConfirmRemovePlayer -> handleConfirmRemovePlayer()
             is TeamScreenContract.Event.CancelRemovePlayer -> handleCancelRemovePlayer()
             is TeamScreenContract.Event.ReloadPlayers -> loadPlayers()
@@ -115,6 +117,14 @@ class TeamScreenViewModel @Inject constructor(
                 playerToRemove = null
             ) 
         }
+    }
+
+    private fun handleSetActivePlayerClicked(player: Player) {
+        //todo change player in database
+    }
+
+    private fun handleSetInjuredPlayerClicked(player: Player) {
+        // todo show popup
     }
 
 }
