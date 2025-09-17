@@ -91,3 +91,4 @@ object TrainingTypes {
         CONDITIONING
     )
 }
+
