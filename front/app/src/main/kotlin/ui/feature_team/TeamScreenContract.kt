@@ -17,7 +17,11 @@ object TeamScreenContract {
         val isLoading: Boolean = false,
         val players: List<Player> = emptyList(),
         val showRemovePlayerDialog: Boolean = false,
-        val playerToRemove: Player? = null
+        val playerToRemove: Player? = null,
+        val showSetInjuredDialog: Boolean = false,
+        val playerToSetInjured: Player? = null,
+        val injuryDate: String = "",
+        val injuryNote: String = ""
     ) : UiState
     
     /**
@@ -34,6 +38,10 @@ object TeamScreenContract {
         data object ConfirmRemovePlayer : Event()
         data object CancelRemovePlayer : Event()
         data object ReloadPlayers : Event()
+        data class InjuryDateChanged(val date: String) : Event()
+        data class InjuryNoteChanged(val note: String) : Event()
+        data object ConfirmSetInjured : Event()
+        data object CancelSetInjured : Event()
     }
     
     /**

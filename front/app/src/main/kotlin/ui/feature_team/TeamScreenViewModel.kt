@@ -40,6 +40,10 @@ class TeamScreenViewModel @Inject constructor(
             is TeamScreenContract.Event.ConfirmRemovePlayer -> handleConfirmRemovePlayer()
             is TeamScreenContract.Event.CancelRemovePlayer -> handleCancelRemovePlayer()
             is TeamScreenContract.Event.ReloadPlayers -> loadPlayers()
+            is TeamScreenContract.Event.InjuryDateChanged -> handleInjuryDateChanged(event.date)
+            is TeamScreenContract.Event.InjuryNoteChanged -> handleInjuryNoteChanged(event.note)
+            is TeamScreenContract.Event.ConfirmSetInjured -> handleConfirmSetInjured()
+            is TeamScreenContract.Event.CancelSetInjured -> handleCancelSetInjured()
         }
     }
 
@@ -120,11 +124,80 @@ class TeamScreenViewModel @Inject constructor(
     }
 
     private fun handleSetActivePlayerClicked(player: Player) {
-        //todo change player in database
+        viewModelScope.launch {
+            try {
+                val updatedPlayer = player.copy(
+                    status = com.manager1700.soccer.domain.models.PlayerStatus.Active,
+                    dateOfInjury = null,
+                    noteOfInjury = null
+                )
+                soccerRepository.updatePlayer(updatedPlayer)
+                loadPlayers() // Reload to update UI
+            } catch (e: Exception) {
+                Log.e("TeamScreenViewModel", "Error setting player active", e)
+            }
+        }
     }
 
     private fun handleSetInjuredPlayerClicked(player: Player) {
-        // todo show popup
+        setState { 
+            copy(
+                showSetInjuredDialog = true,
+                playerToSetInjured = player,
+                injuryDate = "",
+                injuryNote = ""
+            ) 
+        }
+    }
+
+    private fun handleInjuryDateChanged(date: String) {
+        setState { copy(injuryDate = date) }
+    }
+
+    private fun handleInjuryNoteChanged(note: String) {
+        setState { copy(injuryNote = note) }
+    }
+
+    private fun handleConfirmSetInjured() {
+        val playerToSetInjured = viewState.value.playerToSetInjured
+        val injuryDate = viewState.value.injuryDate
+        val injuryNote = viewState.value.injuryNote
+        
+        if (playerToSetInjured != null && injuryDate.isNotEmpty()) {
+            viewModelScope.launch {
+                try {
+                    val updatedPlayer = playerToSetInjured.copy(
+                        status = com.manager1700.soccer.domain.models.PlayerStatus.Injured,
+                        dateOfInjury = injuryDate,
+                        noteOfInjury = injuryNote
+                    )
+                    soccerRepository.updatePlayer(updatedPlayer)
+                    loadPlayers() // Reload to update UI
+                } catch (e: Exception) {
+                    Log.e("TeamScreenViewModel", "Error setting player injured", e)
+                }
+            }
+        }
+        
+        setState { 
+            copy(
+                showSetInjuredDialog = false,
+                playerToSetInjured = null,
+                injuryDate = "",
+                injuryNote = ""
+            ) 
+        }
+    }
+
+    private fun handleCancelSetInjured() {
+        setState { 
+            copy(
+                showSetInjuredDialog = false,
+                playerToSetInjured = null,
+                injuryDate = "",
+                injuryNote = ""
+            ) 
+        }
     }
 
 }

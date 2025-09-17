@@ -20,6 +20,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.ui.platform.LocalContext
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Calendar
+import android.app.DatePickerDialog
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -37,6 +45,7 @@ import com.manager1700.soccer.R
 import com.manager1700.soccer.Screen
 import com.manager1700.soccer.domain.models.Player
 import com.manager1700.soccer.ui.components.PrimaryButton
+import com.manager1700.soccer.ui.components.SetInjuredDialog
 import com.manager1700.soccer.ui.components.Toolbar
 import com.manager1700.soccer.ui.feature_team.compose.PlayerCard
 import com.manager1700.soccer.ui.theme.SoccerManagerTheme
@@ -52,10 +61,34 @@ fun TeamScreen(
     viewModel: TeamScreenViewModel = hiltViewModel()
 ) {
     val state by viewModel.viewState.collectAsState()
+    val context = LocalContext.current
+    var showDatePicker by remember { mutableStateOf(false) }
+    val calendar = Calendar.getInstance()
 
     // Reload players when screen is composed (when user returns from other screens)
     LaunchedEffect(Unit) {
         viewModel.setEvent(TeamScreenContract.Event.ReloadPlayers)
+    }
+
+    // Show Date Picker
+    LaunchedEffect(showDatePicker) {
+        if (showDatePicker) {
+            val datePickerDialog = DatePickerDialog(
+                context,
+                { _, year, month, dayOfMonth ->
+                    val selectedDate = LocalDate.of(year, month + 1, dayOfMonth)
+                    val formatter = DateTimeFormatter.ofPattern("dd MM yyyy")
+                    val formattedDate = selectedDate.format(formatter)
+                    viewModel.setEvent(TeamScreenContract.Event.InjuryDateChanged(formattedDate))
+                    showDatePicker = false
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+            )
+            datePickerDialog.show()
+            showDatePicker = false
+        }
     }
 
     // Handle side effects
@@ -85,6 +118,23 @@ fun TeamScreen(
         state = state,
         onEvent = { viewModel.setEvent(it) }
     )
+
+    // Set Injured Dialog
+    if (state.showSetInjuredDialog && state.playerToSetInjured != null) {
+        val player = state.playerToSetInjured!!
+        SetInjuredDialog(
+            player = player,
+            injuryDate = state.injuryDate,
+            injuryNote = state.injuryNote,
+            onInjuryDateChanged = { viewModel.setEvent(TeamScreenContract.Event.InjuryDateChanged(it)) },
+            onInjuryNoteChanged = { viewModel.setEvent(TeamScreenContract.Event.InjuryNoteChanged(it)) },
+            onDatePickerClick = {
+                showDatePicker = true
+            },
+            onConfirm = { viewModel.setEvent(TeamScreenContract.Event.ConfirmSetInjured) },
+            onCancel = { viewModel.setEvent(TeamScreenContract.Event.CancelSetInjured) }
+        )
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -194,6 +244,7 @@ fun TeamScreenContent(
                 textContentColor = MaterialTheme.colorScheme.onSurface
             )
         }
+
     }
 }
 
