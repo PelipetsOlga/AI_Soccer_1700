@@ -36,7 +36,27 @@ val cardBrushLightGradient = Brush.horizontalGradient(
     1.0f to colorWhite.copy(alpha = 0f),
 )
 
+val cardVeryLightGradient = Brush.verticalGradient(
+    0.0f to colorWhite.copy(alpha = 0.08f),
+    0f to colorWhite.copy(alpha = 0f),
+    0.2f to colorWhite.copy(alpha = 0.15f),
+    0.4f to colorWhite.copy(alpha = 0.3f),
+    0.6f to colorWhite.copy(alpha = 0.4f),
+    0.8f to colorWhite.copy(alpha = 0.12f),
+    1.0f to colorWhite.copy(alpha = 0f),
+    tileMode = TileMode.Clamp,
+)
+
 val cardBrushDarkGradient = Brush.linearGradient(
+    0.0f to colorWhite.copy(alpha = 0.08f),
+    0.3f to colorWhite.copy(alpha = 0.0f),
+    0.5f to colorWhite.copy(alpha = 0.15f),
+    0.7f to colorWhite.copy(alpha = 0.06f),
+    1.0f to colorWhite.copy(alpha = 0f),
+    tileMode = TileMode.Clamp,
+)
+
+val cardBrushDarkVerticalGradient = Brush.verticalGradient(
     0.0f to colorWhite.copy(alpha = 0.08f),
     0.3f to colorWhite.copy(alpha = 0.0f),
     0.5f to colorWhite.copy(alpha = 0.15f),
