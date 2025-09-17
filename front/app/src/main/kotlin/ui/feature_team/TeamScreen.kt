@@ -75,6 +75,7 @@ fun TeamScreen(
         if (showDatePicker) {
             val datePickerDialog = DatePickerDialog(
                 context,
+                R.style.CustomDatePickerDialog,
                 { _, year, month, dayOfMonth ->
                     val selectedDate = LocalDate.of(year, month + 1, dayOfMonth)
                     val formatter = DateTimeFormatter.ofPattern("dd MM yyyy")

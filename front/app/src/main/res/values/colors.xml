@@ -8,6 +8,13 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     
+    <!-- App Color Scheme -->
+    <color name="color_red">#CF1717</color>
+    <color name="color_grey_2b">#2B2B2B</color>
+    <color name="color_grey_3b">#3B3B3B</color>
+    <color name="color_grey_66">#666666</color>
+    <color name="color_grey_89">#898989</color>
+    
     <!-- Welcome Screen Colors -->
     <color name="welcome_red">#E62129</color>
     <color name="welcome_dark_bg">#1A1A1A</color>

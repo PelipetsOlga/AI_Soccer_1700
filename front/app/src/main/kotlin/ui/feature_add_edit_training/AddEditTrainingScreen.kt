@@ -112,6 +112,7 @@ fun AddEditTrainingScreen(
         if (showDatePicker) {
             val datePickerDialog = DatePickerDialog(
                 context,
+                R.style.CustomDatePickerDialog,
                 { _, year, month, dayOfMonth ->
                     val selectedDate = LocalDate.of(year, month + 1, dayOfMonth)
                     viewModel.setEvent(AddEditTrainingContract.Event.DateChanged(formatDate(selectedDate)))
@@ -129,6 +130,7 @@ fun AddEditTrainingScreen(
         if (showStartTimePicker) {
             val timePickerDialog = TimePickerDialog(
                 context,
+                R.style.CustomTimePickerDialog,
                 { _, hourOfDay, minute ->
                     val selectedTime = LocalTime.of(hourOfDay, minute)
                     viewModel.setEvent(AddEditTrainingContract.Event.StartTimeChanged(formatTime(selectedTime)))
@@ -146,6 +148,7 @@ fun AddEditTrainingScreen(
         if (showEndTimePicker) {
             val timePickerDialog = TimePickerDialog(
                 context,
+                R.style.CustomTimePickerDialog,
                 { _, hourOfDay, minute ->
                     val selectedTime = LocalTime.of(hourOfDay, minute)
                     viewModel.setEvent(AddEditTrainingContract.Event.EndTimeChanged(formatTime(selectedTime)))
