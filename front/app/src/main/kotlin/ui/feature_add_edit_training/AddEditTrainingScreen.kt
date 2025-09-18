@@ -41,7 +41,6 @@ import com.manager1700.soccer.ui.utils.statusBarTopPadding
 import com.manager1700.soccer.ui.components.input.formatDate
 import com.manager1700.soccer.ui.components.input.formatTime
 import com.manager1700.soccer.ui.components.input.TrainingTypes
-import com.manager1700.soccer.ui.components.input.VenueOptions
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -57,7 +56,6 @@ fun AddEditTrainingScreen(
     var showStartTimePicker by remember { mutableStateOf(false) }
     var showEndTimePicker by remember { mutableStateOf(false) }
     var showTypePicker by remember { mutableStateOf(false) }
-    var showVenuePicker by remember { mutableStateOf(false) }
 
     // Initialize with training data
     LaunchedEffect(training) {
@@ -91,9 +89,6 @@ fun AddEditTrainingScreen(
                 is AddEditTrainingContract.Effect.ShowTypePicker -> {
                     showTypePicker = true
                 }
-                is AddEditTrainingContract.Effect.ShowVenuePicker -> {
-                    showVenuePicker = true
-                }
             }
         }
     }
@@ -116,6 +111,7 @@ fun AddEditTrainingScreen(
                 { _, year, month, dayOfMonth ->
                     val selectedDate = LocalDate.of(year, month + 1, dayOfMonth)
                     viewModel.setEvent(AddEditTrainingContract.Event.DateChanged(formatDate(selectedDate)))
+                    showDatePicker = false
                 },
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
@@ -134,6 +130,7 @@ fun AddEditTrainingScreen(
                 { _, hourOfDay, minute ->
                     val selectedTime = LocalTime.of(hourOfDay, minute)
                     viewModel.setEvent(AddEditTrainingContract.Event.StartTimeChanged(formatTime(selectedTime)))
+                    showStartTimePicker = false
                 },
                 calendar.get(Calendar.HOUR_OF_DAY),
                 calendar.get(Calendar.MINUTE),
@@ -152,6 +149,7 @@ fun AddEditTrainingScreen(
                 { _, hourOfDay, minute ->
                     val selectedTime = LocalTime.of(hourOfDay, minute)
                     viewModel.setEvent(AddEditTrainingContract.Event.EndTimeChanged(formatTime(selectedTime)))
+                    showEndTimePicker = false
                 },
                 calendar.get(Calendar.HOUR_OF_DAY),
                 calendar.get(Calendar.MINUTE),
@@ -203,47 +201,6 @@ fun AddEditTrainingScreen(
         )
     }
 
-    // Show Venue Picker
-    LaunchedEffect(showVenuePicker) {
-        if (showVenuePicker) {
-            // This will be handled by the AlertDialog below
-        }
-    }
-
-    // Venue Picker Dialog
-    if (showVenuePicker) {
-        AlertDialog(
-            onDismissRequest = { showVenuePicker = false },
-            title = { androidx.compose.material3.Text("Select Venue") },
-            text = {
-                Column {
-                    VenueOptions.ALL_VENUES.forEach { venue ->
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable {
-                                    viewModel.setEvent(AddEditTrainingContract.Event.VenueChanged(venue))
-                                    showVenuePicker = false
-                                }
-                                .padding(16.dp)
-                        ) {
-                            androidx.compose.material3.Text(
-                                text = venue,
-                                modifier = Modifier.fillMaxWidth()
-                            )
-                        }
-                    }
-                }
-            },
-            confirmButton = {
-                TextButton(
-                    onClick = { showVenuePicker = false }
-                ) {
-                    androidx.compose.material3.Text("Cancel")
-                }
-            }
-        )
-    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

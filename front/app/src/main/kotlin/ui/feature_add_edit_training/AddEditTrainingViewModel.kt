@@ -56,7 +56,6 @@ class AddEditTrainingViewModel @Inject constructor(
             is AddEditTrainingContract.Event.StartTimePickerClicked -> handleStartTimePickerClicked()
             is AddEditTrainingContract.Event.EndTimePickerClicked -> handleEndTimePickerClicked()
             is AddEditTrainingContract.Event.TypePickerClicked -> handleTypePickerClicked()
-            is AddEditTrainingContract.Event.VenuePickerClicked -> handleVenuePickerClicked()
         }
     }
 
@@ -165,9 +164,5 @@ class AddEditTrainingViewModel @Inject constructor(
 
     private fun handleTypePickerClicked() {
         setEffect { AddEditTrainingContract.Effect.ShowTypePicker }
-    }
-
-    private fun handleVenuePickerClicked() {
-        setEffect { AddEditTrainingContract.Effect.ShowVenuePicker }
     }
 }
