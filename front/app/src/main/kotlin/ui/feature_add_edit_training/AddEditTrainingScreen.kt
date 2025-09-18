@@ -59,6 +59,7 @@ fun AddEditTrainingScreen(
     var showStartTimePicker by remember { mutableStateOf(false) }
     var showEndTimePicker by remember { mutableStateOf(false) }
     var showTypePicker by remember { mutableStateOf(false) }
+    val snackbarHostState = remember { SnackbarHostState() }
 
     // Initialize with training data
     LaunchedEffect(training) {
