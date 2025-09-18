@@ -11,6 +11,7 @@ import com.manager1700.soccer.domain.models.AttendanceInfo
 import com.manager1700.soccer.domain.models.Attendance
 import com.manager1700.soccer.domain.models.FutureAttendance
 import com.manager1700.soccer.domain.models.PastAttendance
+import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import kotlinx.serialization.Serializable
@@ -73,6 +74,16 @@ class TrainingConverters {
     fun toLocalTime(timeString: String): LocalTime {
         return LocalTime.parse(timeString, DateTimeFormatter.ISO_LOCAL_TIME)
     }
+
+    @TypeConverter
+    fun fromLocalDate(date: LocalDate): String {
+        return date.format(DateTimeFormatter.ISO_LOCAL_DATE)
+    }
+
+    @TypeConverter
+    fun toLocalDate(dateString: String): LocalDate {
+        return LocalDate.parse(dateString, DateTimeFormatter.ISO_LOCAL_DATE)
+    }
 }
 
 @Entity(tableName = "trainings")
@@ -81,6 +92,7 @@ data class TrainingEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val status: String, // Store as string key
+    val date: LocalDate,
     val startDateTime: LocalTime,
     val endDateTime: LocalTime,
     val type: String,
@@ -151,6 +163,7 @@ fun TrainingEntity.toDomainModel(): Training {
     return Training(
         id = id,
         status = SportEventStatus.values().first { it.key == status },
+        date = date,
         startDateTime = startDateTime,
         endDateTime = endDateTime,
         type = type,
@@ -168,6 +181,7 @@ fun Training.toEntity(): TrainingEntity {
     return TrainingEntity(
         id = id,
         status = status.key,
+        date = date,
         startDateTime = startDateTime,
         endDateTime = endDateTime,
         type = type,

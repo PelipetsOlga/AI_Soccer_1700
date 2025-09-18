@@ -1,5 +1,6 @@
 package com.manager1700.soccer.domain.models
 
+import java.time.LocalDate
 import java.time.LocalTime
 
 data class Exercise(
@@ -11,6 +12,7 @@ data class Exercise(
 data class Training(
     val id: Int,
     override val status: SportEventStatus,
+    override val date: LocalDate,
     override val startDateTime: LocalTime,
     override val endDateTime: LocalTime,
     override val type: String,

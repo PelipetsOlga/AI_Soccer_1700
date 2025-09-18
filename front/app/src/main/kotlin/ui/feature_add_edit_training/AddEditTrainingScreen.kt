@@ -27,6 +27,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -58,6 +61,7 @@ fun AddEditTrainingScreen(
     var showEndTimePicker by remember { mutableStateOf(false) }
     var showTypePicker by remember { mutableStateOf(false) }
     var showVenuePicker by remember { mutableStateOf(false) }
+    val snackbarHostState = remember { SnackbarHostState() }
 
     // Initialize with training data
     LaunchedEffect(training) {
@@ -75,9 +79,11 @@ fun AddEditTrainingScreen(
                     navController.popBackStack()
                 }
                 is AddEditTrainingContract.Effect.ShowError -> {
-                    // Handle error - could show a snackbar or dialog
-                    // For now, just log it
-                    android.util.Log.e("AddEditTraining", effect.message)
+                    // Show error toast
+                    snackbarHostState.showSnackbar(
+                        message = effect.message,
+                        duration = SnackbarDuration.Long
+                    )
                 }
                 is AddEditTrainingContract.Effect.ShowDatePicker -> {
                     showDatePicker = true
@@ -101,7 +107,8 @@ fun AddEditTrainingScreen(
     AddEditTrainingScreenContent(
         state = state,
         onEvent = { viewModel.setEvent(it) },
-        isEditMode = training != null
+        isEditMode = training != null,
+        snackbarHostState = snackbarHostState
     )
 
     val context = LocalContext.current
@@ -251,7 +258,8 @@ fun AddEditTrainingScreen(
 fun AddEditTrainingScreenContent(
     state: AddEditTrainingContract.State,
     onEvent: (AddEditTrainingContract.Event) -> Unit,
-    isEditMode: Boolean
+    isEditMode: Boolean,
+    snackbarHostState: SnackbarHostState
 ) {
     Scaffold(
         topBar = {
@@ -263,6 +271,7 @@ fun AddEditTrainingScreenContent(
                 onSettingsClick = { }
             )
         },
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         containerColor = colorBlack
     ) { paddingValues ->
         AddEditTrainingContent(
@@ -291,7 +300,8 @@ fun AddEditTrainingScreenPreview() {
                 note = ""
             ),
             onEvent = {},
-            isEditMode = false
+            isEditMode = false,
+            snackbarHostState = remember { SnackbarHostState() }
         )
     }
 }

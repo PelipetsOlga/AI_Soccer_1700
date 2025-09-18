@@ -4,6 +4,8 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import android.content.Context
 import com.manager1700.soccer.data.db.entities.PlayerEntity
 import com.manager1700.soccer.data.db.entities.TrainingEntity
@@ -22,7 +24,7 @@ import com.manager1700.soccer.data.db.dao.RelationDao
         MatchEntity::class,
         RelationEntity::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 @TypeConverters(TrainingConverters::class)
@@ -37,13 +39,24 @@ abstract class SportManagerDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: SportManagerDatabase? = null
 
+        val MIGRATION_1_2 = object : Migration(1, 2) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                // Add date column to trainings table
+                database.execSQL("ALTER TABLE trainings ADD COLUMN date TEXT NOT NULL DEFAULT '2024-01-01'")
+                // Add date column to matches table  
+                database.execSQL("ALTER TABLE matches ADD COLUMN date TEXT NOT NULL DEFAULT '2024-01-01'")
+            }
+        }
+
         fun getDatabase(context: Context): SportManagerDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     SportManagerDatabase::class.java,
                     "sport_manager_database"
-                ).build()
+                )
+                .addMigrations(MIGRATION_1_2)
+                .build()
                 INSTANCE = instance
                 instance
             }

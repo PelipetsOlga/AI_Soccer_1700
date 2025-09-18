@@ -83,3 +83,4 @@ fun formatTime(time: LocalTime): String {
     val formatter = DateTimeFormatter.ofPattern("HH:mm")
     return time.format(formatter)
 }
+
