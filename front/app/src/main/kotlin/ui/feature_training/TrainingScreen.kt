@@ -102,16 +102,14 @@ fun TrainingScreenContent(
         bottomBar = {
             // Fixed Add Training Button
             Box(
-                modifier = Modifier
-                    .fillMaxWidth()
+                modifier = Modifier.fillMaxWidth()
                     .background(colorBlack)
-                    .padding(16.dp),
+                    .padding(bottom = 16.dp),
                 contentAlignment = Alignment.Center
             ) {
                 PrimaryButton(
                     onClick = { onEvent(TrainingScreenContract.Event.AddTrainingClicked) },
                     text = stringResource(R.string.add_training),
-                    modifier = Modifier.fillMaxWidth()
                 )
             }
         },

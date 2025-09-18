@@ -10,11 +10,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.manager1700.soccer.Montserrat
@@ -28,9 +36,6 @@ import com.manager1700.soccer.ui.theme.colorBlack
 import com.manager1700.soccer.ui.theme.colorGrey_89
 import com.manager1700.soccer.ui.theme.colorWhite
 import com.manager1700.soccer.ui.utils.PreviewApp
-import com.manager1700.soccer.ui.components.AppCard
-import com.manager1700.soccer.ui.components.SmallGreyButton
-import com.manager1700.soccer.ui.components.training_input.SportEventStatusDropdown
 import java.time.format.DateTimeFormatter
 
 @Composable
@@ -42,6 +47,7 @@ fun TrainingItemCard(
     onStatusChanged: (com.manager1700.soccer.domain.models.SportEventStatus) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
+    var showStatusDropdown by remember { mutableStateOf(false) }
     val isCompleted = training.status == SportEventStatus.Completed
 
     val formattedDate = training.date.format(DateTimeFormatter.ofPattern("dd.MM.yy"))
@@ -100,10 +106,7 @@ fun TrainingItemCard(
                 Column(
                     horizontalAlignment = Alignment.End
                 ) {
-                    SportEventStatusDropdown(
-                        currentStatus = training.status,
-                        onStatusSelected = onStatusChanged
-                    )
+                    SportEventStatusChip(training.status)
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
                         text = "Plan Attached",
@@ -142,11 +145,38 @@ fun TrainingItemCard(
                     )
                 }
 
-                SmallGreyButton(
-                    text = stringResource(R.string.btn_mark_as),
-                    onClick = onMarkAsClick,
-                    modifier = Modifier.weight(1f)
-                )
+                Box(modifier = Modifier.weight(1f)) {
+                    SmallGreyButton(
+                        text = stringResource(R.string.btn_mark_as),
+                        onClick = { showStatusDropdown = true },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    
+                    DropdownMenu(
+                        expanded = showStatusDropdown,
+                        onDismissRequest = { showStatusDropdown = false },
+                        modifier = Modifier.background(colorWhite)
+                    ) {
+                        SportEventStatus.entries.forEach { status ->
+                            DropdownMenuItem(
+                                onClick = {
+                                    onStatusChanged(status)
+                                    showStatusDropdown = false
+                                }
+                            ) {
+                                Text(
+                                    text = stringResource(status.titleId),
+                                    fontSize = 14.sp,
+                                    fontWeight = FontWeight.Normal,
+                                    color = colorBlack,
+                                    fontFamily = Montserrat,
+                                    textAlign = TextAlign.Center,
+                                    modifier = Modifier.fillMaxWidth()
+                                )
+                            }
+                        }
+                    }
+                }
             }
         }
     }
