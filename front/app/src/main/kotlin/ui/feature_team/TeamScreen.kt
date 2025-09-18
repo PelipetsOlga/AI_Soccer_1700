@@ -78,7 +78,7 @@ fun TeamScreen(
                 R.style.CustomDatePickerDialog,
                 { _, year, month, dayOfMonth ->
                     val selectedDate = LocalDate.of(year, month + 1, dayOfMonth)
-                    val formatter = DateTimeFormatter.ofPattern("dd MM yyyy")
+                    val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
                     val formattedDate = selectedDate.format(formatter)
                     viewModel.setEvent(TeamScreenContract.Event.InjuryDateChanged(formattedDate))
                     showDatePicker = false
