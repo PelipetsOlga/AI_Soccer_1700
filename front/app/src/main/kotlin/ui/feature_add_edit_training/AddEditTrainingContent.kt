@@ -17,7 +17,7 @@ import com.manager1700.soccer.ui.components.input.DatePickerField
 import com.manager1700.soccer.ui.components.input.TimePickerField
 import com.manager1700.soccer.ui.components.input.TrainingNoteInputField
 import com.manager1700.soccer.ui.components.input.TypePickerField
-import com.manager1700.soccer.ui.components.input.VenuePickerField
+import com.manager1700.soccer.ui.components.input.VenueInputField
 import com.manager1700.soccer.ui.theme.SoccerManagerTheme
 import com.manager1700.soccer.ui.utils.PreviewApp
 
@@ -75,10 +75,9 @@ fun AddEditTrainingContent(
                     placeholder = stringResource(R.string.tint_end_time),
                 )
 
-                VenuePickerField(
+                VenueInputField(
                     value = state.venue,
                     onValueChange = { onEvent(AddEditTrainingContract.Event.VenueChanged(it)) },
-                    onVenuePickerClick = { onEvent(AddEditTrainingContract.Event.VenuePickerClicked) },
                 )
 
                 TrainingNoteInputField(

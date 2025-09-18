@@ -54,7 +54,6 @@ object AddEditTrainingContract {
         data object StartTimePickerClicked : Event()
         data object EndTimePickerClicked : Event()
         data object TypePickerClicked : Event()
-        data object VenuePickerClicked : Event()
     }
 
     /**
@@ -68,6 +67,5 @@ object AddEditTrainingContract {
         data object ShowStartTimePicker : Effect()
         data object ShowEndTimePicker : Effect()
         data object ShowTypePicker : Effect()
-        data object ShowVenuePicker : Effect()
     }
 }
