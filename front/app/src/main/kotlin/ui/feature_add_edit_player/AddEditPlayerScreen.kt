@@ -106,7 +106,7 @@ fun AddEditPlayerScreenContent(
                 showBackButton = true,
                 showSettingsButton = false,
                 onBackClick = { onEvent(AddEditPlayerContract.Event.BackClicked) },
-                modifier = Modifier.statusBarTopPadding(),
+//                modifier = Modifier.statusBarTopPadding(),
             )
         },
         containerColor = colorBlack

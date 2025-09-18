@@ -144,9 +144,8 @@ fun HomeWrapperScreen(
             navController = bottomNavController,
             startDestination = Screen.Home.route,
             modifier = Modifier
-//                .background(Color.Green)
-                .padding(paddingValues)
-//                .background(Color.Cyan)
+//                .padding(paddingValues)
+                .padding(bottom = paddingValues.calculateBottomPadding())
         ) {
             composable(Screen.Team.route) {
                 TeamScreen(
