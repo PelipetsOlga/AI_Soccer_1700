@@ -14,6 +14,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,8 +44,15 @@ fun TrainingCalendar(
     onDateSelected: (LocalDate) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val currentMonth = selectedDate?.let { YearMonth.from(it) } ?: YearMonth.now()
     val today = LocalDate.now()
+    val currentYear = today.year
+    val minYear = currentYear - 10
+    val maxYear = currentYear + 10
+    
+    // State for current displayed month
+    var currentMonth by remember { 
+        mutableStateOf(selectedDate?.let { YearMonth.from(it) } ?: YearMonth.now()) 
+    }
 
     Column(
         modifier = modifier
@@ -59,10 +70,12 @@ fun TrainingCalendar(
             Text(
                 text = "←",
                 fontSize = 20.sp,
-                color = colorWhite,
+                color = if (currentMonth.year > minYear) colorWhite else colorGrey_89,
                 fontFamily = Montserrat,
                 modifier = Modifier.clickable {
-                    // TODO: Navigate to previous month
+                    if (currentMonth.year > minYear) {
+                        currentMonth = currentMonth.minusMonths(1)
+                    }
                 }
             )
 
@@ -78,10 +91,12 @@ fun TrainingCalendar(
             Text(
                 text = "→",
                 fontSize = 20.sp,
-                color = colorWhite,
+                color = if (currentMonth.year < maxYear) colorWhite else colorGrey_89,
                 fontFamily = Montserrat,
                 modifier = Modifier.clickable {
-                    // TODO: Navigate to next month
+                    if (currentMonth.year < maxYear) {
+                        currentMonth = currentMonth.plusMonths(1)
+                    }
                 }
             )
         }
@@ -105,7 +120,7 @@ fun TrainingCalendar(
 
         // Calendar grid
         val firstDayOfMonth = currentMonth.atDay(1)
-        val firstDayOfWeek = firstDayOfMonth.dayOfWeek.value % 7 // Convert to 0-6 where 0 is Monday
+        val firstDayOfWeek = (firstDayOfMonth.dayOfWeek.value - 1) % 7 // Convert to 0-6 where 0 is Monday
         val daysInMonth = currentMonth.lengthOfMonth()
 
         Column(
