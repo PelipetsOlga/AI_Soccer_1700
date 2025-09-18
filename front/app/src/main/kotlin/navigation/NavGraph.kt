@@ -12,6 +12,7 @@ import com.manager1700.soccer.ui.feature_welcome.WelcomeScreen
 import com.manager1700.soccer.ui.feature_settings.SettingsScreen
 import com.manager1700.soccer.ui.feature_add_edit_player.AddEditPlayerScreen
 import com.manager1700.soccer.ui.feature_add_edit_training.AddEditTrainingScreen
+import com.manager1700.soccer.ui.feature_training_details.TrainingDetailsScreen
 import com.manager1700.soccer.ui.screens.HomeWrapperScreen
 
 @Composable
@@ -69,6 +70,19 @@ fun SetupNavGraph(navController: NavHostController) {
         composable(route = Screen.EditTraining.route) {
             AddEditTrainingScreen(
                 training = null, // For edit training flow - would need to pass actual training
+                navController = navController
+            )
+        }
+
+        composable(
+            route = Screen.TrainingDetails.route,
+            arguments = listOf(
+                navArgument("trainingId") { type = NavType.IntType }
+            )
+        ) { backStackEntry ->
+            val trainingId = backStackEntry.arguments?.getInt("trainingId") ?: 0
+            TrainingDetailsScreen(
+                trainingId = trainingId,
                 navController = navController
             )
         }

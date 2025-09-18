@@ -63,7 +63,7 @@ fun TrainingScreen(
                 }
 
                 is TrainingScreenContract.Effect.NavigateToTrainingDetails -> {
-                    // TODO: Navigate to training details
+                    mainNavController.navigate("training_details_screen/${effect.trainingId}")
                 }
 
                 is TrainingScreenContract.Effect.NavigateToTrainingAttendance -> {
