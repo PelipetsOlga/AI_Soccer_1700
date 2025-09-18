@@ -99,9 +99,9 @@ class AddEditTrainingViewModel @Inject constructor(
     private fun createTrainingFromState(state: AddEditTrainingContract.State): Training {
         val trainingId = if (state.isEditMode) state.training?.id ?: 0 else 0
         
-        // Parse date from string (format: "dd MM yyyy")
+        // Parse date from string (format: "dd.MM.yyyy")
         val date = try {
-            val parts = state.date.split(" ")
+            val parts = state.date.split(".")
             if (parts.size == 3) {
                 LocalDate.of(parts[2].toInt(), parts[1].toInt(), parts[0].toInt())
             } else {
