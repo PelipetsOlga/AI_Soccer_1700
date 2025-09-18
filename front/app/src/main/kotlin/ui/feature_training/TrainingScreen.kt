@@ -17,6 +17,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -50,14 +51,9 @@ fun TrainingScreen(
 ) {
     val state by viewModel.viewState.collectAsState()
 
-    // Refresh trainings when returning from add training screen
-    LaunchedEffect(mainNavController.currentBackStackEntry) {
-        // Check if we're returning from add training screen
-        val currentRoute = mainNavController.currentBackStackEntry?.destination?.route
-        if (currentRoute == Screen.Training.route) {
-            // We're on the training screen, refresh the list
-            viewModel.refreshTrainings()
-        }
+    // Reload trainings when screen is composed (when user returns from other screens)
+    LaunchedEffect(Unit) {
+        viewModel.setEvent(TrainingScreenContract.Event.ReloadTrainings)
     }
 
     // Handle side effects

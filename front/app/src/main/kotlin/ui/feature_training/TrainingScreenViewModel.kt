@@ -42,6 +42,7 @@ class TrainingScreenViewModel @Inject constructor(
             is TrainingScreenContract.Event.TrainingAttendanceClicked -> handleTrainingAttendanceClicked(event.trainingId)
             is TrainingScreenContract.Event.TrainingMarkAsClicked -> handleTrainingMarkAsClicked(event.trainingId)
             is TrainingScreenContract.Event.DateSelected -> handleDateSelected(event.date)
+            is TrainingScreenContract.Event.ReloadTrainings -> loadTrainings()
         }
     }
     

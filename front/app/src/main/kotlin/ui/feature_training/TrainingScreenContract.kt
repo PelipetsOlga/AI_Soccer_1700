@@ -44,6 +44,7 @@ object TrainingScreenContract {
         data class TrainingAttendanceClicked(val trainingId: Int) : Event()
         data class TrainingMarkAsClicked(val trainingId: Int) : Event()
         data class DateSelected(val date: LocalDate) : Event()
+        data object ReloadTrainings : Event()
     }
     
     /**
