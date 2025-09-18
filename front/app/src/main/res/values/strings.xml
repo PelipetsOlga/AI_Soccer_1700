@@ -68,6 +68,7 @@
     <string name="field_foot">Preferred Foot</string>
     <string name="field_position">Position</string>
     <string name="field_fitness">Fitness</string>
+    <string name="field_status">Status</string>
     <string name="field_note">Note</string>
     <string name="field_photo">Avatar</string>
     <string name="tint_name">Please enter Player\'s name</string>
@@ -99,7 +100,7 @@
     <string name="field_venue">Venue</string>
     <string name="field_training_note">Note</string>
     <string name="tint_type">Please choose the training type</string>
-    <string name="tint_date">Please enter the date (dd mm yyyy)</string>
+    <string name="tint_date">Please enter the date</string>
     <string name="tint_start_time">Please enter start time</string>
     <string name="tint_end_time">Please enter end time</string>
     <string name="tint_venue">Please enter or choose venue</string>

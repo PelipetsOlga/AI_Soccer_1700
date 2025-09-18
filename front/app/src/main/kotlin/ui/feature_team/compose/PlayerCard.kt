@@ -32,9 +32,11 @@ import coil.request.ImageRequest
 import com.manager1700.soccer.Montserrat
 import com.manager1700.soccer.R
 import com.manager1700.soccer.domain.models.Player
+import com.manager1700.soccer.domain.models.PlayerStatus
 import com.manager1700.soccer.ui.components.AppCard
 import com.manager1700.soccer.ui.components.FitnessChip
 import com.manager1700.soccer.ui.components.PlayerStatusChip
+import com.manager1700.soccer.ui.components.PlayerStatusSmallChip
 import com.manager1700.soccer.ui.components.SmallGreyButton
 import com.manager1700.soccer.ui.feature_team.TeamScreenContract
 import com.manager1700.soccer.ui.theme.SoccerManagerTheme
@@ -56,9 +58,9 @@ fun PlayerCard(
         expanded = expanded,
         onProfileClick = { expanded = true },
         onCloseClick = { expanded = false },
-        onEditClick = {onEvent(TeamScreenContract.Event.EditPlayerClicked(player))},
+        onEditClick = { onEvent(TeamScreenContract.Event.EditPlayerClicked(player)) },
         onRemoveClick = { onEvent(TeamScreenContract.Event.RemovePlayerClicked(player)) },
-        onSetActiveClick = {onEvent(TeamScreenContract.Event.SetActiveClicked(player))},
+        onSetActiveClick = { onEvent(TeamScreenContract.Event.SetActiveClicked(player)) },
         onSetInjuredClick = { onEvent(TeamScreenContract.Event.SetInjuredClicked(player)) }
     )
 }
@@ -82,7 +84,11 @@ private fun ExpandablePlayerCard(
             "${player.name} | ${player.number} | ${player.position.shortName}"
         }
     ) {
-        Column(modifier = Modifier.fillMaxWidth().padding(all = 4.dp)) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(all = 4.dp)
+        ) {
             if (expanded.not()) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -184,12 +190,44 @@ private fun ExpandablePlayerCard(
                             fontFamily = Montserrat,
                             color = colorWhite,
                         )
+
+                        val injuredDate =
+                            if (player.status == PlayerStatus.Injured) ", (${player.dateOfInjury})" else ""
+
                         Text(
-                            text = "${stringResource(R.string.field_foot)}: ${stringResource(player.foot.titleId)}",
+                            text = "${stringResource(R.string.field_foot)}: ${
+                                stringResource(
+                                    player.foot.titleId
+                                )
+                            }",
                             fontSize = 12.sp,
                             fontFamily = Montserrat,
                             color = colorWhite,
                         )
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            FitnessChip(player.fitness)
+                            Text(
+                                text = "${stringResource(R.string.field_fitness)}: ${player.fitness}%",
+                                fontSize = 16.sp,
+                                fontFamily = Montserrat,
+                                color = colorWhite,
+                                modifier = Modifier.padding(horizontal = 8.dp)
+                            )
+                        }
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            PlayerStatusSmallChip(player.status)
+                            Text(
+                                text = "${stringResource(R.string.field_status)}: ${
+                                    stringResource(
+                                        player.status.titleId
+                                    )
+                                }$injuredDate",
+                                fontSize = 16.sp,
+                                fontFamily = Montserrat,
+                                color = colorWhite,
+                                modifier = Modifier.padding(horizontal = 8.dp)
+                            )
+                        }
                     }
                 }
                 Text(
@@ -250,7 +288,11 @@ private fun PlayerCardPreview() {
         ) {
             ExpandablePlayerCard(player = Player.TEST_1, expanded = false, {}, {}, {}, {}, {}, {})
             Spacer(Modifier.height(16.dp))
-            ExpandablePlayerCard(player = Player.TEST_1, expanded = true, {}, {}, {}, {}, {}, {})
+            ExpandablePlayerCard(
+                player = Player.TEST_1.copy(
+                status = PlayerStatus.Injured,
+                dateOfInjury = "25.07.2025"
+            ), expanded = true, {}, {}, {}, {}, {}, {})
         }
     }
 }

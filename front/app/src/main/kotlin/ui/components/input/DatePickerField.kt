@@ -78,7 +78,7 @@ fun DatePickerField(
 }
 
 fun formatDate(date: LocalDate): String {
-    val formatter = DateTimeFormatter.ofPattern("dd MM yyyy")
+    val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
     return date.format(formatter)
 }
 

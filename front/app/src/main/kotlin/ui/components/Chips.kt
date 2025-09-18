@@ -62,6 +62,21 @@ fun FitnessChipPreview() {
 }
 
 @Composable
+fun PlayerStatusSmallChip(value: PlayerStatus) {
+    val color = if (value == PlayerStatus.Active) {
+        colorLightGreen
+    } else {
+        colorLightPink
+    }
+    Box(
+        modifier = Modifier
+            .clip(RoundedCornerShape(6.dp))
+            .background(color)
+            .size(8.dp)
+    )
+}
+
+@Composable
 fun PlayerStatusChip(value: PlayerStatus) {
     val color = if (value == PlayerStatus.Active) {
         colorLightGreen
