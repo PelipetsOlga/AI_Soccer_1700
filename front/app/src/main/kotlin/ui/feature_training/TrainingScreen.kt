@@ -102,7 +102,8 @@ fun TrainingScreenContent(
         bottomBar = {
             // Fixed Add Training Button
             Box(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .background(colorBlack)
                     .padding(bottom = 16.dp),
                 contentAlignment = Alignment.Center
@@ -129,66 +130,63 @@ fun TrainingScreenContent(
                 onFilterTypeChanged = { onEvent(TrainingScreenContract.Event.FilterTypeChanged(it)) },
                 modifier = Modifier.fillMaxWidth()
             )
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
 
-            // Content based on view type
-            when (state.selectedViewType) {
-                TrainingScreenContract.ViewType.LIST -> {
-                    // Training list
-                    LazyColumn(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(16.dp)
-                    ) {
-                        items(state.trainings) { training ->
-                            TrainingItemCard(
-                                training = training,
-                                onDetailsClick = {
-                                    onEvent(
-                                        TrainingScreenContract.Event.TrainingDetailsClicked(
-                                            training.id
-                                        )
-                                    )
-                                },
-                                onAttendanceClick = {
-                                    onEvent(
-                                        TrainingScreenContract.Event.TrainingAttendanceClicked(
-                                            training.id
-                                        )
-                                    )
-                                },
-                                onMarkAsClick = {
-                                    onEvent(
-                                        TrainingScreenContract.Event.TrainingMarkAsClicked(
-                                            training.id
-                                        )
-                                    )
-                                },
-                                onStatusChanged = { newStatus ->
-                                    onEvent(
-                                        TrainingScreenContract.Event.UpdateTrainingStatus(
-                                            training.id,
-                                            newStatus
-                                        )
-                                    )
-                                }
-                            )
-                        }
+                // Calendar view - show calendar below FilterTabs
+                if (state.selectedViewType == TrainingScreenContract.ViewType.CALENDAR) {
+                    item {
+                        TrainingCalendar(
+                            trainings = state.trainings,
+                            selectedDate = state.selectedDate,
+                            onDateSelected = { onEvent(TrainingScreenContract.Event.DateSelected(it)) },
+                            onTrainingClick = { training ->
+                                onEvent(TrainingScreenContract.Event.TrainingDetailsClicked(training.id))
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp)
+                        )
                     }
                 }
 
-                TrainingScreenContract.ViewType.CALENDAR -> {
-                    // Training calendar
-                    TrainingCalendar(
-                        trainings = state.trainings,
-                        selectedDate = state.selectedDate,
-                        onDateSelected = { onEvent(TrainingScreenContract.Event.DateSelected(it)) },
-                        onTrainingClick = { training ->
-                            onEvent(TrainingScreenContract.Event.TrainingDetailsClicked(training.id))
+
+                items(state.trainings) { training ->
+                    TrainingItemCard(
+                        training = training,
+                        onDetailsClick = {
+                            onEvent(
+                                TrainingScreenContract.Event.TrainingDetailsClicked(
+                                    training.id
+                                )
+                            )
                         },
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(horizontal = 16.dp)
+                        onAttendanceClick = {
+                            onEvent(
+                                TrainingScreenContract.Event.TrainingAttendanceClicked(
+                                    training.id
+                                )
+                            )
+                        },
+                        onMarkAsClick = {
+                            onEvent(
+                                TrainingScreenContract.Event.TrainingMarkAsClicked(
+                                    training.id
+                                )
+                            )
+                        },
+                        onStatusChanged = { newStatus ->
+                            onEvent(
+                                TrainingScreenContract.Event.UpdateTrainingStatus(
+                                    training.id,
+                                    newStatus
+                                )
+                            )
+                        }
                     )
                 }
             }
