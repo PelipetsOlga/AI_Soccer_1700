@@ -23,4 +23,22 @@ data class Training(
     val exercises: List<Exercise>,
     override val plannedAttendance: AttendanceInfo,
     override val realAttendance: AttendanceInfo,
-    ) : SportEvent
+) : SportEvent {
+    companion object {
+        val TEST_1 = Training(
+            id = 1,
+            status = SportEventStatus.Scheduled,
+            date = LocalDate.now(),
+            startDateTime = LocalTime.now(),
+            endDateTime = LocalTime.now().plusHours(3),
+            type = "Warm Up",
+            note = "Blab bla bla, bla, Blab bla bla, bla, Blab bla bla, bla, Blab bla bla, bla, ",
+            place = "Base 1",
+            title = "First Training",
+            photos = emptyList(),
+            exercises = emptyList(),
+            plannedAttendance = AttendanceInfo(info = emptyMap()),
+            realAttendance = AttendanceInfo(info = emptyMap()),
+        )
+    }
+}

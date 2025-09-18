@@ -1,5 +1,6 @@
 package com.manager1700.soccer.ui.components
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -78,6 +79,12 @@ fun SmallGreyButton(
     Button(
         onClick = { onClick() },
         enabled = enabled,
+        contentPadding = PaddingValues(
+            start = 4.dp,
+            top = 0.dp,
+            end = 4.dp,
+            bottom = 0.dp,
+        ),
         modifier = modifier
             .padding(vertical = 1.dp, horizontal = 2.dp),
         colors = ButtonDefaults.buttonColors(
