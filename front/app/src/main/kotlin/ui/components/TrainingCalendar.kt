@@ -38,7 +38,6 @@ fun TrainingCalendar(
     trainings: List<Training>,
     selectedDate: LocalDate?,
     onDateSelected: (LocalDate) -> Unit,
-    onTrainingClick: (Training) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val currentMonth = selectedDate?.let { YearMonth.from(it) } ?: YearMonth.now()

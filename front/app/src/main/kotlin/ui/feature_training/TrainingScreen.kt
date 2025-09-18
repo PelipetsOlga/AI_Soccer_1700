@@ -144,9 +144,6 @@ fun TrainingScreenContent(
                             trainings = state.trainings,
                             selectedDate = state.selectedDate,
                             onDateSelected = { onEvent(TrainingScreenContract.Event.DateSelected(it)) },
-                            onTrainingClick = { training ->
-                                onEvent(TrainingScreenContract.Event.TrainingDetailsClicked(training.id))
-                            },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(horizontal = 16.dp)
