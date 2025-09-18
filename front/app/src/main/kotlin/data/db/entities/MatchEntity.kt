@@ -6,6 +6,7 @@ import androidx.room.TypeConverters
 import com.manager1700.soccer.domain.models.Match
 import com.manager1700.soccer.domain.models.LineupScheme
 import com.manager1700.soccer.domain.models.SportEventStatus
+import java.time.LocalDate
 import java.time.LocalTime
 
 @Entity(tableName = "matches")
@@ -14,6 +15,7 @@ data class MatchEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val status: String, // Store as string key
+    val date: LocalDate,
     val lineupScheme: String, // Store as string key
     val opponent: String,
     val startDateTime: LocalTime,
@@ -31,6 +33,7 @@ fun MatchEntity.toDomainModel(): Match {
     return Match(
         id = id,
         status = SportEventStatus.values().first { it.key == status },
+        date = date,
         lineupScheme = LineupScheme.values().first { it.key == lineupScheme },
         opponent = opponent,
         startDateTime = startDateTime,
@@ -48,6 +51,7 @@ fun Match.toEntity(): MatchEntity {
     return MatchEntity(
         id = id,
         status = status.key,
+        date = date,
         lineupScheme = lineupScheme.key,
         opponent = opponent,
         startDateTime = startDateTime,

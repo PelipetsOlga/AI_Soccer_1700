@@ -1,5 +1,6 @@
 package com.manager1700.soccer.ui.feature_training
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -7,6 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -29,8 +32,11 @@ import androidx.navigation.NavController
 import com.manager1700.soccer.R
 import com.manager1700.soccer.Screen
 import com.manager1700.soccer.ui.components.AppCard
+import com.manager1700.soccer.ui.components.FilterTabs
 import com.manager1700.soccer.ui.components.PrimaryButton
 import com.manager1700.soccer.ui.components.Toolbar
+import com.manager1700.soccer.ui.components.TrainingItemCard
+import com.manager1700.soccer.ui.components.TrainingCalendar
 import com.manager1700.soccer.ui.theme.SoccerManagerTheme
 import com.manager1700.soccer.ui.theme.colorBlack
 import com.manager1700.soccer.ui.utils.PreviewApp
@@ -43,6 +49,16 @@ fun TrainingScreen(
     viewModel: TrainingScreenViewModel = hiltViewModel()
 ) {
     val state by viewModel.viewState.collectAsState()
+
+    // Refresh trainings when returning from add training screen
+    LaunchedEffect(mainNavController.currentBackStackEntry) {
+        // Check if we're returning from add training screen
+        val currentRoute = mainNavController.currentBackStackEntry?.destination?.route
+        if (currentRoute == Screen.Training.route) {
+            // We're on the training screen, refresh the list
+            viewModel.refreshTrainings()
+        }
+    }
 
     // Handle side effects
     LaunchedEffect(Unit) {
@@ -58,6 +74,15 @@ fun TrainingScreen(
 
                 is TrainingScreenContract.Effect.NavigateToAddTraining -> {
                     mainNavController.navigate(Screen.AddTraining.route)
+                }
+                is TrainingScreenContract.Effect.NavigateToTrainingDetails -> {
+                    // TODO: Navigate to training details
+                }
+                is TrainingScreenContract.Effect.NavigateToTrainingAttendance -> {
+                    // TODO: Navigate to training attendance
+                }
+                is TrainingScreenContract.Effect.ShowMarkAsDialog -> {
+                    // TODO: Show mark as dialog
                 }
             }
         }
@@ -85,6 +110,22 @@ fun TrainingScreenContent(
                 onSettingsClick = { onEvent(TrainingScreenContract.Event.SettingsClicked) }
             )
         },
+        bottomBar = {
+            // Fixed Add Training Button
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(colorBlack)
+                    .padding(16.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                PrimaryButton(
+                    onClick = { onEvent(TrainingScreenContract.Event.AddTrainingClicked) },
+                    text = stringResource(R.string.add_training),
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+        },
         containerColor = colorBlack
     ) { paddingValues ->
         // Content
@@ -92,39 +133,50 @@ fun TrainingScreenContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .verticalScroll(rememberScrollState())
-                .padding(all = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            AppCard(
-                title = "Title", modifier = Modifier.fillMaxWidth()
-            ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(300.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = stringResource(R.string.training_title),
-                        fontSize = 32.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.primary,
-                        textAlign = TextAlign.Center
+            // Filter tabs
+            FilterTabs(
+                selectedViewType = state.selectedViewType,
+                selectedFilterType = state.selectedFilterType,
+                onViewTypeChanged = { onEvent(TrainingScreenContract.Event.ViewTypeChanged(it)) },
+                onFilterTypeChanged = { onEvent(TrainingScreenContract.Event.FilterTypeChanged(it)) },
+                modifier = Modifier.fillMaxWidth()
+            )
+            
+            // Content based on view type
+            when (state.selectedViewType) {
+                TrainingScreenContract.ViewType.LIST -> {
+                    // Training list
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        items(state.trainings) { training ->
+                            TrainingItemCard(
+                                training = training,
+                                onDetailsClick = { onEvent(TrainingScreenContract.Event.TrainingDetailsClicked(training.id)) },
+                                onAttendanceClick = { onEvent(TrainingScreenContract.Event.TrainingAttendanceClicked(training.id)) },
+                                onMarkAsClick = { onEvent(TrainingScreenContract.Event.TrainingMarkAsClicked(training.id)) }
+                            )
+                        }
+                    }
+                }
+                TrainingScreenContract.ViewType.CALENDAR -> {
+                    // Training calendar
+                    TrainingCalendar(
+                        trainings = state.trainings,
+                        selectedDate = state.selectedDate,
+                        onDateSelected = { onEvent(TrainingScreenContract.Event.DateSelected(it)) },
+                        onTrainingClick = { training ->
+                            onEvent(TrainingScreenContract.Event.TrainingDetailsClicked(training.id))
+                        },
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(horizontal = 16.dp)
                     )
                 }
-            }
-
-            // Add Training Button
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            ) {
-                PrimaryButton(
-                    onClick = { onEvent(TrainingScreenContract.Event.AddTrainingClicked) },
-                    text = stringResource(R.string.add_training),
-                    modifier = Modifier
-                )
             }
         }
     }

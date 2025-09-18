@@ -2,11 +2,13 @@ package com.manager1700.soccer.domain.models
 
 import com.manager1700.soccer.R
 import com.manager1700.soccer.domain.base.EnumWithKey
+import java.time.LocalDate
 import java.time.LocalTime
 
 interface SportEvent {
     val title: String
     val status: SportEventStatus
+    val date: LocalDate
     val startDateTime: LocalTime
     val endDateTime: LocalTime
     val type: String

@@ -1,6 +1,7 @@
 package com.manager1700.soccer.domain.models
 
 import com.manager1700.soccer.domain.base.EnumWithKey
+import java.time.LocalDate
 import java.time.LocalTime
 
 enum class LineupScheme(
@@ -15,6 +16,7 @@ enum class LineupScheme(
 data class Match(
     val id: Int,
     override val status: SportEventStatus,
+    override val date: LocalDate,
     val lineupScheme: LineupScheme,
     val opponent: String,
     override val startDateTime: LocalTime,

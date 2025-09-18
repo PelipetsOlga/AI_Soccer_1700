@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.manager1700.soccer.domain.models.AttendanceInfo
 import com.manager1700.soccer.domain.models.SportEventStatus
 import com.manager1700.soccer.domain.models.Training
+import java.time.LocalDate
 import com.manager1700.soccer.domain.repo.SoccerRepository
 import com.manager1700.soccer.ui.base.MviViewModel
 import com.manager1700.soccer.ui.feature_add_edit_training.AddEditTrainingContract.isCreateTrainingFormValid
@@ -97,10 +98,23 @@ class AddEditTrainingViewModel @Inject constructor(
 
     private fun createTrainingFromState(state: AddEditTrainingContract.State): Training {
         val trainingId = if (state.isEditMode) state.training?.id ?: 0 else 0
+        
+        // Parse date from string (format: "dd MM yyyy")
+        val date = try {
+            val parts = state.date.split(" ")
+            if (parts.size == 3) {
+                LocalDate.of(parts[2].toInt(), parts[1].toInt(), parts[0].toInt())
+            } else {
+                LocalDate.now() // fallback to today
+            }
+        } catch (e: Exception) {
+            LocalDate.now() // fallback to today
+        }
 
         return Training(
             id = trainingId,
             status = SportEventStatus.Scheduled,
+            date = date,
             startDateTime = LocalTime.parse(state.startTime),
             endDateTime = LocalTime.parse(state.endTime),
             type = state.type,
