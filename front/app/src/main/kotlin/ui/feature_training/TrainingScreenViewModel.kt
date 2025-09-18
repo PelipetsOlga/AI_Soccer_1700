@@ -41,6 +41,7 @@ class TrainingScreenViewModel @Inject constructor(
             is TrainingScreenContract.Event.TrainingDetailsClicked -> handleTrainingDetailsClicked(event.trainingId)
             is TrainingScreenContract.Event.TrainingAttendanceClicked -> handleTrainingAttendanceClicked(event.trainingId)
             is TrainingScreenContract.Event.TrainingMarkAsClicked -> handleTrainingMarkAsClicked(event.trainingId)
+            is TrainingScreenContract.Event.DateSelected -> handleDateSelected(event.date)
         }
     }
     
@@ -96,12 +97,34 @@ class TrainingScreenViewModel @Inject constructor(
         }
     }
     
+    private fun handleDateSelected(date: LocalDate) {
+        setState { 
+            copy(
+                selectedDate = date,
+                selectedViewType = TrainingScreenContract.ViewType.LIST,
+                selectedFilterType = TrainingScreenContract.FilterType.ALL
+            )
+        }
+        // Reload trainings to show filtered results
+        loadTrainings()
+    }
+    
     private fun filterTrainings(trainings: List<com.manager1700.soccer.domain.models.Training>, filterType: TrainingScreenContract.FilterType): List<com.manager1700.soccer.domain.models.Training> {
         val today = LocalDate.now()
+        val state = viewState.value
+        
+        // First filter by selected date if any
+        val dateFilteredTrainings = if (state.selectedDate != null) {
+            trainings.filter { it.date == state.selectedDate }
+        } else {
+            trainings
+        }
+        
+        // Then apply filter type
         return when (filterType) {
-            TrainingScreenContract.FilterType.ALL -> trainings
-            TrainingScreenContract.FilterType.UPCOMING -> trainings.filter { it.date.isAfter(today) || it.date.isEqual(today) }
-            TrainingScreenContract.FilterType.PAST -> trainings.filter { it.date.isBefore(today) }
+            TrainingScreenContract.FilterType.ALL -> dateFilteredTrainings
+            TrainingScreenContract.FilterType.UPCOMING -> dateFilteredTrainings.filter { it.date.isAfter(today) || it.date.isEqual(today) }
+            TrainingScreenContract.FilterType.PAST -> dateFilteredTrainings.filter { it.date.isBefore(today) }
         }
     }
 }

@@ -4,6 +4,7 @@ import com.manager1700.soccer.domain.models.Training
 import com.manager1700.soccer.ui.base.UiEffect
 import com.manager1700.soccer.ui.base.UiEvent
 import com.manager1700.soccer.ui.base.UiState
+import java.time.LocalDate
 
 /**
  * MVI Contract for TrainingScreen
@@ -25,7 +26,9 @@ object TrainingScreenContract {
         val isLoading: Boolean = false,
         val trainings: List<Training> = emptyList(),
         val selectedViewType: ViewType = ViewType.LIST,
-        val selectedFilterType: FilterType = FilterType.ALL
+        val selectedFilterType: FilterType = FilterType.ALL,
+        val selectedDate: LocalDate? = null,
+        val showCalendar: Boolean = false
     ) : UiState
     
     /**
@@ -40,6 +43,7 @@ object TrainingScreenContract {
         data class TrainingDetailsClicked(val trainingId: Int) : Event()
         data class TrainingAttendanceClicked(val trainingId: Int) : Event()
         data class TrainingMarkAsClicked(val trainingId: Int) : Event()
+        data class DateSelected(val date: LocalDate) : Event()
     }
     
     /**

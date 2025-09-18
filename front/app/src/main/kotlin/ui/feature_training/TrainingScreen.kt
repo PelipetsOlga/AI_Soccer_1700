@@ -1,5 +1,6 @@
 package com.manager1700.soccer.ui.feature_training
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,6 +36,7 @@ import com.manager1700.soccer.ui.components.FilterTabs
 import com.manager1700.soccer.ui.components.PrimaryButton
 import com.manager1700.soccer.ui.components.Toolbar
 import com.manager1700.soccer.ui.components.TrainingItemCard
+import com.manager1700.soccer.ui.components.TrainingCalendar
 import com.manager1700.soccer.ui.theme.SoccerManagerTheme
 import com.manager1700.soccer.ui.theme.colorBlack
 import com.manager1700.soccer.ui.utils.PreviewApp
@@ -108,6 +110,22 @@ fun TrainingScreenContent(
                 onSettingsClick = { onEvent(TrainingScreenContract.Event.SettingsClicked) }
             )
         },
+        bottomBar = {
+            // Fixed Add Training Button
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(colorBlack)
+                    .padding(16.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                PrimaryButton(
+                    onClick = { onEvent(TrainingScreenContract.Event.AddTrainingClicked) },
+                    text = stringResource(R.string.add_training),
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+        },
         containerColor = colorBlack
     ) { paddingValues ->
         // Content
@@ -125,34 +143,39 @@ fun TrainingScreenContent(
                 modifier = Modifier.fillMaxWidth()
             )
             
-            // Training list
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                items(state.trainings) { training ->
-                    TrainingItemCard(
-                        training = training,
-                        onDetailsClick = { onEvent(TrainingScreenContract.Event.TrainingDetailsClicked(training.id)) },
-                        onAttendanceClick = { onEvent(TrainingScreenContract.Event.TrainingAttendanceClicked(training.id)) },
-                        onMarkAsClick = { onEvent(TrainingScreenContract.Event.TrainingMarkAsClicked(training.id)) }
-                    )
-                }
-                
-                // Add Training Button
-                item {
-                    Box(
-                        modifier = Modifier.fillMaxWidth(),
-                        contentAlignment = Alignment.Center
+            // Content based on view type
+            when (state.selectedViewType) {
+                TrainingScreenContract.ViewType.LIST -> {
+                    // Training list
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
-                        PrimaryButton(
-                            onClick = { onEvent(TrainingScreenContract.Event.AddTrainingClicked) },
-                            text = stringResource(R.string.add_training),
-                            modifier = Modifier
-                        )
+                        items(state.trainings) { training ->
+                            TrainingItemCard(
+                                training = training,
+                                onDetailsClick = { onEvent(TrainingScreenContract.Event.TrainingDetailsClicked(training.id)) },
+                                onAttendanceClick = { onEvent(TrainingScreenContract.Event.TrainingAttendanceClicked(training.id)) },
+                                onMarkAsClick = { onEvent(TrainingScreenContract.Event.TrainingMarkAsClicked(training.id)) }
+                            )
+                        }
                     }
+                }
+                TrainingScreenContract.ViewType.CALENDAR -> {
+                    // Training calendar
+                    TrainingCalendar(
+                        trainings = state.trainings,
+                        selectedDate = state.selectedDate,
+                        onDateSelected = { onEvent(TrainingScreenContract.Event.DateSelected(it)) },
+                        onTrainingClick = { training ->
+                            onEvent(TrainingScreenContract.Event.TrainingDetailsClicked(training.id))
+                        },
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(horizontal = 16.dp)
+                    )
                 }
             }
         }
