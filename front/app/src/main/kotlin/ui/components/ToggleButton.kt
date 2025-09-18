@@ -3,6 +3,7 @@ package com.manager1700.soccer.ui.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -21,7 +22,6 @@ import com.manager1700.soccer.ui.theme.colorBlack
 import com.manager1700.soccer.ui.theme.colorGrey_2b
 import com.manager1700.soccer.ui.utils.PreviewApp
 import com.manager1700.soccer.ui.utils.cardBigClipShape
-import com.manager1700.soccer.ui.utils.cardBrushDarkGradient
 import com.manager1700.soccer.ui.utils.cardBrushDarkVerticalGradient
 import com.manager1700.soccer.ui.utils.cardBrushLightGradient
 import com.manager1700.soccer.ui.utils.cardVeryLightGradient
@@ -35,6 +35,12 @@ fun BigToggleButton(
 ) {
     Button(
         onClick = onClick,
+        contentPadding = PaddingValues(
+            start = 16.dp,
+            top = 0.dp,
+            end = 16.dp,
+            bottom = 0.dp,
+        ),
         modifier = modifier
             .clip(cardBigClipShape)
             .background(brush = cardBrushLightGradient)
@@ -73,6 +79,12 @@ fun SmallToggleButton(
 ) {
     Button(
         onClick = onClick,
+        contentPadding = PaddingValues(
+            start = 8.dp,
+            top = 0.dp,
+            end = 8.dp,
+            bottom = 0.dp,
+        ),
         modifier = modifier
             .clip(cardBigClipShape)
             .background(brush = cardBrushLightGradient)

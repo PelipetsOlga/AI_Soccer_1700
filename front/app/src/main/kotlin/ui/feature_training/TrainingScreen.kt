@@ -6,38 +6,28 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.manager1700.soccer.R
 import com.manager1700.soccer.Screen
-import com.manager1700.soccer.ui.components.AppCard
 import com.manager1700.soccer.ui.components.FilterTabs
 import com.manager1700.soccer.ui.components.PrimaryButton
 import com.manager1700.soccer.ui.components.Toolbar
-import com.manager1700.soccer.ui.components.TrainingItemCard
 import com.manager1700.soccer.ui.components.TrainingCalendar
+import com.manager1700.soccer.ui.components.TrainingItemCard
 import com.manager1700.soccer.ui.theme.SoccerManagerTheme
 import com.manager1700.soccer.ui.theme.colorBlack
 import com.manager1700.soccer.ui.utils.PreviewApp
@@ -71,12 +61,15 @@ fun TrainingScreen(
                 is TrainingScreenContract.Effect.NavigateToAddTraining -> {
                     mainNavController.navigate(Screen.AddTraining.route)
                 }
+
                 is TrainingScreenContract.Effect.NavigateToTrainingDetails -> {
                     // TODO: Navigate to training details
                 }
+
                 is TrainingScreenContract.Effect.NavigateToTrainingAttendance -> {
                     // TODO: Navigate to training attendance
                 }
+
                 is TrainingScreenContract.Effect.ShowMarkAsDialog -> {
                     // TODO: Show mark as dialog
                 }
@@ -138,7 +131,7 @@ fun TrainingScreenContent(
                 onFilterTypeChanged = { onEvent(TrainingScreenContract.Event.FilterTypeChanged(it)) },
                 modifier = Modifier.fillMaxWidth()
             )
-            
+
             // Content based on view type
             when (state.selectedViewType) {
                 TrainingScreenContract.ViewType.LIST -> {
@@ -152,13 +145,32 @@ fun TrainingScreenContent(
                         items(state.trainings) { training ->
                             TrainingItemCard(
                                 training = training,
-                                onDetailsClick = { onEvent(TrainingScreenContract.Event.TrainingDetailsClicked(training.id)) },
-                                onAttendanceClick = { onEvent(TrainingScreenContract.Event.TrainingAttendanceClicked(training.id)) },
-                                onMarkAsClick = { onEvent(TrainingScreenContract.Event.TrainingMarkAsClicked(training.id)) }
+                                onDetailsClick = {
+                                    onEvent(
+                                        TrainingScreenContract.Event.TrainingDetailsClicked(
+                                            training.id
+                                        )
+                                    )
+                                },
+                                onAttendanceClick = {
+                                    onEvent(
+                                        TrainingScreenContract.Event.TrainingAttendanceClicked(
+                                            training.id
+                                        )
+                                    )
+                                },
+                                onMarkAsClick = {
+                                    onEvent(
+                                        TrainingScreenContract.Event.TrainingMarkAsClicked(
+                                            training.id
+                                        )
+                                    )
+                                }
                             )
                         }
                     }
                 }
+
                 TrainingScreenContract.ViewType.CALENDAR -> {
                     // Training calendar
                     TrainingCalendar(
