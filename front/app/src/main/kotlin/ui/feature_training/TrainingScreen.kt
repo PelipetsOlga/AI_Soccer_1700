@@ -165,6 +165,14 @@ fun TrainingScreenContent(
                                             training.id
                                         )
                                     )
+                                },
+                                onStatusChanged = { newStatus ->
+                                    onEvent(
+                                        TrainingScreenContract.Event.UpdateTrainingStatus(
+                                            training.id,
+                                            newStatus
+                                        )
+                                    )
                                 }
                             )
                         }

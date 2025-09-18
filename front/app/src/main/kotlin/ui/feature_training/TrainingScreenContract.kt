@@ -45,6 +45,7 @@ object TrainingScreenContract {
         data class TrainingMarkAsClicked(val trainingId: Int) : Event()
         data class DateSelected(val date: LocalDate) : Event()
         data object ReloadTrainings : Event()
+        data class UpdateTrainingStatus(val trainingId: Int, val newStatus: com.manager1700.soccer.domain.models.SportEventStatus) : Event()
     }
     
     /**

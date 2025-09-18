@@ -28,6 +28,9 @@ import com.manager1700.soccer.ui.theme.colorBlack
 import com.manager1700.soccer.ui.theme.colorGrey_89
 import com.manager1700.soccer.ui.theme.colorWhite
 import com.manager1700.soccer.ui.utils.PreviewApp
+import com.manager1700.soccer.ui.components.AppCard
+import com.manager1700.soccer.ui.components.SmallGreyButton
+import com.manager1700.soccer.ui.components.training_input.SportEventStatusDropdown
 import java.time.format.DateTimeFormatter
 
 @Composable
@@ -36,6 +39,7 @@ fun TrainingItemCard(
     onDetailsClick: () -> Unit = {},
     onAttendanceClick: () -> Unit = {},
     onMarkAsClick: () -> Unit = {},
+    onStatusChanged: (com.manager1700.soccer.domain.models.SportEventStatus) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val isCompleted = training.status == SportEventStatus.Completed
@@ -96,7 +100,10 @@ fun TrainingItemCard(
                 Column(
                     horizontalAlignment = Alignment.End
                 ) {
-                    SportEventStatusChip(value = training.status)
+                    SportEventStatusDropdown(
+                        currentStatus = training.status,
+                        onStatusSelected = onStatusChanged
+                    )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
                         text = "Plan Attached",

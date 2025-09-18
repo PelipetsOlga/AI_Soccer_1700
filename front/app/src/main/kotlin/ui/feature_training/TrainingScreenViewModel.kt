@@ -43,6 +43,7 @@ class TrainingScreenViewModel @Inject constructor(
             is TrainingScreenContract.Event.TrainingMarkAsClicked -> handleTrainingMarkAsClicked(event.trainingId)
             is TrainingScreenContract.Event.DateSelected -> handleDateSelected(event.date)
             is TrainingScreenContract.Event.ReloadTrainings -> loadTrainings()
+            is TrainingScreenContract.Event.UpdateTrainingStatus -> handleUpdateTrainingStatus(event.trainingId, event.newStatus)
         }
     }
     
@@ -108,6 +109,28 @@ class TrainingScreenViewModel @Inject constructor(
         }
         // Reload trainings to show filtered results
         loadTrainings()
+    }
+    
+    private fun handleUpdateTrainingStatus(trainingId: Int, newStatus: com.manager1700.soccer.domain.models.SportEventStatus) {
+        viewModelScope.launch {
+            try {
+                // Get the current training
+                val currentTraining = repository.getTrainingById(trainingId)
+                
+                // Create updated training with new status
+                val updatedTraining = currentTraining.copy(status = newStatus)
+                
+                // Update in database
+                repository.updateTraining(updatedTraining)
+                
+                // Reload trainings to update UI
+                loadTrainings()
+            } catch (e: Exception) {
+                // Handle error - could show a snackbar or toast
+                // For now, just log the error
+                android.util.Log.e("TrainingScreenViewModel", "Error updating training status", e)
+            }
+        }
     }
     
     private fun filterTrainings(trainings: List<com.manager1700.soccer.domain.models.Training>, filterType: TrainingScreenContract.FilterType): List<com.manager1700.soccer.domain.models.Training> {
