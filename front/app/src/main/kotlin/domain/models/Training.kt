@@ -7,7 +7,20 @@ data class Exercise(
     val id: String,
     val title: String,
     val durationInMinutes: Int,
-)
+) {
+    companion object {
+        val EXERCISE_1 = Exercise(
+            id = "1",
+            title = "Push-ups",
+            durationInMinutes = 5,
+        )
+        val EXERCISE_2 = Exercise(
+            id = "2",
+            title = "Run",
+            durationInMinutes = 15,
+        )
+    }
+}
 
 data class Training(
     val id: Int,

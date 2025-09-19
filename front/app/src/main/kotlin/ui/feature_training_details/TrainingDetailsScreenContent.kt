@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -45,6 +44,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.manager1700.soccer.Montserrat
 import com.manager1700.soccer.R
+import com.manager1700.soccer.domain.models.Exercise
 import com.manager1700.soccer.domain.models.FutureAttendance
 import com.manager1700.soccer.domain.models.PastAttendance
 import com.manager1700.soccer.domain.models.SportEventStatus
@@ -220,85 +220,10 @@ private fun TrainingDetailsContent(
                     fontFamily = Montserrat
                 )
 
-                // Plan List Section
-                AppCard(
-                    title = stringResource(R.string.training_details_plan_list),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        if (training.exercises.isNotEmpty()) {
-                            training.exercises.forEach { exercise ->
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.SpaceBetween,
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Column {
-                                        Text(
-                                            text = stringResource(
-                                                R.string.training_details_exercise,
-                                                exercise.title
-                                            ),
-                                            fontSize = 14.sp,
-                                            color = colorWhite,
-                                            fontFamily = Montserrat
-                                        )
-                                        Text(
-                                            text = stringResource(
-                                                R.string.training_details_duration,
-                                                exercise.durationInMinutes
-                                            ),
-                                            fontSize = 12.sp,
-                                            color = colorGrey_89,
-                                            fontFamily = Montserrat
-                                        )
-                                    }
-                                    SmallGreyButton(
-                                        text = stringResource(R.string.training_details_edit),
-                                        onClick = {
-                                            onEvent(
-                                                TrainingDetailsScreenContract.Event.EditExerciseClicked(
-                                                    exercise.id
-                                                )
-                                            )
-                                        }
-                                    )
-                                }
-                            }
-                        } else {
-                            Text(
-                                text = stringResource(R.string.training_details_no_exercises),
-                                fontSize = 14.sp,
-                                color = colorGrey_89,
-                                fontFamily = Montserrat,
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier.fillMaxWidth()
-                            )
-                        }
-
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            SmallGreyButton(
-                                text = stringResource(R.string.training_details_add_exercise),
-                                onClick = { onEvent(TrainingDetailsScreenContract.Event.AddExerciseClicked) },
-                                modifier = Modifier.weight(1f)
-                            )
-                            Spacer(modifier = Modifier.width(8.dp))
-                            SmallGreyButton(
-                                text = stringResource(R.string.training_details_clear),
-                                onClick = { onEvent(TrainingDetailsScreenContract.Event.ClearExercisesClicked) },
-                                modifier = Modifier.weight(1f)
-                            )
-                        }
-                    }
-                }
+                TrainingPlanList(
+                    training = state.training,
+                    onEvent = onEvent,
+                )
 
                 // Note section
                 if (training.note.isNotEmpty()) {
@@ -421,7 +346,12 @@ fun TrainingDetailsScreenContentPreview() {
     SoccerManagerTheme {
         TrainingDetailsContent(
             state = TrainingDetailsScreenContract.State(
-                training = com.manager1700.soccer.domain.models.Training.TEST_1,
+                training = com.manager1700.soccer.domain.models.Training.TEST_1.copy(
+                    exercises = listOf(
+                        Exercise.EXERCISE_1,
+                        Exercise.EXERCISE_2,
+                    )
+                ),
                 photos = listOf("photo1.jpg", "photo2.jpg")
             ),
             onEvent = {},
