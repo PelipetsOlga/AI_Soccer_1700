@@ -54,7 +54,8 @@ fun TrainingDetailsScreen(
         TrainingDetailsScreenContent(
             trainingId = trainingId,
             onEvent = { viewModel.setEvent(it) },
-            viewModel = viewModel
+            viewModel = viewModel,
+            paddingValues = paddingValues,
         )
     }
 }

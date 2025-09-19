@@ -9,6 +9,7 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -59,6 +60,7 @@ import java.time.format.DateTimeFormatter
 
 @Composable
 fun TrainingDetailsScreenContent(
+    paddingValues: PaddingValues,
     trainingId: Int,
     onEvent: (TrainingDetailsScreenContract.Event) -> Unit,
     viewModel: TrainingDetailsScreenViewModel = hiltViewModel()
@@ -110,6 +112,7 @@ fun TrainingDetailsScreenContent(
         TrainingDetailsContent(
             state = state,
             onEvent = onEvent,
+            modifier = Modifier.padding(top = paddingValues.calculateTopPadding()),
             onPhotoPickerClick = { photoPickerLauncher.launch("image/*") }
         )
     } else {
@@ -130,7 +133,8 @@ fun TrainingDetailsScreenContent(
 private fun TrainingDetailsContent(
     state: TrainingDetailsScreenContract.State,
     onEvent: (TrainingDetailsScreenContract.Event) -> Unit,
-    onPhotoPickerClick: () -> Unit
+    onPhotoPickerClick: () -> Unit,
+    modifier: Modifier
 ) {
     val training = state.training!!
     val isCompleted = training.status == SportEventStatus.Completed
@@ -154,7 +158,7 @@ private fun TrainingDetailsContent(
     }
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -411,7 +415,8 @@ fun TrainingDetailsScreenContentPreview() {
                 photos = listOf("photo1.jpg", "photo2.jpg")
             ),
             onEvent = {},
-            onPhotoPickerClick = {}
+            onPhotoPickerClick = {},
+            Modifier,
         )
     }
 }
