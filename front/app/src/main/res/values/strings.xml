@@ -136,4 +136,9 @@
     <string name="add_exercise_duration_hint">Please enter duration time (min)</string>
     <string name="add_exercise_save">Save</string>
     <string name="add_exercise_cancel">Cancel</string>
+    <string name="edit_exercise_title">Edit the exercise</string>
+    <string name="edit_exercise_remove">Remove</string>
+    <string name="clear_exercises_confirm_title">Are you sure that you want to remove ALL exercises from plan?</string>
+    <string name="clear_exercises_yes">Yes</string>
+    <string name="clear_exercises_no">No</string>
 </resources>

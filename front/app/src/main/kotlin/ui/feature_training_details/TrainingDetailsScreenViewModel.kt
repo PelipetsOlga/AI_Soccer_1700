@@ -64,6 +64,9 @@ class TrainingDetailsScreenViewModel @Inject constructor(
             is TrainingDetailsScreenContract.Event.ExerciseDurationChanged -> handleExerciseDurationChanged(event.duration)
             is TrainingDetailsScreenContract.Event.ConfirmAddExercise -> handleConfirmAddExercise()
             is TrainingDetailsScreenContract.Event.CancelAddExercise -> handleCancelAddExercise()
+            is TrainingDetailsScreenContract.Event.RemoveExercise -> handleRemoveExercise()
+            is TrainingDetailsScreenContract.Event.ConfirmClearExercises -> handleConfirmClearExercises()
+            is TrainingDetailsScreenContract.Event.CancelClearExercises -> handleCancelClearExercises()
             is TrainingDetailsScreenContract.Event.UploadPhotoClicked -> handleUploadPhotoClicked()
             is TrainingDetailsScreenContract.Event.RemovePhotoClicked -> handleRemovePhotoClicked(event.photoIndex)
             is TrainingDetailsScreenContract.Event.ImageSelected -> handleImageSelected(event.imageUri)
@@ -100,11 +103,26 @@ class TrainingDetailsScreenViewModel @Inject constructor(
     }
 
     private fun handleClearExercisesClicked() {
-        // TODO: Implement clear exercises functionality
+        setState { copy(showClearExercisesDialog = true) }
     }
 
     private fun handleEditExerciseClicked(exerciseId: String) {
-        // TODO: Implement edit exercise functionality
+        val currentState = viewState.value
+        val training = currentState.training ?: return
+        
+        // Find the exercise to edit
+        val exerciseToEdit = training.exercises.find { it.id == exerciseId }
+        if (exerciseToEdit != null) {
+            setState { 
+                copy(
+                    showAddExerciseDialog = true,
+                    isEditMode = true,
+                    editingExerciseId = exerciseId,
+                    exerciseType = exerciseToEdit.title,
+                    exerciseDuration = exerciseToEdit.durationInMinutes.toString()
+                ) 
+            }
+        }
     }
 
     private fun handleExerciseTypeChanged(type: String) {
@@ -126,16 +144,27 @@ class TrainingDetailsScreenViewModel @Inject constructor(
             if (durationInt != null && durationInt > 0) {
                 viewModelScope.launch {
                     try {
-                        // Create new exercise
-                        val newExercise = com.manager1700.soccer.domain.models.Exercise(
-                            id = java.util.UUID.randomUUID().toString(),
-                            title = exerciseType,
-                            durationInMinutes = durationInt
-                        )
-
-                        // Add exercise to training
                         val updatedExercises = training.exercises.toMutableList()
-                        updatedExercises.add(newExercise)
+                        
+                        if (currentState.isEditMode && currentState.editingExerciseId != null) {
+                            // Edit existing exercise
+                            val exerciseIndex = updatedExercises.indexOfFirst { it.id == currentState.editingExerciseId }
+                            if (exerciseIndex != -1) {
+                                updatedExercises[exerciseIndex] = com.manager1700.soccer.domain.models.Exercise(
+                                    id = currentState.editingExerciseId,
+                                    title = exerciseType,
+                                    durationInMinutes = durationInt
+                                )
+                            }
+                        } else {
+                            // Add new exercise
+                            val newExercise = com.manager1700.soccer.domain.models.Exercise(
+                                id = java.util.UUID.randomUUID().toString(),
+                                title = exerciseType,
+                                durationInMinutes = durationInt
+                            )
+                            updatedExercises.add(newExercise)
+                        }
 
                         // Update training in database
                         val updatedTraining = training.copy(exercises = updatedExercises)
@@ -146,13 +175,15 @@ class TrainingDetailsScreenViewModel @Inject constructor(
                             copy(
                                 training = updatedTraining,
                                 showAddExerciseDialog = false,
+                                isEditMode = false,
+                                editingExerciseId = null,
                                 exerciseType = "",
                                 exerciseDuration = ""
                             ) 
                         }
                     } catch (e: Exception) {
-                        Log.e("TrainingDetailsScreenViewModel", "Error adding exercise", e)
-                        setEffect { TrainingDetailsScreenContract.Effect.ShowError("Failed to add exercise") }
+                        Log.e("TrainingDetailsScreenViewModel", "Error saving exercise", e)
+                        setEffect { TrainingDetailsScreenContract.Effect.ShowError("Failed to save exercise") }
                     }
                 }
             }
@@ -163,10 +194,74 @@ class TrainingDetailsScreenViewModel @Inject constructor(
         setState { 
             copy(
                 showAddExerciseDialog = false,
+                isEditMode = false,
+                editingExerciseId = null,
                 exerciseType = "",
                 exerciseDuration = ""
             ) 
         }
+    }
+
+    private fun handleRemoveExercise() {
+        val currentState = viewState.value
+        val training = currentState.training ?: return
+        val editingExerciseId = currentState.editingExerciseId ?: return
+
+        viewModelScope.launch {
+            try {
+                // Remove exercise from training
+                val updatedExercises = training.exercises.filter { it.id != editingExerciseId }
+
+                // Update training in database
+                val updatedTraining = training.copy(exercises = updatedExercises)
+                repository.updateTraining(updatedTraining)
+
+                // Update state
+                setState { 
+                    copy(
+                        training = updatedTraining,
+                        showAddExerciseDialog = false,
+                        isEditMode = false,
+                        editingExerciseId = null,
+                        exerciseType = "",
+                        exerciseDuration = ""
+                    ) 
+                }
+            } catch (e: Exception) {
+                Log.e("TrainingDetailsScreenViewModel", "Error removing exercise", e)
+                setEffect { TrainingDetailsScreenContract.Effect.ShowError("Failed to remove exercise") }
+            }
+        }
+    }
+
+    private fun handleConfirmClearExercises() {
+        val currentState = viewState.value
+        val training = currentState.training ?: return
+
+        viewModelScope.launch {
+            try {
+                // Clear all exercises from training
+                val updatedTraining = training.copy(exercises = emptyList())
+
+                // Update training in database
+                repository.updateTraining(updatedTraining)
+
+                // Update state
+                setState { 
+                    copy(
+                        training = updatedTraining,
+                        showClearExercisesDialog = false
+                    ) 
+                }
+            } catch (e: Exception) {
+                Log.e("TrainingDetailsScreenViewModel", "Error clearing exercises", e)
+                setEffect { TrainingDetailsScreenContract.Effect.ShowError("Failed to clear exercises") }
+            }
+        }
+    }
+
+    private fun handleCancelClearExercises() {
+        setState { copy(showClearExercisesDialog = false) }
     }
 
     private fun handleUploadPhotoClicked() {

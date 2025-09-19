@@ -1,16 +1,26 @@
 package com.manager1700.soccer.ui.feature_training_details
 
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.manager1700.soccer.Montserrat
+import com.manager1700.soccer.R
 import com.manager1700.soccer.ui.components.AddExerciseAlert
 import com.manager1700.soccer.ui.components.Toolbar
 import com.manager1700.soccer.ui.theme.colorBlack
+import com.manager1700.soccer.ui.theme.colorWhite
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -64,7 +74,7 @@ fun TrainingDetailsScreen(
         )
     }
 
-    // Add Exercise Dialog
+    // Add/Edit Exercise Dialog
     if (state.showAddExerciseDialog) {
         AddExerciseAlert(
             exerciseType = state.exerciseType,
@@ -72,7 +82,51 @@ fun TrainingDetailsScreen(
             onExerciseTypeChanged = { viewModel.setEvent(TrainingDetailsScreenContract.Event.ExerciseTypeChanged(it)) },
             onExerciseDurationChanged = { viewModel.setEvent(TrainingDetailsScreenContract.Event.ExerciseDurationChanged(it)) },
             onConfirm = { viewModel.setEvent(TrainingDetailsScreenContract.Event.ConfirmAddExercise) },
-            onCancel = { viewModel.setEvent(TrainingDetailsScreenContract.Event.CancelAddExercise) }
+            onCancel = { viewModel.setEvent(TrainingDetailsScreenContract.Event.CancelAddExercise) },
+            isEditMode = state.isEditMode,
+            onRemove = if (state.isEditMode) { { viewModel.setEvent(TrainingDetailsScreenContract.Event.RemoveExercise) } } else null
+        )
+    }
+
+    // Clear Exercises Confirmation Dialog
+    if (state.showClearExercisesDialog) {
+        AlertDialog(
+            onDismissRequest = { viewModel.setEvent(TrainingDetailsScreenContract.Event.CancelClearExercises) },
+            title = {
+                Text(
+                    text = stringResource(R.string.clear_exercises_confirm_title),
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    fontFamily = Montserrat
+                )
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = { viewModel.setEvent(TrainingDetailsScreenContract.Event.ConfirmClearExercises) }
+                ) {
+                    Text(
+                        text = stringResource(R.string.clear_exercises_yes),
+                        color = colorWhite,
+                        fontFamily = Montserrat,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = { viewModel.setEvent(TrainingDetailsScreenContract.Event.CancelClearExercises) }
+                ) {
+                    Text(
+                        text = stringResource(R.string.clear_exercises_no),
+                        color = colorWhite,
+                        fontFamily = Montserrat,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            },
+            containerColor = MaterialTheme.colorScheme.surface,
+            textContentColor = MaterialTheme.colorScheme.onSurface
         )
     }
 }

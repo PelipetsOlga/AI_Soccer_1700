@@ -40,13 +40,15 @@ fun AddExerciseAlert(
     onExerciseTypeChanged: (String) -> Unit,
     onExerciseDurationChanged: (String) -> Unit,
     onConfirm: () -> Unit,
-    onCancel: () -> Unit
+    onCancel: () -> Unit,
+    isEditMode: Boolean = false,
+    onRemove: (() -> Unit)? = null
 ) {
     AlertDialog(
         onDismissRequest = onCancel,
         title = {
             Text(
-                text = stringResource(R.string.add_exercise_title),
+                text = if (isEditMode) stringResource(R.string.edit_exercise_title) else stringResource(R.string.add_exercise_title),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurface,
@@ -160,13 +162,24 @@ fun AddExerciseAlert(
             }
         },
         dismissButton = {
-            TextButton(onClick = onCancel) {
-                Text(
-                    text = stringResource(R.string.add_exercise_cancel),
-                    color = colorWhite,
-                    fontFamily = Montserrat,
-                    fontWeight = FontWeight.Bold
-                )
+            if (isEditMode && onRemove != null) {
+                TextButton(onClick = onRemove) {
+                    Text(
+                        text = stringResource(R.string.edit_exercise_remove),
+                        color = colorWhite,
+                        fontFamily = Montserrat,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            } else {
+                TextButton(onClick = onCancel) {
+                    Text(
+                        text = stringResource(R.string.add_exercise_cancel),
+                        color = colorWhite,
+                        fontFamily = Montserrat,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
             }
         },
         containerColor = MaterialTheme.colorScheme.surface,
