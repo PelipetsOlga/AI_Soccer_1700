@@ -60,6 +60,5 @@ object AddEditMatchContract {
         data object NavigateBack : Effect()
         data object NavigateToMatchDetails : Effect()
         data class ShowError(val message: String) : Effect()
-        data class ShowSuccess(val message: String) : Effect()
     }
 }

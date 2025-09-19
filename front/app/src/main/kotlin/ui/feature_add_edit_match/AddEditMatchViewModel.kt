@@ -150,10 +150,8 @@ class AddEditMatchViewModel @Inject constructor(
                 
                 if (currentState.isEditMode) {
                     repository.updateMatch(match)
-                    setEffect { AddEditMatchContract.Effect.ShowSuccess("Match updated successfully") }
                 } else {
                     repository.createMatch(match)
-                    setEffect { AddEditMatchContract.Effect.ShowSuccess("Match created successfully") }
                 }
                 
                 setState { copy(isLoading = false) }

@@ -115,12 +115,6 @@ fun AddEditMatchScreen(
                         duration = androidx.compose.material3.SnackbarDuration.Short
                     )
                 }
-                is AddEditMatchContract.Effect.ShowSuccess -> {
-                    snackbarHostState.showSnackbar(
-                        message = effect.message,
-                        duration = androidx.compose.material3.SnackbarDuration.Short
-                    )
-                }
             }
         }
     }
