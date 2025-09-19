@@ -56,6 +56,7 @@ class TrainingDetailsScreenViewModel @Inject constructor(
             is TrainingDetailsScreenContract.Event.EditClicked -> handleEditClicked()
             is TrainingDetailsScreenContract.Event.AttendanceClicked -> handleAttendanceClicked()
             is TrainingDetailsScreenContract.Event.MarkAsClicked -> handleMarkAsClicked()
+            is TrainingDetailsScreenContract.Event.StatusChanged -> handleStatusChanged(event.status)
             is TrainingDetailsScreenContract.Event.AddExerciseClicked -> handleAddExerciseClicked()
             is TrainingDetailsScreenContract.Event.ClearExercisesClicked -> handleClearExercisesClicked()
             is TrainingDetailsScreenContract.Event.EditExerciseClicked -> handleEditExerciseClicked(event.exerciseId)
@@ -79,6 +80,13 @@ class TrainingDetailsScreenViewModel @Inject constructor(
 
     private fun handleMarkAsClicked() {
         setEffect { TrainingDetailsScreenContract.Effect.ShowMarkAsDialog }
+    }
+
+    private fun handleStatusChanged(newStatus: com.manager1700.soccer.domain.models.SportEventStatus) {
+        val currentState = viewState.value
+        val training = currentState.training ?: return
+        
+        updateTrainingStatus(training.id, newStatus)
     }
 
     private fun handleAddExerciseClicked() {
@@ -182,6 +190,33 @@ class TrainingDetailsScreenViewModel @Inject constructor(
             } catch (e: Exception) {
                 Log.e("TrainingDetailsScreenViewModel", "Error adding photo", e)
                 setEffect { TrainingDetailsScreenContract.Effect.ShowError("Failed to add photo") }
+            }
+        }
+    }
+
+    private fun updateTrainingStatus(
+        trainingId: Int,
+        newStatus: com.manager1700.soccer.domain.models.SportEventStatus
+    ) {
+        viewModelScope.launch {
+            try {
+                // Get the current training
+                val currentTraining = repository.getTrainingById(trainingId)
+
+                // Create updated training with new status
+                val updatedTraining = currentTraining.copy(status = newStatus)
+
+                // Update in database
+                repository.updateTraining(updatedTraining)
+
+                // Update state
+                setState { 
+                    copy(training = updatedTraining)
+                }
+            } catch (e: Exception) {
+                // Handle error - could show a snackbar or toast
+                Log.e("TrainingDetailsScreenViewModel", "Error updating training status", e)
+                setEffect { TrainingDetailsScreenContract.Effect.ShowError("Failed to update training status") }
             }
         }
     }

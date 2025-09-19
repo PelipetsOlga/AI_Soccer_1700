@@ -105,4 +105,26 @@
     <string name="tint_end_time">Please enter end time</string>
     <string name="tint_venue">Please enter or choose venue</string>
     <string name="tint_training_note">Please make a quick note about this training</string>
+
+    <!-- Training Details Screen -->
+    <string name="training_details_loading">Loading...</string>
+    <string name="training_details_not_found">Training not found</string>
+    <string name="training_details_plan_list">Plan List</string>
+    <string name="training_details_exercise">Exercise: %1$s</string>
+    <string name="training_details_duration">Duration: %1$d min</string>
+    <string name="training_details_no_exercises">No exercises added</string>
+    <string name="training_details_add_exercise">ADD EXERCISE</string>
+    <string name="training_details_clear">CLEAR</string>
+    <string name="training_details_edit">EDIT</string>
+    <string name="training_details_note">Note: %1$s</string>
+    <string name="training_details_photos">Photos</string>
+    <string name="training_details_upload">UPLOAD</string>
+    <string name="training_details_attendance">ATTENDANCE</string>
+    <string name="training_details_attendance_present">Present - %1$d</string>
+    <string name="training_details_attendance_late">Late - %1$d</string>
+    <string name="training_details_attendance_absent">Absent - %1$d</string>
+    <string name="training_details_attendance_going">Going - %1$d</string>
+    <string name="training_details_attendance_maybe">Maybe - %1$d</string>
+    <string name="training_details_attendance_not_going">Not Going - %1$d</string>
+    <string name="training_details_attendance_format">Attendance: %1$s</string>
 </resources>

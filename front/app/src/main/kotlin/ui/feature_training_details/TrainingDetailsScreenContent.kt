@@ -21,12 +21,16 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -49,6 +53,7 @@ import com.manager1700.soccer.domain.models.SportEventStatus
 import com.manager1700.soccer.ui.components.AppCard
 import com.manager1700.soccer.ui.components.SmallGreyButton
 import com.manager1700.soccer.ui.components.SportEventStatusChip
+import com.manager1700.soccer.ui.components.input.PhotoPickerField
 import com.manager1700.soccer.ui.theme.SoccerManagerTheme
 import com.manager1700.soccer.ui.theme.colorBlack
 import com.manager1700.soccer.ui.theme.colorGrey_2b
@@ -103,7 +108,7 @@ fun TrainingDetailsScreenContent(
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = "Loading...",
+                text = stringResource(R.string.training_details_loading),
                 color = colorWhite,
                 fontFamily = Montserrat
             )
@@ -121,7 +126,7 @@ fun TrainingDetailsScreenContent(
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = "Training not found",
+                text = stringResource(R.string.training_details_not_found),
                 color = colorWhite,
                 fontFamily = Montserrat
             )
@@ -138,6 +143,7 @@ private fun TrainingDetailsContent(
 ) {
     val training = state.training!!
     val isCompleted = training.status == SportEventStatus.Completed
+    var showStatusDropdown by remember { mutableStateOf(false) }
 
     val formattedDate = training.date.format(DateTimeFormatter.ofPattern("dd.MM.yy"))
     val formattedTime = "${training.startDateTime.format(DateTimeFormatter.ofPattern("HH:mm"))} - ${
@@ -149,12 +155,18 @@ private fun TrainingDetailsContent(
         val present = training.realAttendance.info[PastAttendance.Present] ?: 0
         val late = training.realAttendance.info[PastAttendance.Late] ?: 0
         val absent = training.realAttendance.info[PastAttendance.Absent] ?: 0
-        "Attendance: Present - $present, Late - $late, Absent - $absent"
+        val presentText = stringResource(R.string.training_details_attendance_present, present)
+        val lateText = stringResource(R.string.training_details_attendance_late, late)
+        val absentText = stringResource(R.string.training_details_attendance_absent, absent)
+        stringResource(R.string.training_details_attendance_format, "$presentText, $lateText, $absentText")
     } else {
         val going = training.plannedAttendance.info[FutureAttendance.Going] ?: 0
         val maybe = training.plannedAttendance.info[FutureAttendance.Maybe] ?: 0
         val notGoing = training.plannedAttendance.info[FutureAttendance.NotGoing] ?: 0
-        "Attendance: Going - $going, Maybe - $maybe, Not Going - $notGoing"
+        val goingText = stringResource(R.string.training_details_attendance_going, going)
+        val maybeText = stringResource(R.string.training_details_attendance_maybe, maybe)
+        val notGoingText = stringResource(R.string.training_details_attendance_not_going, notGoing)
+        stringResource(R.string.training_details_attendance_format, "$goingText, $maybeText, $notGoingText")
     }
 
     Column(
@@ -207,7 +219,7 @@ private fun TrainingDetailsContent(
 
                 // Plan List Section
                 AppCard(
-                    title = "Plan List",
+                    title = stringResource(R.string.training_details_plan_list),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Column(
@@ -225,27 +237,27 @@ private fun TrainingDetailsContent(
                                 ) {
                                     Column {
                                         Text(
-                                            text = "Exercise: ${exercise.title}",
+                                            text = stringResource(R.string.training_details_exercise, exercise.title),
                                             fontSize = 14.sp,
                                             color = colorWhite,
                                             fontFamily = Montserrat
                                         )
                                         Text(
-                                            text = "Duration: ${exercise.durationInMinutes} min",
+                                            text = stringResource(R.string.training_details_duration, exercise.durationInMinutes),
                                             fontSize = 12.sp,
                                             color = colorGrey_89,
                                             fontFamily = Montserrat
                                         )
                                     }
                                     SmallGreyButton(
-                                        text = "EDIT",
+                                        text = stringResource(R.string.training_details_edit),
                                         onClick = { onEvent(TrainingDetailsScreenContract.Event.EditExerciseClicked(exercise.id)) }
                                     )
                                 }
                             }
                         } else {
                             Text(
-                                text = "No exercises added",
+                                text = stringResource(R.string.training_details_no_exercises),
                                 fontSize = 14.sp,
                                 color = colorGrey_89,
                                 fontFamily = Montserrat,
@@ -259,13 +271,13 @@ private fun TrainingDetailsContent(
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             SmallGreyButton(
-                                text = "ADD EXERCISE",
+                                text = stringResource(R.string.training_details_add_exercise),
                                 onClick = { onEvent(TrainingDetailsScreenContract.Event.AddExerciseClicked) },
                                 modifier = Modifier.weight(1f)
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                             SmallGreyButton(
-                                text = "CLEAR",
+                                text = stringResource(R.string.training_details_clear),
                                 onClick = { onEvent(TrainingDetailsScreenContract.Event.ClearExercisesClicked) },
                                 modifier = Modifier.weight(1f)
                             )
@@ -276,7 +288,7 @@ private fun TrainingDetailsContent(
                 // Note section
                 if (training.note.isNotEmpty()) {
                     Text(
-                        text = "Note: ${training.note}",
+                        text = stringResource(R.string.training_details_note, training.note),
                         fontSize = 14.sp,
                         color = colorWhite,
                         fontFamily = Montserrat
@@ -284,11 +296,57 @@ private fun TrainingDetailsContent(
                 }
 
                 // Photos section
-                PhotosSection(
-                    photos = state.photos,
-                    onPhotoPickerClick = onPhotoPickerClick,
-                    onRemovePhoto = { index -> onEvent(TrainingDetailsScreenContract.Event.RemovePhotoClicked(index)) }
-                )
+                if (state.photos.isNotEmpty()) {
+                    Text(
+                        text = stringResource(R.string.training_details_photos),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = colorWhite,
+                        fontFamily = Montserrat
+                    )
+                    
+                    Row(
+                        modifier = Modifier.horizontalScroll(rememberScrollState()),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        state.photos.forEachIndexed { index, photoPath ->
+                            PhotoPickerField(
+                                imageUrl = photoPath,
+                                onPhotoPickerClick = onPhotoPickerClick,
+                                onDeletePhotoClick = { onEvent(TrainingDetailsScreenContract.Event.RemovePhotoClicked(index)) },
+                                modifier = Modifier.size(120.dp, 160.dp)
+                            )
+                        }
+                        
+                        // Add photo button if less than 20 photos
+                        if (state.photos.size < 20) {
+                            Box(
+                                modifier = Modifier
+                                    .size(120.dp, 160.dp)
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .background(colorGrey_2b)
+                                    .clickable { onPhotoPickerClick() },
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    Text(
+                                        text = "📷",
+                                        fontSize = 24.sp
+                                    )
+                                    Text(
+                                        text = stringResource(R.string.training_details_upload),
+                                        fontSize = 10.sp,
+                                        color = colorWhite,
+                                        fontFamily = Montserrat
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
 
                 // Action buttons
                 Row(
@@ -296,114 +354,54 @@ private fun TrainingDetailsContent(
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     SmallGreyButton(
-                        text = "ATTENDANCE",
+                        text = stringResource(R.string.training_details_attendance),
                         onClick = { onEvent(TrainingDetailsScreenContract.Event.AttendanceClicked) },
                         modifier = Modifier.weight(1f)
                     )
                     SmallGreyButton(
-                        text = "EDIT",
+                        text = stringResource(R.string.training_details_edit),
                         onClick = { onEvent(TrainingDetailsScreenContract.Event.EditClicked) },
                         modifier = Modifier.weight(1f)
                     )
-                    SmallGreyButton(
-                        text = "MARK AS",
-                        onClick = { onEvent(TrainingDetailsScreenContract.Event.MarkAsClicked) },
-                        modifier = Modifier.weight(1f)
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun PhotosSection(
-    photos: List<String>,
-    onPhotoPickerClick: () -> Unit,
-    onRemovePhoto: (Int) -> Unit
-) {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        Text(
-            text = "Photos",
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Bold,
-            color = colorWhite,
-            fontFamily = Montserrat
-        )
-
-        Row(
-            modifier = Modifier.horizontalScroll(rememberScrollState()),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            // Display existing photos
-            photos.forEachIndexed { index, photoPath ->
-                Box(
-                    modifier = Modifier
-                        .size(80.dp)
-                        .clip(RoundedCornerShape(8.dp))
-                ) {
-                    AsyncImage(
-                        model = ImageRequest.Builder(LocalContext.current)
-                            .data(File(photoPath))
-                            .build(),
-                        contentDescription = "Training photo",
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(colorGrey_2b),
-                        contentScale = ContentScale.Crop
-                    )
-
-                    // Remove button
-                    Box(
-                        modifier = Modifier
-                            .align(Alignment.TopEnd)
-                            .size(20.dp)
-                            .background(colorBlack.copy(alpha = 0.7f), CircleShape)
-                            .clickable { onRemovePhoto(index) },
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = "×",
-                            color = colorWhite,
-                            fontSize = 12.sp,
-                            fontFamily = Montserrat
+                    
+                    Box(modifier = Modifier.weight(1f)) {
+                        SmallGreyButton(
+                            text = stringResource(R.string.btn_mark_as),
+                            onClick = { showStatusDropdown = true },
+                            modifier = Modifier.fillMaxWidth()
                         )
-                    }
-                }
-            }
-
-            // Upload button (if less than 20 photos)
-            if (photos.size < 20) {
-                Box(
-                    modifier = Modifier
-                        .size(80.dp)
-                        .clip(RoundedCornerShape(8.dp))
-                        .background(colorGrey_2b)
-                        .clickable { onPhotoPickerClick() },
-                    contentAlignment = Alignment.Center
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        Text(
-                            text = "📷",
-                            fontSize = 24.sp
-                        )
-                        Text(
-                            text = "UPLOAD",
-                            fontSize = 10.sp,
-                            color = colorWhite,
-                            fontFamily = Montserrat
-                        )
+                        
+                        DropdownMenu(
+                            expanded = showStatusDropdown,
+                            onDismissRequest = { showStatusDropdown = false },
+                            modifier = Modifier.background(colorWhite)
+                        ) {
+                            SportEventStatus.entries.forEach { status ->
+                                DropdownMenuItem(
+                                    onClick = {
+                                        onEvent(TrainingDetailsScreenContract.Event.StatusChanged(status))
+                                        showStatusDropdown = false
+                                    }
+                                ) {
+                                    Text(
+                                        text = stringResource(status.titleId),
+                                        fontSize = 14.sp,
+                                        fontWeight = FontWeight.Normal,
+                                        color = colorBlack,
+                                        fontFamily = Montserrat,
+                                        textAlign = TextAlign.Center,
+                                        modifier = Modifier.fillMaxWidth()
+                                    )
+                                }
+                            }
+                        }
                     }
                 }
             }
         }
     }
 }
+
 
 @PreviewApp
 @Composable

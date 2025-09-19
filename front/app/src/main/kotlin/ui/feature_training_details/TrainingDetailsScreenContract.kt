@@ -28,6 +28,7 @@ object TrainingDetailsScreenContract {
         data object EditClicked : Event()
         data object AttendanceClicked : Event()
         data object MarkAsClicked : Event()
+        data class StatusChanged(val status: com.manager1700.soccer.domain.models.SportEventStatus) : Event()
         data object AddExerciseClicked : Event()
         data object ClearExercisesClicked : Event()
         data class EditExerciseClicked(val exerciseId: String) : Event()
