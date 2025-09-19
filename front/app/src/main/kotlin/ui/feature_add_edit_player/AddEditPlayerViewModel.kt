@@ -33,7 +33,7 @@ class AddEditPlayerViewModel @Inject constructor(
 
     fun initializeWithPlayer(player: Player?, isEditMode: Boolean) {
         setState {
-            copy(
+            val newState = copy(
                 player = player,
                 isEditMode = isEditMode,
                 playerName = player?.name.orEmpty(),
@@ -42,8 +42,10 @@ class AddEditPlayerViewModel @Inject constructor(
                 foot = player?.foot,
                 fitness = player?.fitness?.toString().orEmpty(),
                 note = player?.note.orEmpty(),
-                imageUrl = player?.imageUrl
+                imageUrl = player?.imageUrl,
             )
+            val isFormValid = isCreatePlayerFormValid(newState)
+            newState.copy(isFormValid = isFormValid)
         }
     }
 
@@ -194,7 +196,7 @@ class AddEditPlayerViewModel @Inject constructor(
                 val localImagePath = withContext(Dispatchers.IO) {
                     imageFileManager.saveImageFromUri(uri)
                 }
-                
+
                 if (localImagePath != null) {
                     setState { copy(imageUrl = localImagePath) }
                     Log.d("AddEditPlayerViewModel", "Image saved to: $localImagePath")

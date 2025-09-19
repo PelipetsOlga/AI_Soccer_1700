@@ -26,14 +26,12 @@ import com.manager1700.soccer.ui.components.Toolbar
 import com.manager1700.soccer.ui.theme.SoccerManagerTheme
 import com.manager1700.soccer.ui.theme.colorBlack
 import com.manager1700.soccer.ui.utils.PreviewApp
-import com.manager1700.soccer.ui.utils.statusBarTopPadding
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddEditPlayerScreen(
     isEditMode: Boolean = false,
     navController: NavController,
-    player: Player?,
     playerId: Int? = null,
     viewModel: AddEditPlayerViewModel = hiltViewModel()
 ) {
@@ -50,11 +48,11 @@ fun AddEditPlayerScreen(
     }
 
     // Initialize with player data
-    LaunchedEffect(player, playerId) {
+    LaunchedEffect(playerId) {
         if (isEditMode && playerId != null) {
-            viewModel.initializeWithPlayerId(playerId, isEditMode)
+            viewModel.initializeWithPlayerId(playerId, true)
         } else {
-            viewModel.initializeWithPlayer(player, isEditMode)
+            viewModel.initializeWithPlayer(null, false)
         }
     }
 

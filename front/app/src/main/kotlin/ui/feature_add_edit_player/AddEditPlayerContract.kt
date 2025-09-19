@@ -32,6 +32,7 @@ object AddEditPlayerContract {
 
     fun isCreatePlayerFormValid(state: State): Boolean {
         if (state.player != null) return true
+        if (state.isEditMode) return true
         return state.playerName.isNotEmpty()
                 && state.playerNumber.toIntOrNull() != null
                 && state.fitness.toIntOrNull() != null

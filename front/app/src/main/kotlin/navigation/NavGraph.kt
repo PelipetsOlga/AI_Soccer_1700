@@ -41,7 +41,6 @@ fun SetupNavGraph(navController: NavHostController) {
             AddEditPlayerScreen(
                 isEditMode = false,
                 navController = navController,
-                player = null // For add player flow
             )
         }
 
@@ -55,7 +54,6 @@ fun SetupNavGraph(navController: NavHostController) {
             AddEditPlayerScreen(
                 isEditMode = true,
                 navController = navController,
-                player = null,
                 playerId = playerId
             )
         }
