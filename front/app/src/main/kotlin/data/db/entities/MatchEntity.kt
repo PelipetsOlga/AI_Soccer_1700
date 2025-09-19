@@ -24,6 +24,7 @@ data class MatchEntity(
     val note: String,
     val place: String,
     val title: String,
+    val photos: List<String>,
     val plannedAttendance: AttendanceInfoEntity,
     val realAttendance: AttendanceInfoEntity,
 )
@@ -42,6 +43,7 @@ fun MatchEntity.toDomainModel(): Match {
         note = note,
         place = place,
         title = title,
+        photos = photos,
         plannedAttendance = plannedAttendance.toDomainModel(),
         realAttendance = realAttendance.toDomainModel(),
     )
@@ -60,6 +62,7 @@ fun Match.toEntity(): MatchEntity {
         note = note,
         place = place,
         title = title,
+        photos = photos,
         plannedAttendance = plannedAttendance.toEntity(),
         realAttendance = realAttendance.toEntity(),
     )

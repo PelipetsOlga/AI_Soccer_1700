@@ -141,4 +141,50 @@
     <string name="clear_exercises_confirm_title">Are you sure that you want to remove ALL exercises from plan?</string>
     <string name="clear_exercises_yes">Yes</string>
     <string name="clear_exercises_no">No</string>
+
+    <!-- Matches Feature -->
+    <string name="matches_title">Matches</string>
+    <string name="add_match">Add match</string>
+    <string name="match_details_title">Match Details</string>
+    <string name="match_details_loading">Loading...</string>
+    <string name="match_details_not_found">Match not found</string>
+    <string name="match_details_attendance">ATTENDANCE</string>
+    <string name="match_details_attendance_present">Present - %1$d</string>
+    <string name="match_details_attendance_late">Late - %1$d</string>
+    <string name="match_details_attendance_absent">Absent - %1$d</string>
+    <string name="match_details_attendance_going">Going - %1$d</string>
+    <string name="match_details_attendance_maybe">Maybe - %1$d</string>
+    <string name="match_details_attendance_not_going">Not Going - %1$d</string>
+    <string name="match_details_attendance_format">Attendance: %1$s</string>
+    <string name="match_details_photos">Photos</string>
+    <string name="match_details_upload">UPLOAD</string>
+    <string name="match_details_edit">EDIT</string>
+    <string name="match_details_note">Note: %1$s</string>
+    <string name="match_details_opponent">Opponent: %1$s</string>
+    <string name="match_details_lineup">Lineup: %1$s</string>
+    <string name="match_details_venue">Venue: %1$s</string>
+    <string name="match_details_date">Date: %1$s</string>
+    <string name="match_details_time">Time: %1$s - %2$s</string>
+
+    <!-- Add/Edit Match -->
+    <string name="add_match_title">Add Match</string>
+    <string name="edit_match_title">Edit Match</string>
+    <string name="match_type_title">Type</string>
+    <string name="match_type_hint">Please enter match type</string>
+    <string name="match_opponent_title">Opponent</string>
+    <string name="match_opponent_hint">Please enter opponent name</string>
+    <string name="match_lineup_title">Lineup</string>
+    <string name="match_lineup_hint">Please select lineup scheme</string>
+    <string name="match_date_title">Date</string>
+    <string name="match_date_hint">Please enter date</string>
+    <string name="match_start_time_title">Start Time</string>
+    <string name="match_start_time_hint">Please enter start time</string>
+    <string name="match_end_time_title">End Time</string>
+    <string name="match_end_time_hint">Please enter end time</string>
+    <string name="match_venue_title">Venue</string>
+    <string name="match_venue_hint">Please enter venue</string>
+    <string name="match_note_title">Note</string>
+    <string name="match_note_hint">Please enter note</string>
+    <string name="match_save">Save</string>
+    <string name="match_cancel">Cancel</string>
 </resources>

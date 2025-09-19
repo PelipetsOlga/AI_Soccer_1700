@@ -13,6 +13,8 @@ import com.manager1700.soccer.ui.feature_settings.SettingsScreen
 import com.manager1700.soccer.ui.feature_add_edit_player.AddEditPlayerScreen
 import com.manager1700.soccer.ui.feature_add_edit_training.AddEditTrainingScreen
 import com.manager1700.soccer.ui.feature_training_details.TrainingDetailsScreen
+import com.manager1700.soccer.ui.feature_add_edit_match.AddEditMatchScreen
+import com.manager1700.soccer.ui.feature_match_details.MatchDetailsScreen
 import com.manager1700.soccer.ui.screens.HomeWrapperScreen
 
 @Composable
@@ -88,6 +90,40 @@ fun SetupNavGraph(navController: NavHostController) {
             val trainingId = backStackEntry.arguments?.getInt("trainingId") ?: 0
             TrainingDetailsScreen(
                 trainingId = trainingId,
+                navController = navController
+            )
+        }
+
+        composable(route = Screen.AddMatch.route) {
+            AddEditMatchScreen(
+                match = null, // For add match flow
+                navController = navController
+            )
+        }
+
+        composable(
+            route = Screen.EditMatch.route,
+            arguments = listOf(
+                navArgument("matchId") { type = NavType.IntType }
+            )
+        ) { backStackEntry ->
+            val matchId = backStackEntry.arguments?.getInt("matchId") ?: 0
+            AddEditMatchScreen(
+                match = null, // Match will be loaded by the ViewModel using matchId
+                navController = navController,
+                matchId = matchId
+            )
+        }
+
+        composable(
+            route = Screen.MatchDetails.route,
+            arguments = listOf(
+                navArgument("matchId") { type = NavType.IntType }
+            )
+        ) { backStackEntry ->
+            val matchId = backStackEntry.arguments?.getInt("matchId") ?: 0
+            MatchDetailsScreen(
+                matchId = matchId,
                 navController = navController
             )
         }

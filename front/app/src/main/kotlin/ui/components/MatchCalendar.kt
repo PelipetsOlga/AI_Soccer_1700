@@ -1,0 +1,204 @@
+package com.manager1700.soccer.ui.components
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.manager1700.soccer.Montserrat
+import com.manager1700.soccer.domain.models.Match
+import com.manager1700.soccer.ui.theme.colorBlack
+import com.manager1700.soccer.ui.theme.colorGrey_2b
+import com.manager1700.soccer.ui.theme.colorGrey_89
+import com.manager1700.soccer.ui.theme.colorRed
+import com.manager1700.soccer.ui.theme.colorWhite
+import java.time.LocalDate
+import java.time.YearMonth
+import java.time.format.DateTimeFormatter
+
+@Composable
+fun MatchCalendar(
+    matches: List<Match>,
+    selectedDate: LocalDate?,
+    onDateSelected: (LocalDate) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val today = LocalDate.now()
+    val currentYear = today.year
+    val minYear = currentYear - 10
+    val maxYear = currentYear + 10
+    
+    // State for current displayed month
+    var currentMonth by remember { 
+        mutableStateOf(selectedDate?.let { YearMonth.from(it) } ?: YearMonth.now()) 
+    }
+
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(colorGrey_2b)
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        // Month header with navigation
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "←",
+                fontSize = 20.sp,
+                color = if (currentMonth.year > minYear) colorWhite else colorGrey_89,
+                fontFamily = Montserrat,
+                modifier = Modifier.clickable {
+                    if (currentMonth.year > minYear) {
+                        currentMonth = currentMonth.minusMonths(1)
+                    }
+                }
+            )
+
+            Text(
+                text = currentMonth.format(DateTimeFormatter.ofPattern("MMMM yyyy")).uppercase(),
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                color = colorWhite,
+                fontFamily = Montserrat,
+                textAlign = TextAlign.Center
+            )
+
+            Text(
+                text = "→",
+                fontSize = 20.sp,
+                color = if (currentMonth.year < maxYear) colorWhite else colorGrey_89,
+                fontFamily = Montserrat,
+                modifier = Modifier.clickable {
+                    if (currentMonth.year < maxYear) {
+                        currentMonth = currentMonth.plusMonths(1)
+                    }
+                }
+            )
+        }
+
+        // Days of week header
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            listOf("M", "T", "W", "T", "F", "S", "S").forEach { day ->
+                Text(
+                    text = day,
+                    fontSize = 12.sp,
+                    color = colorGrey_89,
+                    fontFamily = Montserrat,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.width(40.dp)
+                )
+            }
+        }
+
+        // Calendar grid
+        val firstDayOfMonth = currentMonth.atDay(1)
+        val firstDayOfWeek = (firstDayOfMonth.dayOfWeek.value - 1) % 7 // Convert to 0-6 where 0 is Monday
+        val daysInMonth = currentMonth.lengthOfMonth()
+
+        Column(
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            // Generate calendar rows
+            var currentDay = 1
+            while (currentDay <= daysInMonth) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    repeat(7) { column ->
+                        if (currentDay == 1 && column < firstDayOfWeek) {
+                            // Empty cell before first day of month
+                            Spacer(modifier = Modifier.size(40.dp))
+                        } else if (currentDay <= daysInMonth) {
+                            val date = currentMonth.atDay(currentDay)
+                            val hasMatch = matches.any { it.date == date }
+                            val isSelected = selectedDate == date
+                            val isToday = date == today
+
+                            CalendarDay(
+                                day = currentDay,
+                                hasMatch = hasMatch,
+                                isSelected = isSelected,
+                                isToday = isToday,
+                                onClick = { onDateSelected(date) },
+                                modifier = Modifier.width(40.dp)
+                            )
+                            currentDay++
+                        } else {
+                            // Empty cell after last day of month
+                            Spacer(modifier = Modifier.size(40.dp))
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun CalendarDay(
+    day: Int,
+    hasMatch: Boolean,
+    isSelected: Boolean,
+    isToday: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val backgroundColor = when {
+        isSelected -> colorRed
+        isToday -> colorGrey_89
+        else -> Color.Transparent
+    }
+
+    val textColor = when {
+        isSelected -> colorWhite
+        isToday -> colorBlack
+        else -> colorWhite
+    }
+
+    Box(
+        modifier = modifier
+            .size(40.dp)
+            .clip(CircleShape)
+            .background(backgroundColor)
+            .clickable { onClick() },
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = day.toString(),
+            fontSize = 14.sp,
+            fontWeight = if (hasMatch) FontWeight.Bold else FontWeight.Normal,
+            color = textColor,
+            fontFamily = Montserrat,
+            textAlign = TextAlign.Center
+        )
+    }
+}

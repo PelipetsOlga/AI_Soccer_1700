@@ -26,6 +26,11 @@ sealed class Screen(val route: String) {
     data object EditTraining : Screen("edit_training_screen/{trainingId}")
     data object TrainingDetails : Screen("training_details_screen/{trainingId}")
 
+    // Add/Edit Match screen
+    data object AddMatch : Screen("add_match_screen")
+    data object EditMatch : Screen("edit_match_screen/{matchId}")
+    data object MatchDetails : Screen("match_details_screen/{matchId}")
+
     // Legacy screens (can be removed if not needed)
     data object PlayerList : Screen("player_list_screen")
     data object TrainingList : Screen("training_list_screen")
