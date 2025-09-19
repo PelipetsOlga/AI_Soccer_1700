@@ -124,25 +124,17 @@ class SoccerRepositoryImpl(
 
     override suspend fun getFutureMatchs(): List<Match> {
         val allMatches = matchDao.getAllMatches().first()
-        val currentTime = LocalTime.now()
+        val today = LocalDate.now()
         return allMatches
-            .filter { entity ->
-                entity.status == SportEventStatus.Scheduled.key &&
-                        entity.startDateTime.isAfter(currentTime)
-            }
+            .filter { entity -> entity.date.isAfter(today) }
             .map { it.toDomainModel() }
     }
 
     override suspend fun getPastMatchs(): List<Match> {
         val allMatches = matchDao.getAllMatches().first()
-        val currentTime = LocalTime.now()
+        val today = LocalDate.now()
         return allMatches
-            .filter { entity ->
-                entity.status == SportEventStatus.Completed.key ||
-                        (entity.status == SportEventStatus.Scheduled.key && entity.endDateTime.isBefore(
-                            currentTime
-                        ))
-            }
+            .filter { entity -> entity.date.isBefore(today) }
             .map { it.toDomainModel() }
     }
 
