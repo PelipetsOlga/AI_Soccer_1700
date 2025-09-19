@@ -17,7 +17,10 @@ object TrainingDetailsScreenContract {
         val isLoading: Boolean = false,
         val training: Training? = null,
         val photos: List<String> = emptyList(),
-        val errorMessage: String? = null
+        val errorMessage: String? = null,
+        val showAddExerciseDialog: Boolean = false,
+        val exerciseType: String = "",
+        val exerciseDuration: String = ""
     ) : UiState
     
     /**
@@ -32,6 +35,10 @@ object TrainingDetailsScreenContract {
         data object AddExerciseClicked : Event()
         data object ClearExercisesClicked : Event()
         data class EditExerciseClicked(val exerciseId: String) : Event()
+        data class ExerciseTypeChanged(val type: String) : Event()
+        data class ExerciseDurationChanged(val duration: String) : Event()
+        data object ConfirmAddExercise : Event()
+        data object CancelAddExercise : Event()
         data object UploadPhotoClicked : Event()
         data class RemovePhotoClicked(val photoIndex: Int) : Event()
         data class ImageSelected(val imageUri: String) : Event()

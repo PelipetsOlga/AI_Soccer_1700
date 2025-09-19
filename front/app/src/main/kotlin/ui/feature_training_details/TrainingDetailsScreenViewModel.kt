@@ -60,6 +60,10 @@ class TrainingDetailsScreenViewModel @Inject constructor(
             is TrainingDetailsScreenContract.Event.AddExerciseClicked -> handleAddExerciseClicked()
             is TrainingDetailsScreenContract.Event.ClearExercisesClicked -> handleClearExercisesClicked()
             is TrainingDetailsScreenContract.Event.EditExerciseClicked -> handleEditExerciseClicked(event.exerciseId)
+            is TrainingDetailsScreenContract.Event.ExerciseTypeChanged -> handleExerciseTypeChanged(event.type)
+            is TrainingDetailsScreenContract.Event.ExerciseDurationChanged -> handleExerciseDurationChanged(event.duration)
+            is TrainingDetailsScreenContract.Event.ConfirmAddExercise -> handleConfirmAddExercise()
+            is TrainingDetailsScreenContract.Event.CancelAddExercise -> handleCancelAddExercise()
             is TrainingDetailsScreenContract.Event.UploadPhotoClicked -> handleUploadPhotoClicked()
             is TrainingDetailsScreenContract.Event.RemovePhotoClicked -> handleRemovePhotoClicked(event.photoIndex)
             is TrainingDetailsScreenContract.Event.ImageSelected -> handleImageSelected(event.imageUri)
@@ -92,7 +96,7 @@ class TrainingDetailsScreenViewModel @Inject constructor(
     }
 
     private fun handleAddExerciseClicked() {
-        // TODO: Implement add exercise functionality
+        setState { copy(showAddExerciseDialog = true) }
     }
 
     private fun handleClearExercisesClicked() {
@@ -101,6 +105,68 @@ class TrainingDetailsScreenViewModel @Inject constructor(
 
     private fun handleEditExerciseClicked(exerciseId: String) {
         // TODO: Implement edit exercise functionality
+    }
+
+    private fun handleExerciseTypeChanged(type: String) {
+        setState { copy(exerciseType = type) }
+    }
+
+    private fun handleExerciseDurationChanged(duration: String) {
+        setState { copy(exerciseDuration = duration) }
+    }
+
+    private fun handleConfirmAddExercise() {
+        val currentState = viewState.value
+        val training = currentState.training ?: return
+        val exerciseType = currentState.exerciseType.trim()
+        val exerciseDuration = currentState.exerciseDuration.trim()
+
+        if (exerciseType.isNotEmpty() && exerciseDuration.isNotEmpty()) {
+            val durationInt = exerciseDuration.toIntOrNull()
+            if (durationInt != null && durationInt > 0) {
+                viewModelScope.launch {
+                    try {
+                        // Create new exercise
+                        val newExercise = com.manager1700.soccer.domain.models.Exercise(
+                            id = java.util.UUID.randomUUID().toString(),
+                            title = exerciseType,
+                            durationInMinutes = durationInt
+                        )
+
+                        // Add exercise to training
+                        val updatedExercises = training.exercises.toMutableList()
+                        updatedExercises.add(newExercise)
+
+                        // Update training in database
+                        val updatedTraining = training.copy(exercises = updatedExercises)
+                        repository.updateTraining(updatedTraining)
+
+                        // Update state
+                        setState { 
+                            copy(
+                                training = updatedTraining,
+                                showAddExerciseDialog = false,
+                                exerciseType = "",
+                                exerciseDuration = ""
+                            ) 
+                        }
+                    } catch (e: Exception) {
+                        Log.e("TrainingDetailsScreenViewModel", "Error adding exercise", e)
+                        setEffect { TrainingDetailsScreenContract.Effect.ShowError("Failed to add exercise") }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun handleCancelAddExercise() {
+        setState { 
+            copy(
+                showAddExerciseDialog = false,
+                exerciseType = "",
+                exerciseDuration = ""
+            ) 
+        }
     }
 
     private fun handleUploadPhotoClicked() {

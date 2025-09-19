@@ -127,4 +127,13 @@
     <string name="training_details_attendance_maybe">Maybe - %1$d</string>
     <string name="training_details_attendance_not_going">Not Going - %1$d</string>
     <string name="training_details_attendance_format">Attendance: %1$s</string>
+
+    <!-- Add Exercise Dialog -->
+    <string name="add_exercise_title">Add the exercise</string>
+    <string name="add_exercise_type_title">Type</string>
+    <string name="add_exercise_type_hint">Please enter exercise type</string>
+    <string name="add_exercise_duration_title">Duration</string>
+    <string name="add_exercise_duration_hint">Please enter duration time (min)</string>
+    <string name="add_exercise_save">Save</string>
+    <string name="add_exercise_cancel">Cancel</string>
 </resources>

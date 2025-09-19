@@ -4,8 +4,11 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.manager1700.soccer.ui.components.AddExerciseAlert
 import com.manager1700.soccer.ui.components.Toolbar
 import com.manager1700.soccer.ui.theme.colorBlack
 
@@ -16,6 +19,8 @@ fun TrainingDetailsScreen(
     navController: NavController,
     viewModel: TrainingDetailsScreenViewModel = hiltViewModel()
 ) {
+    val state by viewModel.viewState.collectAsState()
+    
     // Handle side effects
     LaunchedEffect(Unit) {
         viewModel.effect.collect { effect ->
@@ -56,6 +61,18 @@ fun TrainingDetailsScreen(
             onEvent = { viewModel.setEvent(it) },
             viewModel = viewModel,
             paddingValues = paddingValues,
+        )
+    }
+
+    // Add Exercise Dialog
+    if (state.showAddExerciseDialog) {
+        AddExerciseAlert(
+            exerciseType = state.exerciseType,
+            exerciseDuration = state.exerciseDuration,
+            onExerciseTypeChanged = { viewModel.setEvent(TrainingDetailsScreenContract.Event.ExerciseTypeChanged(it)) },
+            onExerciseDurationChanged = { viewModel.setEvent(TrainingDetailsScreenContract.Event.ExerciseDurationChanged(it)) },
+            onConfirm = { viewModel.setEvent(TrainingDetailsScreenContract.Event.ConfirmAddExercise) },
+            onCancel = { viewModel.setEvent(TrainingDetailsScreenContract.Event.CancelAddExercise) }
         )
     }
 }
