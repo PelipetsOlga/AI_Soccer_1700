@@ -49,6 +49,7 @@ fun AddEditMatchScreen(
     val datePickerDialog = remember {
         DatePickerDialog(
             context,
+            R.style.CustomDatePickerDialog,
             { _, year, month, dayOfMonth ->
                 val selectedDate = LocalDate.of(year, month + 1, dayOfMonth)
                 viewModel.setEvent(AddEditMatchContract.Event.DateChanged(selectedDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))))
@@ -63,6 +64,7 @@ fun AddEditMatchScreen(
     val startTimePickerDialog = remember {
         TimePickerDialog(
             context,
+            R.style.CustomTimePickerDialog,
             { _, hourOfDay, minute ->
                 val selectedTime = LocalTime.of(hourOfDay, minute)
                 viewModel.setEvent(AddEditMatchContract.Event.StartTimeChanged(selectedTime.format(DateTimeFormatter.ofPattern("HH:mm"))))
@@ -77,6 +79,7 @@ fun AddEditMatchScreen(
     val endTimePickerDialog = remember {
         TimePickerDialog(
             context,
+            R.style.CustomTimePickerDialog,
             { _, hourOfDay, minute ->
                 val selectedTime = LocalTime.of(hourOfDay, minute)
                 viewModel.setEvent(AddEditMatchContract.Event.EndTimeChanged(selectedTime.format(DateTimeFormatter.ofPattern("HH:mm"))))
