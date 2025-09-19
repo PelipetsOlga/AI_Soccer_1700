@@ -71,7 +71,9 @@ class TrainingDetailsScreenViewModel @Inject constructor(
     }
 
     private fun handleEditClicked() {
-        setEffect { TrainingDetailsScreenContract.Effect.NavigateToEditTraining }
+        val currentState = viewState.value
+        val training = currentState.training ?: return
+        setEffect { TrainingDetailsScreenContract.Effect.NavigateToEditTraining(training.id) }
     }
 
     private fun handleAttendanceClicked() {

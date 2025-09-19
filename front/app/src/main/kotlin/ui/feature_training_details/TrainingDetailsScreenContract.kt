@@ -42,7 +42,7 @@ object TrainingDetailsScreenContract {
      */
     sealed class Effect : UiEffect {
         data object NavigateBack : Effect()
-        data object NavigateToEditTraining : Effect()
+        data class NavigateToEditTraining(val trainingId: Int) : Effect()
         data object NavigateToAttendance : Effect()
         data object ShowMarkAsDialog : Effect()
         data class ShowError(val message: String) : Effect()

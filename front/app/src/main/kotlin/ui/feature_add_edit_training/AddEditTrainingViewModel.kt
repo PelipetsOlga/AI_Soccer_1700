@@ -33,12 +33,37 @@ class AddEditTrainingViewModel @Inject constructor(
                 training = training,
                 isEditMode = isEditMode,
                 type = training?.type.orEmpty(),
-                date = "", // Training model doesn't have date field, using empty for now
+                date = training?.date?.format(java.time.format.DateTimeFormatter.ofPattern("dd.MM.yyyy")).orEmpty(),
                 startTime = training?.startDateTime?.toString().orEmpty(),
                 endTime = training?.endDateTime?.toString().orEmpty(),
                 venue = training?.place.orEmpty(),
                 note = training?.note.orEmpty()
             )
+        }
+    }
+
+    fun loadTrainingById(trainingId: Int) {
+        viewModelScope.launch {
+            try {
+                setState { copy(isLoading = true) }
+                val training = repository.getTrainingById(trainingId)
+                setState {
+                    copy(
+                        training = training,
+                        isEditMode = true,
+                        isLoading = false,
+                        type = training.type,
+                        date = training.date.format(java.time.format.DateTimeFormatter.ofPattern("dd.MM.yyyy")),
+                        startTime = training.startDateTime.toString(),
+                        endTime = training.endDateTime.toString(),
+                        venue = training.place,
+                        note = training.note
+                    )
+                }
+            } catch (e: Exception) {
+                setState { copy(isLoading = false) }
+                setEffect { AddEditTrainingContract.Effect.ShowError("Failed to load training: ${e.message}") }
+            }
         }
     }
 
@@ -111,9 +136,11 @@ class AddEditTrainingViewModel @Inject constructor(
             LocalDate.now() // fallback to today
         }
 
+        // Preserve existing data when editing
+        val existingTraining = state.training
         return Training(
             id = trainingId,
-            status = SportEventStatus.Scheduled,
+            status = existingTraining?.status ?: SportEventStatus.Scheduled,
             date = date,
             startDateTime = LocalTime.parse(state.startTime),
             endDateTime = LocalTime.parse(state.endTime),
@@ -121,10 +148,10 @@ class AddEditTrainingViewModel @Inject constructor(
             note = state.note,
             place = state.venue,
             title = state.type, // Using type as title for now
-            photos = emptyList(),
-            exercises = emptyList(),
-            plannedAttendance = AttendanceInfo(emptyMap()),
-            realAttendance = AttendanceInfo(emptyMap())
+            photos = existingTraining?.photos ?: emptyList(),
+            exercises = existingTraining?.exercises ?: emptyList(),
+            plannedAttendance = existingTraining?.plannedAttendance ?: AttendanceInfo(emptyMap()),
+            realAttendance = existingTraining?.realAttendance ?: AttendanceInfo(emptyMap())
         )
     }
 

@@ -52,6 +52,7 @@ import java.time.LocalTime
 fun AddEditTrainingScreen(
     training: Training?,
     navController: NavController,
+    trainingId: Int? = null,
     viewModel: AddEditTrainingViewModel = hiltViewModel()
 ) {
     val state by viewModel.viewState.collectAsState()
@@ -62,8 +63,14 @@ fun AddEditTrainingScreen(
     val snackbarHostState = remember { SnackbarHostState() }
 
     // Initialize with training data
-    LaunchedEffect(training) {
-        viewModel.initializeWithTraining(training, training != null)
+    LaunchedEffect(training, trainingId) {
+        if (trainingId != null && training == null) {
+            // Load training by ID for edit mode
+            viewModel.loadTrainingById(trainingId)
+        } else {
+            // Use provided training data
+            viewModel.initializeWithTraining(training, training != null)
+        }
     }
 
     // Handle side effects

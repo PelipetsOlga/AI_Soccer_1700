@@ -24,7 +24,7 @@ fun TrainingDetailsScreen(
                     navController.popBackStack()
                 }
                 is TrainingDetailsScreenContract.Effect.NavigateToEditTraining -> {
-                    // TODO: Navigate to edit training
+                    navController.navigate("edit_training_screen/${effect.trainingId}")
                 }
                 is TrainingDetailsScreenContract.Effect.NavigateToAttendance -> {
                     // TODO: Navigate to attendance

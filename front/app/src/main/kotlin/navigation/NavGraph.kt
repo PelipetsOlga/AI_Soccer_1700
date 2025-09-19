@@ -67,10 +67,17 @@ fun SetupNavGraph(navController: NavHostController) {
             )
         }
 
-        composable(route = Screen.EditTraining.route) {
+        composable(
+            route = Screen.EditTraining.route,
+            arguments = listOf(
+                navArgument("trainingId") { type = NavType.IntType }
+            )
+        ) { backStackEntry ->
+            val trainingId = backStackEntry.arguments?.getInt("trainingId") ?: 0
             AddEditTrainingScreen(
-                training = null, // For edit training flow - would need to pass actual training
-                navController = navController
+                training = null, // Training will be loaded by the ViewModel using trainingId
+                navController = navController,
+                trainingId = trainingId
             )
         }
 
