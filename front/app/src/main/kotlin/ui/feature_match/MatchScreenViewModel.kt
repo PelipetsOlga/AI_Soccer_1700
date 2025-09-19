@@ -13,15 +13,15 @@ import javax.inject.Inject
 class MatchScreenViewModel @Inject constructor(
     private val repository: SoccerRepository
 ) : MviViewModel<
-    MatchScreenContract.Event,
-    MatchScreenContract.State,
-    MatchScreenContract.Effect
->() {
-    
+        MatchScreenContract.Event,
+        MatchScreenContract.State,
+        MatchScreenContract.Effect
+        >() {
+
     override fun createInitialState(): MatchScreenContract.State {
         return MatchScreenContract.State()
     }
-    
+
     override fun handleEvent(event: MatchScreenContract.Event) {
         when (event) {
             is MatchScreenContract.Event.BackClicked -> handleBackClicked()
@@ -30,57 +30,67 @@ class MatchScreenViewModel @Inject constructor(
             is MatchScreenContract.Event.ViewTypeChanged -> handleViewTypeChanged(event.viewType)
             is MatchScreenContract.Event.FilterTypeChanged -> handleFilterTypeChanged(event.filterType)
             is MatchScreenContract.Event.MatchDetailsClicked -> handleMatchDetailsClicked(event.matchId)
-            is MatchScreenContract.Event.MatchAttendanceClicked -> handleMatchAttendanceClicked(event.matchId)
+            is MatchScreenContract.Event.MatchAttendanceClicked -> handleMatchAttendanceClicked(
+                event.matchId
+            )
+
             is MatchScreenContract.Event.MatchMarkAsClicked -> handleMatchMarkAsClicked(event.matchId)
             is MatchScreenContract.Event.DateSelected -> handleDateSelected(event.date)
             is MatchScreenContract.Event.ReloadMatches -> handleReloadMatches()
-            is MatchScreenContract.Event.UpdateMatchStatus -> handleUpdateMatchStatus(event.matchId, event.newStatus)
+            is MatchScreenContract.Event.UpdateMatchStatus -> handleUpdateMatchStatus(
+                event.matchId,
+                event.newStatus
+            )
         }
     }
-    
+
     private fun handleBackClicked() {
         setEffect { MatchScreenContract.Effect.NavigateBack }
     }
-    
+
     private fun handleSettingsClicked() {
         setEffect { MatchScreenContract.Effect.NavigateToSettings }
     }
-    
+
     private fun handleAddMatchClicked() {
         setEffect { MatchScreenContract.Effect.NavigateToAddMatch }
     }
-    
+
     private fun handleViewTypeChanged(viewType: MatchScreenContract.ViewType) {
         setState { copy(selectedViewType = viewType) }
+        loadMatches()
     }
-    
+
     private fun handleFilterTypeChanged(filterType: MatchScreenContract.FilterType) {
         setState { copy(selectedFilterType = filterType) }
         loadMatches()
     }
-    
+
     private fun handleMatchDetailsClicked(matchId: Int) {
         setEffect { MatchScreenContract.Effect.NavigateToMatchDetails(matchId) }
     }
-    
+
     private fun handleMatchAttendanceClicked(matchId: Int) {
         setEffect { MatchScreenContract.Effect.NavigateToMatchAttendance(matchId) }
     }
-    
+
     private fun handleMatchMarkAsClicked(matchId: Int) {
         setEffect { MatchScreenContract.Effect.ShowMarkAsDialog(matchId) }
     }
-    
+
     private fun handleDateSelected(date: LocalDate) {
         setState { copy(selectedDate = date) }
         loadMatches()
     }
-    
+
     private fun handleReloadMatches() {
         loadMatches()
     }
-    
-    private fun handleUpdateMatchStatus(matchId: Int, newStatus: com.manager1700.soccer.domain.models.SportEventStatus) {
+
+    private fun handleUpdateMatchStatus(
+        matchId: Int,
+        newStatus: com.manager1700.soccer.domain.models.SportEventStatus
+    ) {
         viewModelScope.launch {
             try {
                 val match = repository.getMatchById(matchId)
@@ -92,29 +102,33 @@ class MatchScreenViewModel @Inject constructor(
             }
         }
     }
-    
+
     private fun loadMatches() {
         viewModelScope.launch {
             try {
                 setState { copy(isLoading = true) }
-                
-                val matches = when (viewState.value.selectedFilterType) {
+
+                val matchesInList = when (viewState.value.selectedFilterType) {
                     MatchScreenContract.FilterType.ALL -> repository.getAllMatches()
                     MatchScreenContract.FilterType.UPCOMING -> repository.getFutureMatchs()
                     MatchScreenContract.FilterType.PAST -> repository.getPastMatchs()
                 }
-                
-                val filteredMatches = if (viewState.value.selectedDate != null) {
+
+                val matchesForDay = if (viewState.value.selectedDate != null) {
                     repository.getMatchsForDay(viewState.value.selectedDate!!)
                 } else {
-                    matches
+                    matchesInList
                 }
-                
-                setState { 
+
+                setState {
                     copy(
-                        matches = filteredMatches,
+                        matches = if (viewState.value.selectedViewType == MatchScreenContract.ViewType.CALENDAR) {
+                            matchesForDay
+                        } else {
+                            matchesInList
+                        },
                         isLoading = false
-                    ) 
+                    )
                 }
             } catch (e: Exception) {
                 Log.e("MatchScreenViewModel", "Error loading matches", e)

@@ -27,7 +27,7 @@ object MatchScreenContract {
         val matches: List<Match> = emptyList(),
         val selectedViewType: ViewType = ViewType.LIST,
         val selectedFilterType: FilterType = FilterType.ALL,
-        val selectedDate: LocalDate? = null,
+        val selectedDate: LocalDate = LocalDate.now(),
         val showCalendar: Boolean = false
     ) : UiState
     
