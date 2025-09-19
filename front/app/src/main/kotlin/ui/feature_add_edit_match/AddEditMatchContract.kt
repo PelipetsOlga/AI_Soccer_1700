@@ -19,7 +19,6 @@ object AddEditMatchContract {
         val isEditMode: Boolean = false,
         val type: String = "",
         val opponent: String = "",
-        val lineupScheme: String = "",
         val date: String = "",
         val startTime: String = "",
         val endTime: String = "",
@@ -28,12 +27,11 @@ object AddEditMatchContract {
         val errorMessage: String? = null
     ) : UiState {
         val isFormValid: Boolean
-            get() = type.isNotBlank() && 
-                    opponent.isNotBlank() && 
-                    lineupScheme.isNotBlank() && 
-                    date.isNotBlank() && 
-                    startTime.isNotBlank() && 
-                    endTime.isNotBlank() && 
+            get() = type.isNotBlank() &&
+                    opponent.isNotBlank() &&
+                    date.isNotBlank() &&
+                    startTime.isNotBlank() &&
+                    endTime.isNotBlank() &&
                     venue.isNotBlank()
     }
     
@@ -45,12 +43,14 @@ object AddEditMatchContract {
         data object SaveClicked : Event()
         data class TypeChanged(val type: String) : Event()
         data class OpponentChanged(val opponent: String) : Event()
-        data class LineupSchemeChanged(val scheme: String) : Event()
         data class DateChanged(val date: String) : Event()
         data class StartTimeChanged(val time: String) : Event()
         data class EndTimeChanged(val time: String) : Event()
         data class VenueChanged(val venue: String) : Event()
         data class NoteChanged(val note: String) : Event()
+        data object DatePickerClicked : Event()
+        data object StartTimePickerClicked : Event()
+        data object EndTimePickerClicked : Event()
     }
     
     /**

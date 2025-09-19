@@ -19,7 +19,6 @@ import com.manager1700.soccer.ui.components.input.TrainingNoteInputField
 import com.manager1700.soccer.ui.components.input.VenueInputField
 import com.manager1700.soccer.ui.components.input.MatchTypeInputField
 import com.manager1700.soccer.ui.components.input.MatchOpponentInputField
-import com.manager1700.soccer.ui.components.input.MatchLineupSchemeInputField
 import com.manager1700.soccer.ui.theme.SoccerManagerTheme
 import com.manager1700.soccer.ui.utils.PreviewApp
 
@@ -31,8 +30,7 @@ fun AddEditMatchContent(
 ) {
     Column(
         modifier = modifier
-            .fillMaxWidth()
-            .padding(16.dp),
+            .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -59,21 +57,16 @@ fun AddEditMatchContent(
                     onValueChange = { onEvent(AddEditMatchContract.Event.OpponentChanged(it)) },
                 )
 
-                MatchLineupSchemeInputField(
-                    value = state.lineupScheme,
-                    onValueChange = { onEvent(AddEditMatchContract.Event.LineupSchemeChanged(it)) },
-                )
-
                 DatePickerField(
                     value = state.date,
                     onValueChange = { onEvent(AddEditMatchContract.Event.DateChanged(it)) },
-                    onDatePickerClick = { /* TODO: Implement date picker */ },
+                    onDatePickerClick = { onEvent(AddEditMatchContract.Event.DatePickerClicked) },
                 )
 
                 TimePickerField(
                     value = state.startTime,
                     onValueChange = { onEvent(AddEditMatchContract.Event.StartTimeChanged(it)) },
-                    onTimePickerClick = { /* TODO: Implement time picker */ },
+                    onTimePickerClick = { onEvent(AddEditMatchContract.Event.StartTimePickerClicked) },
                     label = stringResource(R.string.match_start_time_title),
                     placeholder = stringResource(R.string.match_start_time_hint),
                 )
@@ -81,7 +74,7 @@ fun AddEditMatchContent(
                 TimePickerField(
                     value = state.endTime,
                     onValueChange = { onEvent(AddEditMatchContract.Event.EndTimeChanged(it)) },
-                    onTimePickerClick = { /* TODO: Implement time picker */ },
+                    onTimePickerClick = { onEvent(AddEditMatchContract.Event.EndTimePickerClicked) },
                     label = stringResource(R.string.match_end_time_title),
                     placeholder = stringResource(R.string.match_end_time_hint),
                 )

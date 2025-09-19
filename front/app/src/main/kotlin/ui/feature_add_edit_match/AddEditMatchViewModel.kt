@@ -34,12 +34,14 @@ class AddEditMatchViewModel @Inject constructor(
             is AddEditMatchContract.Event.SaveClicked -> handleSaveClicked()
             is AddEditMatchContract.Event.TypeChanged -> handleTypeChanged(event.type)
             is AddEditMatchContract.Event.OpponentChanged -> handleOpponentChanged(event.opponent)
-            is AddEditMatchContract.Event.LineupSchemeChanged -> handleLineupSchemeChanged(event.scheme)
             is AddEditMatchContract.Event.DateChanged -> handleDateChanged(event.date)
             is AddEditMatchContract.Event.StartTimeChanged -> handleStartTimeChanged(event.time)
             is AddEditMatchContract.Event.EndTimeChanged -> handleEndTimeChanged(event.time)
             is AddEditMatchContract.Event.VenueChanged -> handleVenueChanged(event.venue)
             is AddEditMatchContract.Event.NoteChanged -> handleNoteChanged(event.note)
+            is AddEditMatchContract.Event.DatePickerClicked -> { /* Handled by screen */ }
+            is AddEditMatchContract.Event.StartTimePickerClicked -> { /* Handled by screen */ }
+            is AddEditMatchContract.Event.EndTimePickerClicked -> { /* Handled by screen */ }
         }
     }
     
@@ -51,7 +53,6 @@ class AddEditMatchViewModel @Inject constructor(
                     isEditMode = true,
                     type = match.type,
                     opponent = match.opponent,
-                    lineupScheme = match.lineupScheme.title,
                     date = match.date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
                     startTime = match.startDateTime.toString(),
                     endTime = match.endDateTime.toString(),
@@ -66,7 +67,6 @@ class AddEditMatchViewModel @Inject constructor(
                     isEditMode = false,
                     type = "",
                     opponent = "",
-                    lineupScheme = "",
                     date = "",
                     startTime = "",
                     endTime = "",
@@ -89,7 +89,6 @@ class AddEditMatchViewModel @Inject constructor(
                         isLoading = false,
                         type = match.type,
                         opponent = match.opponent,
-                        lineupScheme = match.lineupScheme.title,
                         date = match.date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
                         startTime = match.startDateTime.toString(),
                         endTime = match.endDateTime.toString(),
@@ -122,10 +121,6 @@ class AddEditMatchViewModel @Inject constructor(
             return
         }
         
-        if (currentState.lineupScheme.isBlank()) {
-            setEffect { AddEditMatchContract.Effect.ShowError("Please select lineup scheme") }
-            return
-        }
         
         if (currentState.date.isBlank()) {
             setEffect { AddEditMatchContract.Effect.ShowError("Please select date") }
@@ -187,12 +182,8 @@ class AddEditMatchViewModel @Inject constructor(
             LocalDate.now() // fallback to today
         }
 
-        // Parse lineup scheme
-        val lineupScheme = try {
-            LineupScheme.valueOf("Lineup_${state.lineupScheme.replace("-", "_")}")
-        } catch (e: Exception) {
-            LineupScheme.Lineup_4_3_3 // fallback to default
-        }
+        // Use default lineup scheme since it will be set later
+        val lineupScheme = LineupScheme.Lineup_4_3_3
 
         // Preserve existing data when editing
         val existingMatch = state.match
@@ -222,9 +213,6 @@ class AddEditMatchViewModel @Inject constructor(
         setState { copy(opponent = opponent) }
     }
     
-    private fun handleLineupSchemeChanged(scheme: String) {
-        setState { copy(lineupScheme = scheme) }
-    }
     
     private fun handleDateChanged(date: String) {
         setState { copy(date = date) }

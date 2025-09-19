@@ -17,7 +17,7 @@ data class Match(
     val id: Int,
     override val status: SportEventStatus,
     override val date: LocalDate,
-    val lineupScheme: LineupScheme,
+    val lineupScheme: LineupScheme = LineupScheme.Lineup_4_3_3,
     val opponent: String,
     override val startDateTime: LocalTime,
     override val endDateTime: LocalTime,
