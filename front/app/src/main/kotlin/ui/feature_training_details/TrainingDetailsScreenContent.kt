@@ -3,7 +3,9 @@ package com.manager1700.soccer.ui.feature_training_details
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -19,7 +21,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
@@ -34,7 +35,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -43,8 +43,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import com.manager1700.soccer.Montserrat
 import com.manager1700.soccer.R
 import com.manager1700.soccer.domain.models.FutureAttendance
@@ -56,11 +54,10 @@ import com.manager1700.soccer.ui.components.SportEventStatusChip
 import com.manager1700.soccer.ui.components.input.PhotoPickerField
 import com.manager1700.soccer.ui.theme.SoccerManagerTheme
 import com.manager1700.soccer.ui.theme.colorBlack
-import com.manager1700.soccer.ui.theme.colorGrey_2b
+import com.manager1700.soccer.ui.theme.colorGrey_3b
 import com.manager1700.soccer.ui.theme.colorGrey_89
 import com.manager1700.soccer.ui.theme.colorWhite
 import com.manager1700.soccer.ui.utils.PreviewApp
-import java.io.File
 import java.time.format.DateTimeFormatter
 
 @Composable
@@ -158,7 +155,10 @@ private fun TrainingDetailsContent(
         val presentText = stringResource(R.string.training_details_attendance_present, present)
         val lateText = stringResource(R.string.training_details_attendance_late, late)
         val absentText = stringResource(R.string.training_details_attendance_absent, absent)
-        stringResource(R.string.training_details_attendance_format, "$presentText, $lateText, $absentText")
+        stringResource(
+            R.string.training_details_attendance_format,
+            "$presentText, $lateText, $absentText"
+        )
     } else {
         val going = training.plannedAttendance.info[FutureAttendance.Going] ?: 0
         val maybe = training.plannedAttendance.info[FutureAttendance.Maybe] ?: 0
@@ -166,7 +166,10 @@ private fun TrainingDetailsContent(
         val goingText = stringResource(R.string.training_details_attendance_going, going)
         val maybeText = stringResource(R.string.training_details_attendance_maybe, maybe)
         val notGoingText = stringResource(R.string.training_details_attendance_not_going, notGoing)
-        stringResource(R.string.training_details_attendance_format, "$goingText, $maybeText, $notGoingText")
+        stringResource(
+            R.string.training_details_attendance_format,
+            "$goingText, $maybeText, $notGoingText"
+        )
     }
 
     Column(
@@ -237,13 +240,19 @@ private fun TrainingDetailsContent(
                                 ) {
                                     Column {
                                         Text(
-                                            text = stringResource(R.string.training_details_exercise, exercise.title),
+                                            text = stringResource(
+                                                R.string.training_details_exercise,
+                                                exercise.title
+                                            ),
                                             fontSize = 14.sp,
                                             color = colorWhite,
                                             fontFamily = Montserrat
                                         )
                                         Text(
-                                            text = stringResource(R.string.training_details_duration, exercise.durationInMinutes),
+                                            text = stringResource(
+                                                R.string.training_details_duration,
+                                                exercise.durationInMinutes
+                                            ),
                                             fontSize = 12.sp,
                                             color = colorGrey_89,
                                             fontFamily = Montserrat
@@ -251,7 +260,13 @@ private fun TrainingDetailsContent(
                                     }
                                     SmallGreyButton(
                                         text = stringResource(R.string.training_details_edit),
-                                        onClick = { onEvent(TrainingDetailsScreenContract.Event.EditExerciseClicked(exercise.id)) }
+                                        onClick = {
+                                            onEvent(
+                                                TrainingDetailsScreenContract.Event.EditExerciseClicked(
+                                                    exercise.id
+                                                )
+                                            )
+                                        }
                                     )
                                 }
                             }
@@ -295,56 +310,49 @@ private fun TrainingDetailsContent(
                     )
                 }
 
-                // Photos section
-                if (state.photos.isNotEmpty()) {
-                    Text(
-                        text = stringResource(R.string.training_details_photos),
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = colorWhite,
-                        fontFamily = Montserrat
-                    )
-                    
-                    Row(
-                        modifier = Modifier.horizontalScroll(rememberScrollState()),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        state.photos.forEachIndexed { index, photoPath ->
-                            PhotoPickerField(
-                                imageUrl = photoPath,
-                                onPhotoPickerClick = onPhotoPickerClick,
-                                onDeletePhotoClick = { onEvent(TrainingDetailsScreenContract.Event.RemovePhotoClicked(index)) },
-                                modifier = Modifier.size(120.dp, 160.dp)
-                            )
-                        }
-                        
-                        // Add photo button if less than 20 photos
-                        if (state.photos.size < 20) {
-                            Box(
-                                modifier = Modifier
-                                    .size(120.dp, 160.dp)
-                                    .clip(RoundedCornerShape(8.dp))
-                                    .background(colorGrey_2b)
-                                    .clickable { onPhotoPickerClick() },
-                                contentAlignment = Alignment.Center
+                Row(
+                    modifier = Modifier.horizontalScroll(rememberScrollState()),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    if (state.photos.size < 20) {
+                        // Show upload button
+                        Box(
+                            modifier = Modifier
+                                .width(75.dp)
+                                .height(100.dp)
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(colorWhite)
+                                .border(1.dp, colorGrey_3b, RoundedCornerShape(8.dp))
+                                .clickable { onPhotoPickerClick() },
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Bottom,
+                                modifier = Modifier.padding(8.dp)
                             ) {
-                                Column(
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    verticalArrangement = Arrangement.Center
-                                ) {
-                                    Text(
-                                        text = "📷",
-                                        fontSize = 24.sp
-                                    )
-                                    Text(
-                                        text = stringResource(R.string.training_details_upload),
-                                        fontSize = 10.sp,
-                                        color = colorWhite,
-                                        fontFamily = Montserrat
-                                    )
-                                }
+                                Image(
+                                    painter = painterResource(id = R.mipmap.ic_upload),
+                                    contentDescription = "Upload photo",
+                                )
                             }
                         }
+                    }
+
+                    state.photos.forEachIndexed { index, photoPath ->
+                        PhotoPickerField(
+                            imageUrl = photoPath,
+                            onPhotoPickerClick = onPhotoPickerClick,
+                            onDeletePhotoClick = {
+                                onEvent(
+                                    TrainingDetailsScreenContract.Event.RemovePhotoClicked(
+                                        index
+                                    )
+                                )
+                            },
+                            showUploadButton = false,
+                            modifier = Modifier.size(120.dp, 160.dp)
+                        )
                     }
                 }
 
@@ -363,14 +371,14 @@ private fun TrainingDetailsContent(
                         onClick = { onEvent(TrainingDetailsScreenContract.Event.EditClicked) },
                         modifier = Modifier.weight(1f)
                     )
-                    
+
                     Box(modifier = Modifier.weight(1f)) {
                         SmallGreyButton(
                             text = stringResource(R.string.btn_mark_as),
                             onClick = { showStatusDropdown = true },
                             modifier = Modifier.fillMaxWidth()
                         )
-                        
+
                         DropdownMenu(
                             expanded = showStatusDropdown,
                             onDismissRequest = { showStatusDropdown = false },
@@ -379,7 +387,11 @@ private fun TrainingDetailsContent(
                             SportEventStatus.entries.forEach { status ->
                                 DropdownMenuItem(
                                     onClick = {
-                                        onEvent(TrainingDetailsScreenContract.Event.StatusChanged(status))
+                                        onEvent(
+                                            TrainingDetailsScreenContract.Event.StatusChanged(
+                                                status
+                                            )
+                                        )
                                         showStatusDropdown = false
                                     }
                                 ) {

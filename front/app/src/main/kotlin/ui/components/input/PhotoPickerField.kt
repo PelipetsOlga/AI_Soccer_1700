@@ -15,9 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,76 +24,61 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import java.io.File
-import com.manager1700.soccer.Montserrat
 import com.manager1700.soccer.R
 import com.manager1700.soccer.ui.theme.SoccerManagerTheme
 import com.manager1700.soccer.ui.theme.colorGrey_3b
 import com.manager1700.soccer.ui.theme.colorWhite
 import com.manager1700.soccer.ui.utils.PreviewApp
+import java.io.File
 
 @Composable
 fun PhotoPickerField(
     imageUrl: String?,
     onPhotoPickerClick: () -> Unit,
     onDeletePhotoClick: () -> Unit,
+    showUploadButton: Boolean = true,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-    Column(
-        modifier = modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = stringResource(R.string.field_photo),
-            fontSize = 16.sp,
-            fontFamily = Montserrat,
-            fontWeight = FontWeight.Medium,
-            color = colorWhite,
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
-
-        if (imageUrl != null) {
-            // Show selected photo with delete button
-            Box(
+    if (imageUrl != null) {
+        // Show selected photo with delete button
+        Box(
+            modifier = Modifier
+                .width(150.dp)
+                .height(200.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .clickable { onPhotoPickerClick() }
+        ) {
+            AsyncImage(
+                model = ImageRequest.Builder(context)
+                    .data(File(imageUrl))
+                    .build(),
+                contentDescription = "Player photo",
                 modifier = Modifier
-                    .width(150.dp)
-                    .height(200.dp)
-                    .clip(RoundedCornerShape(8.dp))
-                    .clickable { onPhotoPickerClick() }
-            ) {
-                AsyncImage(
-                    model = ImageRequest.Builder(context)
-                        .data(File(imageUrl))
-                        .build(),
-                    contentDescription = "Player photo",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .aspectRatio(0.75f),
-                    contentScale = ContentScale.Crop
-                )
+                    .fillMaxWidth()
+                    .aspectRatio(0.75f),
+                contentScale = ContentScale.Crop
+            )
 
-                // Delete button in top right corner
-                IconButton(
-                    onClick = onDeletePhotoClick,
-                    modifier = Modifier
-                        .align(Alignment.TopEnd)
-                        .size(36.dp)
-                ) {
-                    Image(
-                        painter = painterResource(id = R.mipmap.ic_delete),
-                        contentDescription = "Delete photo",
-                    )
-                }
+            // Delete button in top right corner
+            IconButton(
+                onClick = onDeletePhotoClick,
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .size(36.dp)
+            ) {
+                Image(
+                    painter = painterResource(id = R.mipmap.ic_delete),
+                    contentDescription = "Delete photo",
+                )
             }
-        } else {
-            // Show upload button
+        }
+    } else {
+        // Show upload button
+        if (showUploadButton) {
             Box(
                 modifier = Modifier
                     .width(75.dp)

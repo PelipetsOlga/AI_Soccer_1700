@@ -147,7 +147,7 @@ private fun ExpandablePlayerCard(
                 Row(modifier = Modifier.fillMaxWidth()) {
                     Box(
                         modifier = Modifier
-                            .size(75.dp, 100.dp)
+                            .size(100.dp, 135.dp)
                             .clip(RoundedCornerShape(8.dp))
                     ) {
                         if (player.imageUrl != null) {
