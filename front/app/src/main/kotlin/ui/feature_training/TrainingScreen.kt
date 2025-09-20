@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -18,11 +19,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.manager1700.soccer.R
 import com.manager1700.soccer.Screen
+import com.manager1700.soccer.Montserrat
 import com.manager1700.soccer.ui.components.FilterTabs
 import com.manager1700.soccer.ui.components.PrimaryButton
 import com.manager1700.soccer.ui.components.Toolbar
@@ -30,6 +35,7 @@ import com.manager1700.soccer.ui.components.TrainingCalendar
 import com.manager1700.soccer.ui.components.TrainingItemCard
 import com.manager1700.soccer.ui.theme.SoccerManagerTheme
 import com.manager1700.soccer.ui.theme.colorBlack
+import com.manager1700.soccer.ui.theme.colorWhite
 import com.manager1700.soccer.ui.utils.PreviewApp
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -151,40 +157,60 @@ fun TrainingScreenContent(
                     }
                 }
 
-
-                items(state.trainings) { training ->
-                    TrainingItemCard(
-                        training = training,
-                        onDetailsClick = {
-                            onEvent(
-                                TrainingScreenContract.Event.TrainingDetailsClicked(
-                                    training.id
-                                )
-                            )
-                        },
-                        onAttendanceClick = {
-                            onEvent(
-                                TrainingScreenContract.Event.TrainingAttendanceClicked(
-                                    training.id
-                                )
-                            )
-                        },
-                        onMarkAsClick = {
-                            onEvent(
-                                TrainingScreenContract.Event.TrainingMarkAsClicked(
-                                    training.id
-                                )
-                            )
-                        },
-                        onStatusChanged = { newStatus ->
-                            onEvent(
-                                TrainingScreenContract.Event.UpdateTrainingStatus(
-                                    training.id,
-                                    newStatus
-                                )
+                // Show empty state if no trainings
+                if (state.trainings.isEmpty()) {
+                    item {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(32.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = stringResource(R.string.empty_events_list),
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Normal,
+                                color = colorWhite,
+                                fontFamily = Montserrat,
+                                textAlign = TextAlign.Center
                             )
                         }
-                    )
+                    }
+                } else {
+                    items(state.trainings) { training ->
+                        TrainingItemCard(
+                            training = training,
+                            onDetailsClick = {
+                                onEvent(
+                                    TrainingScreenContract.Event.TrainingDetailsClicked(
+                                        training.id
+                                    )
+                                )
+                            },
+                            onAttendanceClick = {
+                                onEvent(
+                                    TrainingScreenContract.Event.TrainingAttendanceClicked(
+                                        training.id
+                                    )
+                                )
+                            },
+                            onMarkAsClick = {
+                                onEvent(
+                                    TrainingScreenContract.Event.TrainingMarkAsClicked(
+                                        training.id
+                                    )
+                                )
+                            },
+                            onStatusChanged = { newStatus ->
+                                onEvent(
+                                    TrainingScreenContract.Event.UpdateTrainingStatus(
+                                        training.id,
+                                        newStatus
+                                    )
+                                )
+                            }
+                        )
+                    }
                 }
             }
         }
