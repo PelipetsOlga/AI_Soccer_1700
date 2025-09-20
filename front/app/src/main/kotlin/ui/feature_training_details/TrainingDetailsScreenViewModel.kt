@@ -70,6 +70,9 @@ class TrainingDetailsScreenViewModel @Inject constructor(
             is TrainingDetailsScreenContract.Event.UploadPhotoClicked -> handleUploadPhotoClicked()
             is TrainingDetailsScreenContract.Event.RemovePhotoClicked -> handleRemovePhotoClicked(event.photoIndex)
             is TrainingDetailsScreenContract.Event.ImageSelected -> handleImageSelected(event.imageUri)
+            is TrainingDetailsScreenContract.Event.DeleteClicked -> handleDeleteClicked()
+            is TrainingDetailsScreenContract.Event.ConfirmDelete -> handleConfirmDelete()
+            is TrainingDetailsScreenContract.Event.CancelDelete -> handleCancelDelete()
         }
     }
 
@@ -382,5 +385,29 @@ class TrainingDetailsScreenViewModel @Inject constructor(
                 setEffect { TrainingDetailsScreenContract.Effect.ShowError("Failed to update training status") }
             }
         }
+    }
+
+    private fun handleDeleteClicked() {
+        setState { copy(showDeleteDialog = true) }
+    }
+
+    private fun handleConfirmDelete() {
+        val currentState = viewState.value
+        val training = currentState.training ?: return
+
+        viewModelScope.launch {
+            try {
+                repository.deleteTraining(training.id)
+                setState { copy(showDeleteDialog = false) }
+                setEffect { TrainingDetailsScreenContract.Effect.NavigateBack }
+            } catch (e: Exception) {
+                Log.e("TrainingDetailsScreenViewModel", "Error deleting training", e)
+                setEffect { TrainingDetailsScreenContract.Effect.ShowError("Failed to delete training") }
+            }
+        }
+    }
+
+    private fun handleCancelDelete() {
+        setState { copy(showDeleteDialog = false) }
     }
 }

@@ -16,7 +16,8 @@ object MatchDetailsScreenContract {
     data class State(
         val isLoading: Boolean = false,
         val match: Match? = null,
-        val errorMessage: String? = null
+        val errorMessage: String? = null,
+        val showDeleteDialog: Boolean = false
     ) : UiState
     
     /**
@@ -28,6 +29,9 @@ object MatchDetailsScreenContract {
         data object AttendanceClicked : Event()
         data object MarkAsClicked : Event()
         data class StatusChanged(val status: com.manager1700.soccer.domain.models.SportEventStatus) : Event()
+        data object DeleteClicked : Event()
+        data object ConfirmDelete : Event()
+        data object CancelDelete : Event()
     }
     
     /**

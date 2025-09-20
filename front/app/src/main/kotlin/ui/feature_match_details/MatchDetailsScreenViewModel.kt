@@ -30,6 +30,9 @@ class MatchDetailsScreenViewModel @Inject constructor(
             is MatchDetailsScreenContract.Event.AttendanceClicked -> handleAttendanceClicked()
             is MatchDetailsScreenContract.Event.MarkAsClicked -> handleMarkAsClicked()
             is MatchDetailsScreenContract.Event.StatusChanged -> handleStatusChanged(event.status)
+            is MatchDetailsScreenContract.Event.DeleteClicked -> handleDeleteClicked()
+            is MatchDetailsScreenContract.Event.ConfirmDelete -> handleConfirmDelete()
+            is MatchDetailsScreenContract.Event.CancelDelete -> handleCancelDelete()
         }
     }
     
@@ -87,6 +90,30 @@ class MatchDetailsScreenViewModel @Inject constructor(
                 setEffect { MatchDetailsScreenContract.Effect.ShowError("Failed to update match status") }
             }
         }
+    }
+
+    private fun handleDeleteClicked() {
+        setState { copy(showDeleteDialog = true) }
+    }
+
+    private fun handleConfirmDelete() {
+        val currentState = viewState.value
+        val match = currentState.match ?: return
+
+        viewModelScope.launch {
+            try {
+                repository.deleteMatch(match.id)
+                setState { copy(showDeleteDialog = false) }
+                setEffect { MatchDetailsScreenContract.Effect.NavigateBack }
+            } catch (e: Exception) {
+                Log.e("MatchDetailsScreenViewModel", "Error deleting match", e)
+                setEffect { MatchDetailsScreenContract.Effect.ShowError("Failed to delete match") }
+            }
+        }
+    }
+
+    private fun handleCancelDelete() {
+        setState { copy(showDeleteDialog = false) }
     }
     
 }

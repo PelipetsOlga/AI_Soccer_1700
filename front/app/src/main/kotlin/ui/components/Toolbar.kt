@@ -32,8 +32,10 @@ fun Toolbar(
     title: String,
     showBackButton: Boolean = false,
     showSettingsButton: Boolean = false,
+    showDeleteButton: Boolean = false,
     onBackClick: () -> Unit = {},
     onSettingsClick: () -> Unit = {},
+    onDeleteClick: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -66,6 +68,16 @@ fun Toolbar(
                 }
             },
             actions = {
+                if (showDeleteButton) {
+                    IconButton(onClick = onDeleteClick) {
+                        Image(
+                            painter = painterResource(id = R.mipmap.ic_delete),
+                            contentDescription = "Delete",
+                            modifier = Modifier
+                                .size(36.dp)
+                        )
+                    }
+                }
                 if (showSettingsButton) {
                     IconButton(onClick = onSettingsClick) {
                         Image(

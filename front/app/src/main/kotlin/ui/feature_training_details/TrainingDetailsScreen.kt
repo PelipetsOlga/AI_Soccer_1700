@@ -60,8 +60,10 @@ fun TrainingDetailsScreen(
                 title = "Details",
                 showBackButton = true,
                 showSettingsButton = false,
+                showDeleteButton = true,
                 onBackClick = { viewModel.setEvent(TrainingDetailsScreenContract.Event.BackClicked) },
-                onSettingsClick = { }
+                onSettingsClick = { },
+                onDeleteClick = { viewModel.setEvent(TrainingDetailsScreenContract.Event.DeleteClicked) }
             )
         },
         containerColor = colorBlack
@@ -119,6 +121,48 @@ fun TrainingDetailsScreen(
                 ) {
                     Text(
                         text = stringResource(R.string.clear_exercises_no),
+                        color = colorWhite,
+                        fontFamily = Montserrat,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            },
+            containerColor = MaterialTheme.colorScheme.surface,
+            textContentColor = MaterialTheme.colorScheme.onSurface
+        )
+    }
+
+    // Delete Confirmation Dialog
+    if (state.showDeleteDialog) {
+        AlertDialog(
+            onDismissRequest = { viewModel.setEvent(TrainingDetailsScreenContract.Event.CancelDelete) },
+            title = {
+                Text(
+                    text = stringResource(R.string.delete_confirm_title),
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    fontFamily = Montserrat
+                )
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = { viewModel.setEvent(TrainingDetailsScreenContract.Event.ConfirmDelete) }
+                ) {
+                    Text(
+                        text = stringResource(R.string.delete_confirm_yes),
+                        color = colorWhite,
+                        fontFamily = Montserrat,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = { viewModel.setEvent(TrainingDetailsScreenContract.Event.CancelDelete) }
+                ) {
+                    Text(
+                        text = stringResource(R.string.delete_confirm_no),
                         color = colorWhite,
                         fontFamily = Montserrat,
                         fontWeight = FontWeight.Bold
