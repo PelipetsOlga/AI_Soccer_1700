@@ -88,16 +88,21 @@ class SoccerRepositoryImpl(
     }
 
     override suspend fun getTrainingsForDay(date: LocalDate): List<Training> {
-        // Note: Since Training uses LocalTime instead of LocalDateTime,
-        // we can't filter by date directly. This implementation returns all trainings.
-        // In a real app, you might want to add a date field to Training entity.
-        return getAllTrainings()
+        val allTrainings = trainingDao.getAllTrainings().first()
+        return allTrainings
+            .filter { entity -> entity.date == date }
+            .map { it.toDomainModel() }
     }
 
     override suspend fun getTrainingDaysForMonth(date: LocalDate): List<Training> {
-        // Similar to getTrainingsForDay, this would need a date field in the entity
-        // to properly filter by month. For now, returning all trainings.
-        return getAllTrainings()
+        val allTrainings = trainingDao.getAllTrainings().first()
+        val year = date.year
+        val month = date.monthValue
+        return allTrainings
+            .filter { entity -> 
+                entity.date.year == year && entity.date.monthValue == month 
+            }
+            .map { it.toDomainModel() }
     }
 
     // Match methods
@@ -139,15 +144,20 @@ class SoccerRepositoryImpl(
     }
 
     override suspend fun getMatchsForDay(date: LocalDate): List<Match> {
-        // Note: Since Match uses LocalTime instead of LocalDateTime,
-        // we can't filter by date directly. This implementation returns all matches.
-        // In a real app, you might want to add a date field to Match entity.
-        return getAllMatches()
+        val allMatches = matchDao.getAllMatches().first()
+        return allMatches
+            .filter { entity -> entity.date == date }
+            .map { it.toDomainModel() }
     }
 
     override suspend fun getMatchDaysForMonth(date: LocalDate): List<Match> {
-        // Similar to getMatchsForDay, this would need a date field in the entity
-        // to properly filter by month. For now, returning all matches.
-        return getAllMatches()
+        val allMatches = matchDao.getAllMatches().first()
+        val year = date.year
+        val month = date.monthValue
+        return allMatches
+            .filter { entity -> 
+                entity.date.year == year && entity.date.monthValue == month 
+            }
+            .map { it.toDomainModel() }
     }
 }
