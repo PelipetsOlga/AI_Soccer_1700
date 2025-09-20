@@ -30,9 +30,6 @@ class MatchDetailsScreenViewModel @Inject constructor(
             is MatchDetailsScreenContract.Event.AttendanceClicked -> handleAttendanceClicked()
             is MatchDetailsScreenContract.Event.MarkAsClicked -> handleMarkAsClicked()
             is MatchDetailsScreenContract.Event.StatusChanged -> handleStatusChanged(event.status)
-            is MatchDetailsScreenContract.Event.UploadPhotoClicked -> handleUploadPhotoClicked()
-            is MatchDetailsScreenContract.Event.RemovePhotoClicked -> handleRemovePhotoClicked(event.photoIndex)
-            is MatchDetailsScreenContract.Event.ImageSelected -> handleImageSelected(event.imageUri)
         }
     }
     
@@ -44,7 +41,6 @@ class MatchDetailsScreenViewModel @Inject constructor(
                 setState { 
                     copy(
                         match = match,
-                        photos = match.photos ?: emptyList(),
                         isLoading = false
                     ) 
                 }
@@ -93,59 +89,4 @@ class MatchDetailsScreenViewModel @Inject constructor(
         }
     }
     
-    private fun handleUploadPhotoClicked() {
-        // TODO: Implement photo upload functionality
-    }
-    
-    private fun handleRemovePhotoClicked(photoIndex: Int) {
-        val currentState = viewState.value
-        val match = currentState.match ?: return
-        
-        viewModelScope.launch {
-            try {
-                val updatedPhotos = currentState.photos.toMutableList()
-                if (photoIndex in updatedPhotos.indices) {
-                    updatedPhotos.removeAt(photoIndex)
-                    
-                    val updatedMatch = match.copy(photos = updatedPhotos)
-                    repository.updateMatch(updatedMatch)
-                    setState { 
-                        copy(
-                            match = updatedMatch,
-                            photos = updatedPhotos
-                        ) 
-                    }
-                    setEffect { MatchDetailsScreenContract.Effect.ShowSuccess("Photo removed") }
-                }
-            } catch (e: Exception) {
-                Log.e("MatchDetailsScreenViewModel", "Error removing photo", e)
-                setEffect { MatchDetailsScreenContract.Effect.ShowError("Failed to remove photo") }
-            }
-        }
-    }
-    
-    private fun handleImageSelected(imageUri: String) {
-        val currentState = viewState.value
-        val match = currentState.match ?: return
-        
-        viewModelScope.launch {
-            try {
-                val updatedPhotos = currentState.photos.toMutableList()
-                updatedPhotos.add(imageUri)
-                
-                val updatedMatch = match.copy(photos = updatedPhotos)
-                repository.updateMatch(updatedMatch)
-                setState { 
-                    copy(
-                        match = updatedMatch,
-                        photos = updatedPhotos
-                    ) 
-                }
-                setEffect { MatchDetailsScreenContract.Effect.ShowSuccess("Photo added") }
-            } catch (e: Exception) {
-                Log.e("MatchDetailsScreenViewModel", "Error adding photo", e)
-                setEffect { MatchDetailsScreenContract.Effect.ShowError("Failed to add photo") }
-            }
-        }
-    }
 }

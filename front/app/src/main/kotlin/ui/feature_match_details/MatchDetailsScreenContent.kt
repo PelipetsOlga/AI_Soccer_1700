@@ -1,21 +1,14 @@
 package com.manager1700.soccer.ui.feature_match_details
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
@@ -27,32 +20,23 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import com.manager1700.soccer.Montserrat
 import com.manager1700.soccer.R
 import com.manager1700.soccer.domain.models.FutureAttendance
 import com.manager1700.soccer.domain.models.PastAttendance
 import com.manager1700.soccer.domain.models.SportEventStatus
 import com.manager1700.soccer.ui.components.AppCard
-import com.manager1700.soccer.ui.components.PrimaryButton
 import com.manager1700.soccer.ui.components.SmallGreyButton
 import com.manager1700.soccer.ui.components.SportEventStatusChip
-import com.manager1700.soccer.ui.components.input.PhotoPickerField
 import com.manager1700.soccer.ui.theme.colorBlack
-import com.manager1700.soccer.ui.theme.colorGrey_3b
 import com.manager1700.soccer.ui.theme.colorGrey_89
 import com.manager1700.soccer.ui.theme.colorWhite
-import java.io.File
 import java.time.format.DateTimeFormatter
 
 @Composable
@@ -96,9 +80,6 @@ fun MatchDetailsScreenContent(
     val isCompleted = match.status == SportEventStatus.Completed
 
     val formattedDate = match.date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
-    val formattedTime = "${match.startDateTime.format(DateTimeFormatter.ofPattern("HH:mm"))} - ${
-        match.endDateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
-    }"
 
     // Format attendance info
     val attendanceText = if (isCompleted) {
@@ -219,50 +200,6 @@ fun MatchDetailsScreenContent(
             }
         }
 
-        // Photos Section
-        AppCard(
-            title = stringResource(R.string.match_details_photos),
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                // Photo grid
-                if (state.photos.isNotEmpty()) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        state.photos.forEachIndexed { index, photo ->
-                            PhotoPickerField(
-                                imageUrl = photo,
-                                onPhotoPickerClick = { /* TODO: Handle photo picker click */ },
-                                onDeletePhotoClick = { onEvent(MatchDetailsScreenContract.Event.RemovePhotoClicked(index)) },
-                                showUploadButton = false,
-                                modifier = Modifier
-                                    .size(80.dp)
-                                    .weight(1f)
-                            )
-                        }
-                    }
-                }
-
-                // Upload button
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    SmallGreyButton(
-                        text = stringResource(R.string.match_details_upload),
-                        onClick = { onEvent(MatchDetailsScreenContract.Event.UploadPhotoClicked) },
-                        modifier = Modifier.weight(1f)
-                    )
-                }
-            }
-        }
 
         // Action buttons
         Row(

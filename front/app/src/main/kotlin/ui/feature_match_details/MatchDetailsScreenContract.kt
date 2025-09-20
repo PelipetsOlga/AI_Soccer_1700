@@ -16,7 +16,6 @@ object MatchDetailsScreenContract {
     data class State(
         val isLoading: Boolean = false,
         val match: Match? = null,
-        val photos: List<String> = emptyList(),
         val errorMessage: String? = null
     ) : UiState
     
@@ -29,9 +28,6 @@ object MatchDetailsScreenContract {
         data object AttendanceClicked : Event()
         data object MarkAsClicked : Event()
         data class StatusChanged(val status: com.manager1700.soccer.domain.models.SportEventStatus) : Event()
-        data object UploadPhotoClicked : Event()
-        data class RemovePhotoClicked(val photoIndex: Int) : Event()
-        data class ImageSelected(val imageUri: String) : Event()
     }
     
     /**
